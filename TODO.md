@@ -14,7 +14,8 @@ Phase 1: Project Initialization (CRITICAL FIRST STEP)
   - Package name: "com.mrp.sml"
   - Language: Kotlin
   - Minimum SDK: 24
-  - Target SDK: 34
+  - Target SDK: 35
+  - Compile SDK: 35
 - [ ] Generate project files:
   - settings.gradle.kts
   - root build.gradle.kts
