@@ -37,12 +37,19 @@ fun HelloScreen(
 ) {
     val uiState by filePickerViewModel.uiState.collectAsStateWithLifecycle()
     val transferUiState by transferProgressViewModel.uiState.collectAsStateWithLifecycle()
+
+@Composable
+fun HelloScreen(
+    viewModel: FilePickerViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     val pickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris: List<Uri> ->
             filePickerViewModel.onFilesSelected(context = context, uris = uris)
+            viewModel.onFilesSelected(context = context, uris = uris)
         },
     )
 
