@@ -63,12 +63,12 @@ Phase 4: File Transfer Engine
 - [x] Handle large files (>1GB) ✓
 ---
 Phase 5: File Picker UI
-- [ ] Build file browser using Compose
-- [ ] Allow multi-file selection
-- [ ] Display:
+- [x] Build file browser using Compose
+- [x] Allow multi-file selection
+- [x] Display:
   - File name
   - File size
-  - File type
+  - File type ✓
 ---
 Phase 6: Transfer UI
 - [ ] Create transfer progress screen
