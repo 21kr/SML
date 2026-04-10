@@ -30,6 +30,7 @@ import com.mrp.sml.ui.filepicker.SelectedFileUiModel
 import com.mrp.sml.ui.transfer.HistoryViewModel
 import com.mrp.sml.ui.transfer.TransferDirection
 import com.mrp.sml.ui.transfer.TransferHistoryItemUiModel
+import com.mrp.sml.ui.transfer.TransferDirection
 import com.mrp.sml.ui.transfer.TransferProgressViewModel
 
 @Composable
@@ -41,12 +42,22 @@ fun HelloScreen(
     val uiState by filePickerViewModel.uiState.collectAsStateWithLifecycle()
     val transferUiState by transferProgressViewModel.uiState.collectAsStateWithLifecycle()
     val historyUiState by historyViewModel.uiState.collectAsStateWithLifecycle()
+) {
+    val uiState by filePickerViewModel.uiState.collectAsStateWithLifecycle()
+    val transferUiState by transferProgressViewModel.uiState.collectAsStateWithLifecycle()
+
+@Composable
+fun HelloScreen(
+    viewModel: FilePickerViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     val pickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris: List<Uri> ->
             filePickerViewModel.onFilesSelected(context = context, uris = uris)
+            viewModel.onFilesSelected(context = context, uris = uris)
         },
     )
 
