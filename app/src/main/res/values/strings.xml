@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SML</string>
+    <string name="hello_world">Welcome to SML with Kotlin and Gradle Kotlin DSL!</string>
+</resources>
