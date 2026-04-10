@@ -78,10 +78,10 @@ Phase 6: Transfer UI
   - Status (sending/receiving/completed) ✓
 ---
 Phase 7: Database (Room)
-- [ ] Create TransferEntity
-- [ ] Setup Room database
-- [ ] Save transfer history
-- [ ] Retrieve and display history
+- [x] Create TransferEntity
+- [x] Setup Room database
+- [x] Save transfer history
+- [x] Retrieve and display history ✓
 ---
 Phase 8: Error Handling
 - [ ] Handle connection drops

@@ -27,6 +27,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mrp.sml.ui.filepicker.FilePickerViewModel
 import com.mrp.sml.ui.filepicker.SelectedFileUiModel
+import com.mrp.sml.ui.transfer.HistoryViewModel
+import com.mrp.sml.ui.transfer.TransferDirection
+import com.mrp.sml.ui.transfer.TransferHistoryItemUiModel
 import com.mrp.sml.ui.transfer.TransferDirection
 import com.mrp.sml.ui.transfer.TransferProgressViewModel
 
@@ -34,6 +37,11 @@ import com.mrp.sml.ui.transfer.TransferProgressViewModel
 fun HelloScreen(
     filePickerViewModel: FilePickerViewModel = hiltViewModel(),
     transferProgressViewModel: TransferProgressViewModel = hiltViewModel(),
+    historyViewModel: HistoryViewModel = hiltViewModel(),
+) {
+    val uiState by filePickerViewModel.uiState.collectAsStateWithLifecycle()
+    val transferUiState by transferProgressViewModel.uiState.collectAsStateWithLifecycle()
+    val historyUiState by historyViewModel.uiState.collectAsStateWithLifecycle()
 ) {
     val uiState by filePickerViewModel.uiState.collectAsStateWithLifecycle()
     val transferUiState by transferProgressViewModel.uiState.collectAsStateWithLifecycle()
@@ -81,6 +89,9 @@ fun HelloScreen(
                 uiState = transferUiState,
                 onDirectionSelected = transferProgressViewModel::setDirection,
             )
+
+
+            TransferHistorySection(historyItems = historyUiState.records)
 
             if (uiState.selectedFiles.isEmpty()) {
                 Text(
@@ -145,6 +156,39 @@ private fun TransferProgressSection(
                     onClick = { onDirectionSelected(TransferDirection.RECEIVING) },
                     label = { Text("Receiving") },
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TransferHistorySection(historyItems: List<TransferHistoryItemUiModel>) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = "Transfer History",
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            if (historyItems.isEmpty()) {
+                Text(
+                    text = "No transfer history yet",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            } else {
+                historyItems.take(5).forEach { item ->
+                    Text(
+                        text = "${item.fileName} • ${item.sizeText}",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    Text(
+                        text = "${item.direction} / ${item.status} • ${item.dateText}",
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
             }
         }
     }

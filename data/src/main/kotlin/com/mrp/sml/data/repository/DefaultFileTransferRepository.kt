@@ -1,7 +1,11 @@
 package com.mrp.sml.data.repository
 
 import com.mrp.sml.core.common.DispatchersProvider
+import com.mrp.sml.domain.model.TransferDirection
+import com.mrp.sml.domain.model.TransferRecord
+import com.mrp.sml.domain.model.TransferStatus
 import com.mrp.sml.domain.repository.FileTransferRepository
+import com.mrp.sml.domain.repository.TransferHistoryRepository
 import com.mrp.sml.domain.repository.TransferProgress
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultFileTransferRepository @Inject constructor(
     private val dispatchersProvider: DispatchersProvider,
+    private val transferHistoryRepository: TransferHistoryRepository,
 ) : FileTransferRepository {
 
     private val transferProgress = MutableStateFlow(emptyTransferProgress())
@@ -72,6 +77,17 @@ class DefaultFileTransferRepository @Inject constructor(
                                 read = input.read(buffer)
                             }
                         }
+
+                        transferHistoryRepository.saveTransferRecord(
+                            TransferRecord(
+                                fileName = file.name,
+                                fileSizeBytes = file.length(),
+                                mimeType = file.extension.ifBlank { "application/octet-stream" },
+                                direction = TransferDirection.SENT,
+                                status = TransferStatus.COMPLETED,
+                                timestampEpochMillis = System.currentTimeMillis(),
+                            ),
+                        )
                     }
 
                     output.flush()
@@ -143,6 +159,17 @@ class DefaultFileTransferRepository @Inject constructor(
 
                                 output.flush()
                             }
+
+                            transferHistoryRepository.saveTransferRecord(
+                                TransferRecord(
+                                    fileName = outputFile.name,
+                                    fileSizeBytes = outputFile.length(),
+                                    mimeType = outputFile.extension.ifBlank { "application/octet-stream" },
+                                    direction = TransferDirection.RECEIVED,
+                                    status = TransferStatus.COMPLETED,
+                                    timestampEpochMillis = System.currentTimeMillis(),
+                                ),
+                            )
                         }
                     }
                 }
