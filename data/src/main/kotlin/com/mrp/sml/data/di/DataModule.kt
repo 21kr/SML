@@ -2,6 +2,7 @@ package com.mrp.sml.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.mrp.sml.core.common.DispatchersProvider
 import com.mrp.sml.data.local.SmlDatabase
 import com.mrp.sml.data.local.TransferDao
 import com.mrp.sml.data.repository.DefaultDeviceConnectionRepository
@@ -10,7 +11,6 @@ import com.mrp.sml.data.repository.DefaultTransferHistoryRepository
 import com.mrp.sml.domain.repository.DeviceConnectionRepository
 import com.mrp.sml.domain.repository.FileTransferRepository
 import com.mrp.sml.domain.repository.TransferHistoryRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,40 +20,49 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
-    @Binds
+object DataModule {
+
+    @Provides
     @Singleton
-    abstract fun bindDeviceConnectionRepository(
-        impl: DefaultDeviceConnectionRepository,
-    ): DeviceConnectionRepository
+    fun provideSmlDatabase(@ApplicationContext context: Context): SmlDatabase {
+        return Room.databaseBuilder(
+            context = context,
+            klass = SmlDatabase::class.java,
+            name = "sml.db",
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
-    @Binds
+    @Provides
+    fun provideTransferDao(database: SmlDatabase): TransferDao {
+        return database.transferDao()
+    }
+
+    @Provides
     @Singleton
-    abstract fun bindFileTransferRepository(
-        impl: DefaultFileTransferRepository,
-    ): FileTransferRepository
+    fun provideTransferHistoryRepository(
+        transferDao: TransferDao
+    ): TransferHistoryRepository {
+        return DefaultTransferHistoryRepository(transferDao)
+    }
 
-    @Binds
+    @Provides
     @Singleton
-    abstract fun bindTransferHistoryRepository(
-        impl: DefaultTransferHistoryRepository,
-    ): TransferHistoryRepository
+    fun provideFileTransferRepository(
+        dispatchersProvider: DispatchersProvider,
+        transferHistoryRepository: TransferHistoryRepository
+    ): FileTransferRepository {
+        return DefaultFileTransferRepository(dispatchersProvider, transferHistoryRepository)
+    }
 
-    companion object {
-        @Provides
-        @Singleton
-        fun provideSmlDatabase(
-            @ApplicationContext context: Context,
-        ): SmlDatabase {
-            return Room.databaseBuilder(
-                context,
-                SmlDatabase::class.java,
-                "sml_database",
-            ).build()
-        }
-
-        @Provides
-        @Singleton
-        fun provideTransferDao(database: SmlDatabase): TransferDao = database.transferDao()
+    @Provides
+    @Singleton
+    fun provideDeviceConnectionRepository(
+        @ApplicationContext context: Context,
+        dispatchersProvider: DispatchersProvider
+    ): DeviceConnectionRepository {
+        return DefaultDeviceConnectionRepository(context, dispatchersProvider)
     }
 }
+
