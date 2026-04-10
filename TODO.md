@@ -52,15 +52,15 @@ Phase 3: Device Connection (WiFi Direct)
 - [x] Verify connection works between devices ✓
 ---
 Phase 4: File Transfer Engine
-- [ ] Implement TCP server (receiver)
-- [ ] Implement TCP client (sender)
-- [ ] Send single file
-- [ ] Support multiple file transfers
-- [ ] Implement:
+- [x] Implement TCP server (receiver)
+- [x] Implement TCP client (sender)
+- [x] Send single file
+- [x] Support multiple file transfers
+- [x] Implement:
   - Buffered streams
   - Progress tracking (percentage)
   - Speed calculation (MB/s)
-- [ ] Handle large files (>1GB)
+- [x] Handle large files (>1GB) ✓
 ---
 Phase 5: File Picker UI
 - [ ] Build file browser using Compose
