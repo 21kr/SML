@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "SML"
 include(":app")
+include(":core")
+include(":domain")
+include(":data")
