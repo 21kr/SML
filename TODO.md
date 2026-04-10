@@ -71,11 +71,11 @@ Phase 5: File Picker UI
   - File type ✓
 ---
 Phase 6: Transfer UI
-- [ ] Create transfer progress screen
-- [ ] Display:
+- [x] Create transfer progress screen
+- [x] Display:
   - Progress bar
   - Transfer speed
-  - Status (sending/receiving/completed)
+  - Status (sending/receiving/completed) ✓
 ---
 Phase 7: Database (Room)
 - [ ] Create TransferEntity

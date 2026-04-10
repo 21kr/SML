@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,6 +27,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mrp.sml.ui.filepicker.FilePickerViewModel
 import com.mrp.sml.ui.filepicker.SelectedFileUiModel
+import com.mrp.sml.ui.transfer.TransferDirection
+import com.mrp.sml.ui.transfer.TransferProgressViewModel
+
+@Composable
+fun HelloScreen(
+    filePickerViewModel: FilePickerViewModel = hiltViewModel(),
+    transferProgressViewModel: TransferProgressViewModel = hiltViewModel(),
+) {
+    val uiState by filePickerViewModel.uiState.collectAsStateWithLifecycle()
+    val transferUiState by transferProgressViewModel.uiState.collectAsStateWithLifecycle()
 
 @Composable
 fun HelloScreen(
@@ -36,6 +48,7 @@ fun HelloScreen(
     val pickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris: List<Uri> ->
+            filePickerViewModel.onFilesSelected(context = context, uris = uris)
             viewModel.onFilesSelected(context = context, uris = uris)
         },
     )
@@ -64,6 +77,11 @@ fun HelloScreen(
                 Text(text = "Choose files")
             }
 
+            TransferProgressSection(
+                uiState = transferUiState,
+                onDirectionSelected = transferProgressViewModel::setDirection,
+            )
+
             if (uiState.selectedFiles.isEmpty()) {
                 Text(
                     text = "No files selected",
@@ -78,6 +96,55 @@ fun HelloScreen(
                         SelectedFileCard(file = file)
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TransferProgressSection(
+    uiState: com.mrp.sml.ui.transfer.TransferProgressUiState,
+    onDirectionSelected: (TransferDirection) -> Unit,
+) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Text(
+                text = "Transfer Progress",
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            LinearProgressIndicator(
+                progress = { uiState.progressPercent / 100f },
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Text(
+                text = "Progress: ${uiState.progressPercentText}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = "Speed: ${uiState.speedText}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = "Status: ${uiState.statusLabel}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = uiState.direction == TransferDirection.SENDING,
+                    onClick = { onDirectionSelected(TransferDirection.SENDING) },
+                    label = { Text("Sending") },
+                )
+                FilterChip(
+                    selected = uiState.direction == TransferDirection.RECEIVING,
+                    onClick = { onDirectionSelected(TransferDirection.RECEIVING) },
+                    label = { Text("Receiving") },
+                )
             }
         }
     }
