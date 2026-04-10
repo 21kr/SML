@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.sml"
+    namespace = "com.mrp.sml"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.sml"
+        applicationId = "com.mrp.sml"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
