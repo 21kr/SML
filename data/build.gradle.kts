@@ -33,6 +33,9 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("com.google.dagger:hilt-android:2.57.2")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
     kapt("com.google.dagger:hilt-compiler:2.57.2")
 
     testImplementation("junit:junit:4.13.2")
