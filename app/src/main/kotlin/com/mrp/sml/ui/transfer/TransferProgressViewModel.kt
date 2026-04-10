@@ -29,6 +29,10 @@ class TransferProgressViewModel @Inject constructor(
     fun setDirection(direction: TransferDirection) {
         _uiState.update { current ->
             current.copy(direction = direction)
+            current.copy(
+                direction = direction,
+                status = current.status.refreshWith(direction = direction, progressPercent = current.progressPercent),
+            )
         }
     }
 
@@ -36,6 +40,10 @@ class TransferProgressViewModel @Inject constructor(
         viewModelScope.launch {
             fileTransferRepository.observeTransferProgress().collect { progress ->
                 _uiState.update { current ->
+                    val status = determineStatus(
+                        progressPercent = progress.progressPercent,
+                        direction = current.direction,
+                    )
                     current.copy(
                         progressPercent = progress.progressPercent,
                         progressPercentText = String.format(Locale.US, "%.1f%%", progress.progressPercent),
@@ -69,6 +77,31 @@ class TransferProgressViewModel @Inject constructor(
             }
         }
     }
+                        status = status,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun determineStatus(progressPercent: Float, direction: TransferDirection): TransferStatus {
+        if (progressPercent <= 0f) {
+            return TransferStatus.IDLE
+        }
+        if (progressPercent >= 100f) {
+            return TransferStatus.COMPLETED
+        }
+
+        return if (direction == TransferDirection.SENDING) {
+            TransferStatus.SENDING
+        } else {
+            TransferStatus.RECEIVING
+        }
+    }
+
+    private fun TransferStatus.refreshWith(direction: TransferDirection, progressPercent: Float): TransferStatus {
+        return determineStatus(progressPercent = progressPercent, direction = direction)
+    }
 }
 
 data class TransferProgressUiState(
@@ -95,4 +128,5 @@ enum class TransferStatus(val label: String) {
     RETRYING("Retrying"),
     COMPLETED("Completed"),
     FAILED("Failed"),
+    COMPLETED("Completed"),
 }
