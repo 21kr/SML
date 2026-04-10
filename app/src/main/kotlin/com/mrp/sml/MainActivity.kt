@@ -1,17 +1,18 @@
 package com.mrp.sml
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.mrp.sml.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.mrp.sml.ui.HelloScreen
+import com.mrp.sml.ui.theme.SMLTheme
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.textView.text = getString(R.string.hello_world)
+        setContent {
+            SMLTheme {
+                HelloScreen()
+            }
+        }
     }
 }
