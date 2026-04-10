@@ -42,14 +42,14 @@ Phase 2: Core Architecture Setup
 - [x] Verify build success
 ---
 Phase 3: Device Connection (WiFi Direct)
-- [ ] Implement WiFi Direct broadcast receiver
-- [ ] Discover nearby devices
-- [ ] Connect to selected device
-- [ ] Handle connection states:
+- [x] Implement WiFi Direct broadcast receiver
+- [x] Discover nearby devices
+- [x] Connect to selected device
+- [x] Handle connection states:
   - Connected
   - Failed
   - Disconnected
-- [ ] Verify connection works between devices
+- [x] Verify connection works between devices ✓
 ---
 Phase 4: File Transfer Engine
 - [ ] Implement TCP server (receiver)
