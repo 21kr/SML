@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 interface FileTransferRepository {
     fun observeTransferProgress(): Flow<TransferProgress>
 
+    fun observeTransferStatus(): Flow<TransferStatusUpdate>
+
     suspend fun sendFile(sourcePath: String, destinationAddress: String)
 
     suspend fun sendFiles(sourcePaths: List<String>, destinationAddress: String)
@@ -26,4 +28,18 @@ data class TransferProgress(
     companion object {
         private const val BYTES_PER_MEGABYTE = 1024.0 * 1024.0
     }
+}
+
+data class TransferStatusUpdate(
+    val status: TransferExecutionStatus,
+    val userMessage: String? = null,
+)
+
+enum class TransferExecutionStatus {
+    IDLE,
+    SENDING,
+    RECEIVING,
+    RETRYING,
+    COMPLETED,
+    FAILED,
 }

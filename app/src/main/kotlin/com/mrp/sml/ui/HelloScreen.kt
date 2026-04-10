@@ -144,6 +144,12 @@ private fun TransferProgressSection(
                 text = "Status: ${uiState.statusLabel}",
                 style = MaterialTheme.typography.bodyMedium,
             )
+            uiState.userMessage?.let { message ->
+                Text(
+                    text = message,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(

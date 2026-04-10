@@ -3,6 +3,7 @@ package com.mrp.sml.ui.transfer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrp.sml.domain.repository.FileTransferRepository
+import com.mrp.sml.domain.repository.TransferExecutionStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,10 +23,12 @@ class TransferProgressViewModel @Inject constructor(
 
     init {
         observeTransferProgress()
+        observeTransferStatus()
     }
 
     fun setDirection(direction: TransferDirection) {
         _uiState.update { current ->
+            current.copy(direction = direction)
             current.copy(
                 direction = direction,
                 status = current.status.refreshWith(direction = direction, progressPercent = current.progressPercent),
@@ -45,6 +48,35 @@ class TransferProgressViewModel @Inject constructor(
                         progressPercent = progress.progressPercent,
                         progressPercentText = String.format(Locale.US, "%.1f%%", progress.progressPercent),
                         speedText = String.format(Locale.US, "%.2f MB/s", progress.speedMegaBytesPerSecond),
+                    )
+                }
+            }
+        }
+    }
+
+    private fun observeTransferStatus() {
+        viewModelScope.launch {
+            fileTransferRepository.observeTransferStatus().collect { statusUpdate ->
+                _uiState.update { current ->
+                    val mappedStatus = when (statusUpdate.status) {
+                        TransferExecutionStatus.SENDING -> TransferStatus.SENDING
+                        TransferExecutionStatus.RECEIVING -> TransferStatus.RECEIVING
+                        TransferExecutionStatus.COMPLETED -> TransferStatus.COMPLETED
+                        TransferExecutionStatus.FAILED -> TransferStatus.FAILED
+                        TransferExecutionStatus.RETRYING -> TransferStatus.RETRYING
+                        TransferExecutionStatus.IDLE -> {
+                            if (current.progressPercent >= 100f) TransferStatus.COMPLETED else TransferStatus.IDLE
+                        }
+                    }
+
+                    current.copy(
+                        status = mappedStatus,
+                        userMessage = statusUpdate.userMessage,
+                    )
+                }
+            }
+        }
+    }
                         status = status,
                     )
                 }
@@ -78,6 +110,7 @@ data class TransferProgressUiState(
     val speedText: String = "0.00 MB/s",
     val direction: TransferDirection = TransferDirection.SENDING,
     val status: TransferStatus = TransferStatus.IDLE,
+    val userMessage: String? = null,
 ) {
     val statusLabel: String
         get() = status.label
@@ -92,5 +125,8 @@ enum class TransferStatus(val label: String) {
     IDLE("Idle"),
     SENDING("Sending"),
     RECEIVING("Receiving"),
+    RETRYING("Retrying"),
+    COMPLETED("Completed"),
+    FAILED("Failed"),
     COMPLETED("Completed"),
 }
