@@ -158,6 +158,7 @@ The app uses local network communication (WiFi Direct or hotspot + TCP sockets) 
                   2. "TODO.md" → Task execution order
                   3. "CONSTRAINTS.md" → Implementation guardrails
                   4. "BUILD.md" → Build and validation process
+                  - SDK Configuration Source of Truth: `BUILD.md` (minSdk 24, targetSdk 35, compileSdk 35)
 
                   ---
 

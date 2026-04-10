@@ -12,6 +12,7 @@ Environment Requirements
 Project Configuration
 - Language: Kotlin
 - Build System: Gradle Kotlin DSL (".kts")
+- SDK Source of Truth: This file (BUILD.md)
 - Minimum SDK: 24
 - Target SDK: 35
 - Compile SDK: 35
