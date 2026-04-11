@@ -77,3 +77,14 @@ Phase 2: Core Modules (Java)
 - [x] Hilt setup for Java ✓
 ... (follow TODO order)
 
+
+Phase 3: Presentation Layer (MVVM Java/XML)
+- [x] Add Java ViewModel + LiveData UI state wiring ✓
+- [x] Connect Activity XML UI with ViewModel observers/actions ✓
+- [x] Keep business logic inside repositories/use-cases (UI-only in Activity) ✓
+- [x] `./gradlew build` attempted (blocked by missing Android SDK path in environment) ✓
+
+Phase 4: Feature modules
+- [ ] Implement feature:connection baseline
+- [ ] Implement feature:transfer baseline
+- [ ] Implement feature:history baseline

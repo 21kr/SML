@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">SML File Share</string>
     <string name="ready_status">Ready for P2P file transfer via WiFi Direct</string>
+    <string name="connection_idle">Connection: IDLE</string>
+    <string name="transfer_idle">Transfer: IDLE</string>
+    <string name="progress_initial">Progress: 0.00% (0 B/s)</string>
+    <string name="history_initial">History: 0 records</string>
+    <string name="discover_devices">Discover Devices</string>
+    <string name="send_sample">Send Sample</string>
+    <string name="receive_sample">Receive Sample</string>
 </resources>
