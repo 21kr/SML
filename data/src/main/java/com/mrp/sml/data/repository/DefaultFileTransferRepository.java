@@ -30,6 +30,8 @@ import javax.inject.Singleton;
 public class DefaultFileTransferRepository implements FileTransferRepository {
     private static final int DEFAULT_TRANSFER_PORT = 8988;
     private static final int BUFFER_SIZE_BYTES = 256 * 1024;
+    private static final int MAX_RETRY_ATTEMPTS = 3;
+    private static final long RETRY_DELAY_MS = 350L;
 
     private final DispatchersProvider dispatchersProvider;
     private final TransferHistoryRepository transferHistoryRepository;
@@ -75,15 +77,12 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void sendFiles(List<String> sourcePaths, String destinationAddress) {
-        postStatus(new TransferStatusUpdate(TransferExecutionStatus.SENDING, "Sending files"));
-        dispatchersProvider.ioExecutor().execute(() -> {
-            try {
-                performSendFiles(sourcePaths, destinationAddress);
-                postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, "Files sent"));
-            } catch (IOException exception) {
-                postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, exception.getMessage()));
-            }
-        });
+        dispatchersProvider.ioExecutor().execute(() -> runWithRetry(
+                TransferExecutionStatus.SENDING,
+                "Sending files",
+                () -> performSendFiles(sourcePaths, destinationAddress),
+                "Files sent"
+        ));
     }
 
     @Override
@@ -93,15 +92,44 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void receiveFiles(String destinationDirectoryPath) {
-        postStatus(new TransferStatusUpdate(TransferExecutionStatus.RECEIVING, "Waiting for incoming files"));
-        dispatchersProvider.ioExecutor().execute(() -> {
+        dispatchersProvider.ioExecutor().execute(() -> runWithRetry(
+                TransferExecutionStatus.RECEIVING,
+                "Waiting for incoming files",
+                () -> performReceiveFiles(destinationDirectoryPath),
+                "Files received"
+        ));
+    }
+
+    private void runWithRetry(
+            TransferExecutionStatus activeStatus,
+            String startMessage,
+            TransferOperation operation,
+            String successMessage
+    ) {
+        postStatus(new TransferStatusUpdate(activeStatus, startMessage));
+        IOException lastException = null;
+
+        for (int attempt = 1; attempt <= MAX_RETRY_ATTEMPTS; attempt++) {
             try {
-                performReceiveFiles(destinationDirectoryPath);
-                postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, "Files received"));
+                operation.execute();
+                postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, successMessage));
+                return;
             } catch (IOException exception) {
-                postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, exception.getMessage()));
+                lastException = exception;
+                if (attempt < MAX_RETRY_ATTEMPTS) {
+                    postStatus(new TransferStatusUpdate(
+                            TransferExecutionStatus.RETRYING,
+                            "Attempt " + attempt + " failed: " + friendlyError(exception)
+                                    + " Retrying " + (attempt + 1) + "/" + MAX_RETRY_ATTEMPTS
+                    ));
+                    sleepQuietly(RETRY_DELAY_MS * attempt);
+                }
             }
-        });
+        }
+
+        String failureMessage = "Transfer failed after " + MAX_RETRY_ATTEMPTS + " attempts. "
+                + friendlyError(lastException);
+        postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, failureMessage));
     }
 
     private void performSendFiles(List<String> sourcePaths, String destinationAddress) throws IOException {
@@ -233,6 +261,35 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         }
     }
 
+    private String friendlyError(IOException exception) {
+        if (exception == null || exception.getMessage() == null) {
+            return "Unknown network or file error.";
+        }
+
+        String message = exception.getMessage().toLowerCase();
+        if (message.contains("timed out")) {
+            return "Connection timed out.";
+        }
+        if (message.contains("refused")) {
+            return "Target device refused connection.";
+        }
+        if (message.contains("not exist") || message.contains("not readable")) {
+            return "Selected file is unavailable.";
+        }
+        if (message.contains("dropped")) {
+            return "Connection dropped during transfer.";
+        }
+        return exception.getMessage();
+    }
+
+    private void sleepQuietly(long delayMillis) {
+        try {
+            Thread.sleep(delayMillis);
+        } catch (InterruptedException interruptedException) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private File validateReadableFile(String sourcePath) throws IOException {
         if (sourcePath == null || sourcePath.trim().isEmpty()) {
             throw new IOException("Source path must not be blank");
@@ -267,6 +324,10 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
             return "received_" + System.currentTimeMillis();
         }
         return fileName.replace("..", "").replace('/', '_').replace('\\', '_');
+    }
+
+    private interface TransferOperation {
+        void execute() throws IOException;
     }
 
     private static class FileHeader {

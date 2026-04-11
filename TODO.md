@@ -91,5 +91,9 @@ Phase 4: Feature modules
 
 
 Phase 5: Stability and tests
-- [ ] Add unit tests for ViewModels
-- [ ] Add retry/error UX polish
+- [x] Add unit tests for ViewModels ✓
+- [x] Add retry/error UX polish ✓
+
+Phase 6: Integration hardening
+- [ ] Add instrumentation test smoke run
+- [ ] Add runtime permissions UX
