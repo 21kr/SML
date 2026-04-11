@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">SML</string>
-    <string name="hello_world">Welcome to SML with Kotlin and Gradle Kotlin DSL!</string>
+    <string name="app_name">SML File Share</string>
+    <string name="ready_status">Ready for P2P file transfer via WiFi Direct</string>
 </resources>
