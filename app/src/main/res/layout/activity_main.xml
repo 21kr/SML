@@ -46,6 +46,14 @@
             android:layout_marginTop="4dp"
             android:text="@string/discovered_devices_initial" />
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/discoveredDevicesList"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="8dp"
+            android:overScrollMode="never" />
+
         <EditText
             android:id="@+id/deviceIdInput"
             android:layout_width="match_parent"

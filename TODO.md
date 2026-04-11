@@ -99,5 +99,9 @@ Phase 6: Integration hardening
 - [x] Add runtime permissions UX ✓
 
 Phase 7: WiFi Direct hardening
-- [ ] Add actual peer discovery UI list
-- [ ] Add connect/disconnect lifecycle handling
+- [x] Add actual peer discovery UI list ✓
+- [x] Add connect/disconnect lifecycle handling ✓
+
+Phase 8: Transfer UX refinement
+- [ ] Add file picker integration
+- [ ] Add transfer history list screen

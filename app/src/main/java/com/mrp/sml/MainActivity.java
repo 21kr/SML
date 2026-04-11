@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.mrp.sml.databinding.ActivityMainBinding;
+import com.mrp.sml.ui.connection.ConnectionDeviceAdapter;
 import com.mrp.sml.ui.connection.ConnectionViewModel;
 import com.mrp.sml.ui.history.HistoryViewModel;
 import com.mrp.sml.ui.transfer.TransferViewModel;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RUNTIME_PERMISSION_REQUEST_CODE = 301;
 
     private ActivityMainBinding binding;
+    private ConnectionDeviceAdapter connectionDeviceAdapter;
 
     private ConnectionViewModel connectionViewModel;
     private TransferViewModel transferViewModel;
@@ -40,9 +43,31 @@ public class MainActivity extends AppCompatActivity {
         transferViewModel = new ViewModelProvider(this).get(TransferViewModel.class);
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
+        setupConnectionList();
         setupObservers();
         setupListeners();
         ensureRuntimePermissions();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        connectionViewModel.discoverDevices();
+    }
+
+    @Override
+    protected void onStop() {
+        connectionViewModel.disconnect();
+        super.onStop();
+    }
+
+    private void setupConnectionList() {
+        connectionDeviceAdapter = new ConnectionDeviceAdapter(device -> {
+            binding.deviceIdInput.setText(device.getId());
+            connectionViewModel.connectToDevice(device);
+        });
+        binding.discoveredDevicesList.setLayoutManager(new LinearLayoutManager(this));
+        binding.discoveredDevicesList.setAdapter(connectionDeviceAdapter);
     }
 
     private void setupObservers() {
@@ -50,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 text -> binding.connectionStateText.setText(text));
         connectionViewModel.getDiscoveredDevicesText().observe(this,
                 text -> binding.discoveredDevicesText.setText(text));
+        connectionViewModel.getDiscoveredDevices().observe(this,
+                devices -> connectionDeviceAdapter.submitList(devices));
 
         transferViewModel.getTransferStatusText().observe(this,
                 text -> binding.transferStatusText.setText(text));
@@ -125,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         if (allGranted) {
             binding.permissionStatusText.setText(getString(R.string.permissions_granted));
             Toast.makeText(this, R.string.permissions_granted, Toast.LENGTH_SHORT).show();
+            connectionViewModel.discoverDevices();
         } else {
             binding.permissionStatusText.setText(getString(R.string.permissions_denied));
             Toast.makeText(this, R.string.permissions_denied, Toast.LENGTH_LONG).show();

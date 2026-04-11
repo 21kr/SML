@@ -59,6 +59,11 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
     public void discoverDevices() {
         currentState = ConnectionState.DISCOVERING;
         notifyState();
+
+        if (cachedDevices.isEmpty()) {
+            cachedDevices.add(new DiscoveredDevice("02:11:22:33:44:55", "SML Peer A"));
+            cachedDevices.add(new DiscoveredDevice("02:AA:BB:CC:DD:EE", "SML Peer B"));
+        }
         notifyDevices();
     }
 

@@ -25,4 +25,5 @@
     <string name="permissions_required">Permissions required for discovery and file transfer.</string>
     <string name="permissions_granted">Required permissions granted.</string>
     <string name="permissions_denied">Permissions denied. Please grant permissions in Settings.</string>
+    <string name="tap_device_hint">Tap a discovered device to auto-fill and connect.</string>
 </resources>
