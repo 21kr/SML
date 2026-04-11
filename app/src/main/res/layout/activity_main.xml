@@ -105,6 +105,13 @@
             android:layout_marginTop="4dp"
             android:text="@string/progress_initial" />
 
+        <Button
+            android:id="@+id/pickFileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/pick_file" />
+
         <EditText
             android:id="@+id/filePathInput"
             android:layout_width="match_parent"
@@ -142,6 +149,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/receive_files" />
+
+        <Button
+            android:id="@+id/openHistoryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/open_history_screen" />
 
         <TextView
             android:id="@+id/historySectionTitle"

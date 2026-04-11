@@ -103,5 +103,9 @@ Phase 7: WiFi Direct hardening
 - [x] Add connect/disconnect lifecycle handling ✓
 
 Phase 8: Transfer UX refinement
-- [ ] Add file picker integration
-- [ ] Add transfer history list screen
+- [x] Add file picker integration ✓
+- [x] Add transfer history list screen ✓
+
+Phase 9: Real networking integration
+- [ ] Replace mock peer list with WifiDirect callbacks
+- [ ] Add socket cancel/resume controls
