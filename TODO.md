@@ -85,6 +85,11 @@ Phase 3: Presentation Layer (MVVM Java/XML)
 - [x] `./gradlew build` attempted (blocked by missing Android SDK path in environment) ✓
 
 Phase 4: Feature modules
-- [ ] Implement feature:connection baseline
-- [ ] Implement feature:transfer baseline
-- [ ] Implement feature:history baseline
+- [x] Implement feature:connection baseline ✓
+- [x] Implement feature:transfer baseline ✓
+- [x] Implement feature:history baseline ✓
+
+
+Phase 5: Stability and tests
+- [ ] Add unit tests for ViewModels
+- [ ] Add retry/error UX polish
