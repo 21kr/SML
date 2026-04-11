@@ -137,6 +137,20 @@ final class ViewModelTestDoubles {
                 statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.RECEIVING, "Waiting"));
             }
         }
+
+        @Override
+        public void cancelTransfer() {
+            if (statusListener != null) {
+                statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.FAILED, "Cancelled"));
+            }
+        }
+
+        @Override
+        public void resumeLastTransfer() {
+            if (statusListener != null) {
+                statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.RETRYING, "Resumed"));
+            }
+        }
     }
 
     static class FakeTransferHistoryRepository implements TransferHistoryRepository {

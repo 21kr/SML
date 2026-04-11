@@ -39,6 +39,9 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
     private final CopyOnWriteArrayList<TransferProgressListener> progressListeners = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<TransferStatusListener> statusListeners = new CopyOnWriteArrayList<>();
 
+    private volatile TransferRequest lastTransferRequest;
+    private volatile boolean cancelled;
+
     @Inject
     public DefaultFileTransferRepository(
             DispatchersProvider dispatchersProvider,
@@ -77,6 +80,8 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void sendFiles(List<String> sourcePaths, String destinationAddress) {
+        cancelled = false;
+        lastTransferRequest = TransferRequest.forSend(sourcePaths, destinationAddress);
         dispatchersProvider.ioExecutor().execute(() -> runWithRetry(
                 TransferExecutionStatus.SENDING,
                 "Sending files",
@@ -92,12 +97,35 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void receiveFiles(String destinationDirectoryPath) {
+        cancelled = false;
+        lastTransferRequest = TransferRequest.forReceive(destinationDirectoryPath);
         dispatchersProvider.ioExecutor().execute(() -> runWithRetry(
                 TransferExecutionStatus.RECEIVING,
                 "Waiting for incoming files",
                 () -> performReceiveFiles(destinationDirectoryPath),
                 "Files received"
         ));
+    }
+
+    @Override
+    public void cancelTransfer() {
+        cancelled = true;
+        postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, "Transfer cancelled by user."));
+    }
+
+    @Override
+    public void resumeLastTransfer() {
+        TransferRequest request = lastTransferRequest;
+        if (request == null) {
+            postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, "No transfer to resume."));
+            return;
+        }
+
+        if (request.type == TransferType.SEND) {
+            sendFiles(request.sourcePaths, request.destinationAddress);
+        } else {
+            receiveFiles(request.destinationDirectoryPath);
+        }
     }
 
     private void runWithRetry(
@@ -112,10 +140,16 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         for (int attempt = 1; attempt <= MAX_RETRY_ATTEMPTS; attempt++) {
             try {
                 operation.execute();
-                postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, successMessage));
+                if (!cancelled) {
+                    postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, successMessage));
+                }
                 return;
             } catch (IOException exception) {
                 lastException = exception;
+                if (cancelled) {
+                    postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, "Transfer cancelled by user."));
+                    return;
+                }
                 if (attempt < MAX_RETRY_ATTEMPTS) {
                     postStatus(new TransferStatusUpdate(
                             TransferExecutionStatus.RETRYING,
@@ -160,11 +194,13 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
             byte[] buffer = new byte[BUFFER_SIZE_BYTES];
 
             for (File file : files) {
+                throwIfCancelled();
                 output.writeUTF(file.getName());
                 output.writeLong(file.length());
                 try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE_BYTES)) {
                     int read;
                     while ((read = input.read(buffer)) >= 0) {
+                        throwIfCancelled();
                         output.write(buffer, 0, read);
                         transferred += read;
                         postProgress(progressFromBytes(transferred, totalBytes, start));
@@ -211,11 +247,13 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
             byte[] buffer = new byte[BUFFER_SIZE_BYTES];
 
             for (FileHeader header : headers) {
+                throwIfCancelled();
                 File outputFile = new File(destinationDirectory, sanitizeFileName(header.fileName));
                 long remaining = header.sizeBytes;
                 try (BufferedOutputStream output = new BufferedOutputStream(
                         new FileOutputStream(outputFile), BUFFER_SIZE_BYTES)) {
                     while (remaining > 0) {
+                        throwIfCancelled();
                         int bytesToRead = (int) Math.min((long) buffer.length, remaining);
                         int read = input.read(buffer, 0, bytesToRead);
                         if (read < 0) {
@@ -239,6 +277,12 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                         System.currentTimeMillis()
                 ));
             }
+        }
+    }
+
+    private void throwIfCancelled() throws IOException {
+        if (cancelled) {
+            throw new IOException("Transfer cancelled by user");
         }
     }
 
@@ -328,6 +372,43 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     private interface TransferOperation {
         void execute() throws IOException;
+    }
+
+    private enum TransferType {
+        SEND,
+        RECEIVE
+    }
+
+    private static class TransferRequest {
+        private final TransferType type;
+        private final List<String> sourcePaths;
+        private final String destinationAddress;
+        private final String destinationDirectoryPath;
+
+        private TransferRequest(
+                TransferType type,
+                List<String> sourcePaths,
+                String destinationAddress,
+                String destinationDirectoryPath
+        ) {
+            this.type = type;
+            this.sourcePaths = sourcePaths;
+            this.destinationAddress = destinationAddress;
+            this.destinationDirectoryPath = destinationDirectoryPath;
+        }
+
+        static TransferRequest forSend(List<String> sourcePaths, String destinationAddress) {
+            return new TransferRequest(
+                    TransferType.SEND,
+                    sourcePaths == null ? Collections.emptyList() : new ArrayList<>(sourcePaths),
+                    destinationAddress,
+                    null
+            );
+        }
+
+        static TransferRequest forReceive(String destinationDirectoryPath) {
+            return new TransferRequest(TransferType.RECEIVE, Collections.emptyList(), null, destinationDirectoryPath);
+        }
     }
 
     private static class FileHeader {

@@ -107,5 +107,10 @@ Phase 8: Transfer UX refinement
 - [x] Add transfer history list screen ✓
 
 Phase 9: Real networking integration
-- [ ] Replace mock peer list with WifiDirect callbacks
-- [ ] Add socket cancel/resume controls
+- [x] Replace mock peer list with WifiDirect callbacks ✓
+- [x] Add socket cancel/resume controls ✓
+- [x] Evaluate Phase 9 outcomes ✓
+
+Phase 10: Production readiness
+- [ ] Add robust permission denial recovery UX
+- [ ] Add integration tests with emulator

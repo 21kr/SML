@@ -56,6 +56,15 @@ public class TransferViewModel extends ViewModel {
         fileTransferRepository.receiveFiles(outputDirectoryPath.trim());
     }
 
+
+    public void cancelTransfer() {
+        fileTransferRepository.cancelTransfer();
+    }
+
+    public void resumeTransfer() {
+        fileTransferRepository.resumeLastTransfer();
+    }
+
     private void onStatusUpdated(TransferStatusUpdate statusUpdate) {
         String text = "Transfer: " + statusUpdate.getStatus().name();
         if (statusUpdate.getUserMessage() != null && !statusUpdate.getUserMessage().trim().isEmpty()) {

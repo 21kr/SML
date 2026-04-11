@@ -13,6 +13,8 @@ public interface FileTransferRepository {
     void sendFiles(List<String> sourcePaths, String destinationAddress);
     void receiveFile(String destinationPath);
     void receiveFiles(String destinationDirectoryPath);
+    void cancelTransfer();
+    void resumeLastTransfer();
 
     interface TransferProgressListener {
         void onProgressUpdated(TransferProgress progress);

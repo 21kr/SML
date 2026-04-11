@@ -19,6 +19,8 @@
     <string name="output_directory_hint">Output directory path</string>
     <string name="send_file">Send File</string>
     <string name="receive_files">Receive Files</string>
+    <string name="cancel_transfer">Cancel Transfer</string>
+    <string name="resume_transfer">Resume Last Transfer</string>
     <string name="pick_file">Pick File</string>
     <string name="file_pick_success">File selected successfully.</string>
     <string name="file_pick_failed">Unable to read selected file.</string>

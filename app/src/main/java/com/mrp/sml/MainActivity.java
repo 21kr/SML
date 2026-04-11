@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
                         binding.destinationAddressInput.getText().toString()));
         binding.receiveButton.setOnClickListener(view ->
                 transferViewModel.receiveFiles(binding.outputDirectoryInput.getText().toString()));
+        binding.cancelTransferButton.setOnClickListener(view -> transferViewModel.cancelTransfer());
+        binding.resumeTransferButton.setOnClickListener(view -> transferViewModel.resumeTransfer());
     }
 
     private void handlePickedFile(Uri uri) {
