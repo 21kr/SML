@@ -1,14 +1,14 @@
 [
     {
-        "merged": "com.mrp.sml.data-release-18:/layout/custom_dialog.xml",
-        "source": "com.mrp.sml.data-core-1.8.0-3:/layout/custom_dialog.xml"
+        "merged": "com.mrp.sml.data-release-17:/layout/custom_dialog.xml",
+        "source": "com.mrp.sml.data-core-1.8.0-4:/layout/custom_dialog.xml"
     },
     {
-        "merged": "com.mrp.sml.data-release-18:/layout/notification_template_part_time.xml",
-        "source": "com.mrp.sml.data-core-1.8.0-3:/layout/notification_template_part_time.xml"
+        "merged": "com.mrp.sml.data-release-17:/layout/notification_template_part_time.xml",
+        "source": "com.mrp.sml.data-core-1.8.0-4:/layout/notification_template_part_time.xml"
     },
     {
-        "merged": "com.mrp.sml.data-release-18:/layout/notification_template_part_chronometer.xml",
-        "source": "com.mrp.sml.data-core-1.8.0-3:/layout/notification_template_part_chronometer.xml"
+        "merged": "com.mrp.sml.data-release-17:/layout/notification_template_part_chronometer.xml",
+        "source": "com.mrp.sml.data-core-1.8.0-4:/layout/notification_template_part_chronometer.xml"
     }
 ]

@@ -14,9 +14,9 @@
                 reformat="value"
                 priority="0">
                 <range
-                    file="${:data*debug*MAIN*sourceProvider*0*javaDir*2}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.kt"
-                    startOffset="1757"
-                    endOffset="1776"/>
+                    file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java"
+                    startOffset="2347"
+                    endOffset="2366"/>
             </fix-replace>
             <fix-replace
                 description="Add RECEIVER_EXPORTED"
@@ -26,19 +26,19 @@
                 reformat="value"
                 priority="0">
                 <range
-                    file="${:data*debug*MAIN*sourceProvider*0*javaDir*2}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.kt"
-                    startOffset="1757"
-                    endOffset="1776"/>
+                    file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java"
+                    startOffset="2347"
+                    endOffset="2366"/>
             </fix-replace>
         </fix-alternatives>
         <location
-            file="${:data*debug*MAIN*sourceProvider*0*javaDir*2}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.kt"
-            line="43"
+            file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java"
+            line="61"
             column="9"
-            startOffset="1722"
-            endLine="43"
+            startOffset="2312"
+            endLine="61"
             endColumn="64"
-            endOffset="1777"/>
+            endOffset="2367"/>
         <map>
             <entry
                 name="hasUnprotected"

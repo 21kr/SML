@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml:2:13-83
-INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml:2:13-83
+ADDED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml:2:13-83
+INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml:2:13-83
 	package
-		INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml
+		INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml
 	xmlns:android
-		ADDED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml:2:23-81
+		ADDED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml:2:23-81
 uses-sdk
-INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml reason: use-sdk injection requested
-INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml
-INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml
+INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml reason: use-sdk injection requested
+INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml
+INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml
 	android:targetSdkVersion
-		INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml
+		INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml
 	android:minSdkVersion
-		INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest11349868819163332894.xml
+		INJECTED from /workspaces/SML/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest13202539712984863956.xml

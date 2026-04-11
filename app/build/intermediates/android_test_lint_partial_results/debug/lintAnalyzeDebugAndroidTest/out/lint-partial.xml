@@ -3,7 +3,7 @@
     <map id="UnusedResources">
         <entry
             name="model"
-            string=""/>
+            string="id[discoverButton(R),cancelTransferButton(R),resumeTransferButton(R)];;;;"/>
     </map>
 
 </incidents>

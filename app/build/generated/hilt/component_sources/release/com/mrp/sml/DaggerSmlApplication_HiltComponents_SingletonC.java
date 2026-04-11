@@ -7,22 +7,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 import com.mrp.sml.core.common.DefaultDispatchersProvider;
-import com.mrp.sml.core.common.DispatchersProvider;
 import com.mrp.sml.data.di.DataModule;
+import com.mrp.sml.data.di.DataModule_ProvideDeviceConnectionRepositoryFactory;
 import com.mrp.sml.data.di.DataModule_ProvideFileTransferRepositoryFactory;
 import com.mrp.sml.data.di.DataModule_ProvideSmlDatabaseFactory;
 import com.mrp.sml.data.di.DataModule_ProvideTransferDaoFactory;
 import com.mrp.sml.data.di.DataModule_ProvideTransferHistoryRepositoryFactory;
 import com.mrp.sml.data.local.SmlDatabase;
 import com.mrp.sml.data.local.TransferDao;
+import com.mrp.sml.domain.repository.DeviceConnectionRepository;
 import com.mrp.sml.domain.repository.FileTransferRepository;
 import com.mrp.sml.domain.repository.TransferHistoryRepository;
-import com.mrp.sml.ui.filepicker.FilePickerViewModel;
-import com.mrp.sml.ui.filepicker.FilePickerViewModel_HiltModules_KeyModule_ProvideFactory;
-import com.mrp.sml.ui.transfer.HistoryViewModel;
-import com.mrp.sml.ui.transfer.HistoryViewModel_HiltModules_KeyModule_ProvideFactory;
-import com.mrp.sml.ui.transfer.TransferProgressViewModel;
-import com.mrp.sml.ui.transfer.TransferProgressViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.mrp.sml.ui.connection.ConnectionViewModel;
+import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.mrp.sml.ui.history.HistoryActivity;
+import com.mrp.sml.ui.history.HistoryListViewModel;
+import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.mrp.sml.ui.history.HistoryViewModel;
+import com.mrp.sml.ui.history.HistoryViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.mrp.sml.ui.transfer.TransferViewModel;
+import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules_KeyModule_ProvideFactory;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
 import dagger.hilt.android.flags.HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule;
@@ -36,7 +40,6 @@ import dagger.hilt.android.internal.builders.ViewWithFragmentComponentBuilder;
 import dagger.hilt.android.internal.lifecycle.DefaultViewModelFactories;
 import dagger.hilt.android.internal.lifecycle.DefaultViewModelFactories_InternalFactoryFactory_Factory;
 import dagger.hilt.android.internal.managers.ActivityRetainedComponentManager_LifecycleModule_ProvideActivityRetainedLifecycleFactory;
-import dagger.hilt.android.internal.managers.SavedStateHandleHolder;
 import dagger.hilt.android.internal.modules.ApplicationContextModule;
 import dagger.hilt.android.internal.modules.ApplicationContextModule_ProvideContextFactory;
 import dagger.internal.DaggerGenerated;
@@ -108,23 +111,13 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
   private static final class ActivityRetainedCBuilder implements SmlApplication_HiltComponents.ActivityRetainedC.Builder {
     private final SingletonCImpl singletonCImpl;
 
-    private SavedStateHandleHolder savedStateHandleHolder;
-
     private ActivityRetainedCBuilder(SingletonCImpl singletonCImpl) {
       this.singletonCImpl = singletonCImpl;
     }
 
     @Override
-    public ActivityRetainedCBuilder savedStateHandleHolder(
-        SavedStateHandleHolder savedStateHandleHolder) {
-      this.savedStateHandleHolder = Preconditions.checkNotNull(savedStateHandleHolder);
-      return this;
-    }
-
-    @Override
     public SmlApplication_HiltComponents.ActivityRetainedC build() {
-      Preconditions.checkBuilderRequirement(savedStateHandleHolder, SavedStateHandleHolder.class);
-      return new ActivityRetainedCImpl(singletonCImpl, savedStateHandleHolder);
+      return new ActivityRetainedCImpl(singletonCImpl);
     }
   }
 
@@ -394,13 +387,17 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     }
 
     @Override
+    public void injectHistoryActivity(HistoryActivity arg0) {
+    }
+
+    @Override
     public DefaultViewModelFactories.InternalFactoryFactory getHiltInternalFactoryFactory() {
       return DefaultViewModelFactories_InternalFactoryFactory_Factory.newInstance(getViewModelKeys(), new ViewModelCBuilder(singletonCImpl, activityRetainedCImpl));
     }
 
     @Override
     public Set<String> getViewModelKeys() {
-      return SetBuilder.<String>newSetBuilder(3).add(FilePickerViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(TransferProgressViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
+      return SetBuilder.<String>newSetBuilder(4).add(ConnectionViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryListViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(TransferViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
     }
 
     @Override
@@ -426,11 +423,13 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     private final ViewModelCImpl viewModelCImpl = this;
 
-    private Provider<FilePickerViewModel> filePickerViewModelProvider;
+    private Provider<ConnectionViewModel> connectionViewModelProvider;
+
+    private Provider<HistoryListViewModel> historyListViewModelProvider;
 
     private Provider<HistoryViewModel> historyViewModelProvider;
 
-    private Provider<TransferProgressViewModel> transferProgressViewModelProvider;
+    private Provider<TransferViewModel> transferViewModelProvider;
 
     private ViewModelCImpl(SingletonCImpl singletonCImpl,
         ActivityRetainedCImpl activityRetainedCImpl, SavedStateHandle savedStateHandleParam,
@@ -445,19 +444,15 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     @SuppressWarnings("unchecked")
     private void initialize(final SavedStateHandle savedStateHandleParam,
         final ViewModelLifecycle viewModelLifecycleParam) {
-      this.filePickerViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
-      this.historyViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.transferProgressViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.connectionViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
+      this.historyListViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
+      this.historyViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
     }
 
     @Override
     public Map<String, Provider<ViewModel>> getHiltViewModelMap() {
-      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(3).put("com.mrp.sml.ui.filepicker.FilePickerViewModel", ((Provider) filePickerViewModelProvider)).put("com.mrp.sml.ui.transfer.HistoryViewModel", ((Provider) historyViewModelProvider)).put("com.mrp.sml.ui.transfer.TransferProgressViewModel", ((Provider) transferProgressViewModelProvider)).build();
-    }
-
-    @Override
-    public Map<String, Object> getHiltViewModelAssistedMap() {
-      return Collections.<String, Object>emptyMap();
+      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(4).put("com.mrp.sml.ui.connection.ConnectionViewModel", ((Provider) connectionViewModelProvider)).put("com.mrp.sml.ui.history.HistoryListViewModel", ((Provider) historyListViewModelProvider)).put("com.mrp.sml.ui.history.HistoryViewModel", ((Provider) historyViewModelProvider)).put("com.mrp.sml.ui.transfer.TransferViewModel", ((Provider) transferViewModelProvider)).build();
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -481,14 +476,17 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
       @Override
       public T get() {
         switch (id) {
-          case 0: // com.mrp.sml.ui.filepicker.FilePickerViewModel 
-          return (T) new FilePickerViewModel();
+          case 0: // com.mrp.sml.ui.connection.ConnectionViewModel 
+          return (T) new ConnectionViewModel(singletonCImpl.provideDeviceConnectionRepositoryProvider.get());
 
-          case 1: // com.mrp.sml.ui.transfer.HistoryViewModel 
+          case 1: // com.mrp.sml.ui.history.HistoryListViewModel 
+          return (T) new HistoryListViewModel(singletonCImpl.provideTransferHistoryRepositoryProvider.get());
+
+          case 2: // com.mrp.sml.ui.history.HistoryViewModel 
           return (T) new HistoryViewModel(singletonCImpl.provideTransferHistoryRepositoryProvider.get());
 
-          case 2: // com.mrp.sml.ui.transfer.TransferProgressViewModel 
-          return (T) new TransferProgressViewModel(singletonCImpl.provideFileTransferRepositoryProvider.get());
+          case 3: // com.mrp.sml.ui.transfer.TransferViewModel 
+          return (T) new TransferViewModel(singletonCImpl.provideFileTransferRepositoryProvider.get());
 
           default: throw new AssertionError(id);
         }
@@ -503,16 +501,15 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     private Provider<ActivityRetainedLifecycle> provideActivityRetainedLifecycleProvider;
 
-    private ActivityRetainedCImpl(SingletonCImpl singletonCImpl,
-        SavedStateHandleHolder savedStateHandleHolderParam) {
+    private ActivityRetainedCImpl(SingletonCImpl singletonCImpl) {
       this.singletonCImpl = singletonCImpl;
 
-      initialize(savedStateHandleHolderParam);
+      initialize();
 
     }
 
     @SuppressWarnings("unchecked")
-    private void initialize(final SavedStateHandleHolder savedStateHandleHolderParam) {
+    private void initialize() {
       this.provideActivityRetainedLifecycleProvider = DoubleCheck.provider(new SwitchingProvider<ActivityRetainedLifecycle>(singletonCImpl, activityRetainedCImpl, 0));
     }
 
@@ -570,13 +567,13 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     private final SingletonCImpl singletonCImpl = this;
 
+    private Provider<DefaultDispatchersProvider> defaultDispatchersProvider;
+
+    private Provider<DeviceConnectionRepository> provideDeviceConnectionRepositoryProvider;
+
     private Provider<SmlDatabase> provideSmlDatabaseProvider;
 
     private Provider<TransferHistoryRepository> provideTransferHistoryRepositoryProvider;
-
-    private Provider<DefaultDispatchersProvider> defaultDispatchersProvider;
-
-    private Provider<DispatchersProvider> bindDispatchersProvider;
 
     private Provider<FileTransferRepository> provideFileTransferRepositoryProvider;
 
@@ -592,11 +589,11 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
-      this.provideSmlDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<SmlDatabase>(singletonCImpl, 1));
-      this.provideTransferHistoryRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<TransferHistoryRepository>(singletonCImpl, 0));
-      this.defaultDispatchersProvider = new SwitchingProvider<>(singletonCImpl, 3);
-      this.bindDispatchersProvider = DoubleCheck.provider((Provider) defaultDispatchersProvider);
-      this.provideFileTransferRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<FileTransferRepository>(singletonCImpl, 2));
+      this.defaultDispatchersProvider = DoubleCheck.provider(new SwitchingProvider<DefaultDispatchersProvider>(singletonCImpl, 1));
+      this.provideDeviceConnectionRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<DeviceConnectionRepository>(singletonCImpl, 0));
+      this.provideSmlDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<SmlDatabase>(singletonCImpl, 3));
+      this.provideTransferHistoryRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<TransferHistoryRepository>(singletonCImpl, 2));
+      this.provideFileTransferRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<FileTransferRepository>(singletonCImpl, 4));
     }
 
     @Override
@@ -632,17 +629,20 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
       @Override
       public T get() {
         switch (id) {
-          case 0: // com.mrp.sml.domain.repository.TransferHistoryRepository 
+          case 0: // com.mrp.sml.domain.repository.DeviceConnectionRepository 
+          return (T) DataModule_ProvideDeviceConnectionRepositoryFactory.provideDeviceConnectionRepository(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.defaultDispatchersProvider.get());
+
+          case 1: // com.mrp.sml.core.common.DefaultDispatchersProvider 
+          return (T) new DefaultDispatchersProvider();
+
+          case 2: // com.mrp.sml.domain.repository.TransferHistoryRepository 
           return (T) DataModule_ProvideTransferHistoryRepositoryFactory.provideTransferHistoryRepository(singletonCImpl.transferDao());
 
-          case 1: // com.mrp.sml.data.local.SmlDatabase 
+          case 3: // com.mrp.sml.data.local.SmlDatabase 
           return (T) DataModule_ProvideSmlDatabaseFactory.provideSmlDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 2: // com.mrp.sml.domain.repository.FileTransferRepository 
-          return (T) DataModule_ProvideFileTransferRepositoryFactory.provideFileTransferRepository(singletonCImpl.bindDispatchersProvider.get(), singletonCImpl.provideTransferHistoryRepositoryProvider.get());
-
-          case 3: // com.mrp.sml.core.common.DefaultDispatchersProvider 
-          return (T) new DefaultDispatchersProvider();
+          case 4: // com.mrp.sml.domain.repository.FileTransferRepository 
+          return (T) DataModule_ProvideFileTransferRepositoryFactory.provideFileTransferRepository(singletonCImpl.defaultDispatchersProvider.get(), singletonCImpl.provideTransferHistoryRepositoryProvider.get());
 
           default: throw new AssertionError(id);
         }

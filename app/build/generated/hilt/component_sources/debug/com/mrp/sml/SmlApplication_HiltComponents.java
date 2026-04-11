@@ -2,9 +2,11 @@ package com.mrp.sml;
 
 import com.mrp.sml.core.di.CoreModule;
 import com.mrp.sml.data.di.DataModule;
-import com.mrp.sml.ui.filepicker.FilePickerViewModel_HiltModules;
-import com.mrp.sml.ui.transfer.HistoryViewModel_HiltModules;
-import com.mrp.sml.ui.transfer.TransferProgressViewModel_HiltModules;
+import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules;
+import com.mrp.sml.ui.history.HistoryActivity_GeneratedInjector;
+import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules;
+import com.mrp.sml.ui.history.HistoryViewModel_HiltModules;
+import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
 import dagger.Module;
@@ -35,7 +37,6 @@ import dagger.hilt.android.internal.managers.FragmentComponentManager;
 import dagger.hilt.android.internal.managers.HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedComponentBuilderEntryPoint;
 import dagger.hilt.android.internal.managers.HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedLifecycleEntryPoint;
 import dagger.hilt.android.internal.managers.HiltWrapper_ActivityRetainedComponentManager_LifecycleModule;
-import dagger.hilt.android.internal.managers.HiltWrapper_SavedStateHandleModule;
 import dagger.hilt.android.internal.managers.ServiceComponentManager;
 import dagger.hilt.android.internal.managers.ViewComponentManager;
 import dagger.hilt.android.internal.modules.ApplicationContextModule;
@@ -157,13 +158,13 @@ public final class SmlApplication_HiltComponents {
 
   @Subcomponent(
       modules = {
-          FilePickerViewModel_HiltModules.KeyModule.class,
+          ConnectionViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
-          HiltWrapper_SavedStateHandleModule.class,
+          HistoryListViewModel_HiltModules.KeyModule.class,
           HistoryViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
-          TransferProgressViewModel_HiltModules.KeyModule.class
+          TransferViewModel_HiltModules.KeyModule.class
       }
   )
   @ActivityRetainedScoped
@@ -186,6 +187,7 @@ public final class SmlApplication_HiltComponents {
   )
   @ActivityScoped
   public abstract static class ActivityC implements MainActivity_GeneratedInjector,
+      HistoryActivity_GeneratedInjector,
       ActivityComponent,
       DefaultViewModelFactories.ActivityEntryPoint,
       HiltWrapper_HiltViewModelFactory_ActivityCreatorEntryPoint,
@@ -199,10 +201,11 @@ public final class SmlApplication_HiltComponents {
 
   @Subcomponent(
       modules = {
-          FilePickerViewModel_HiltModules.BindsModule.class,
+          ConnectionViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
+          HistoryListViewModel_HiltModules.BindsModule.class,
           HistoryViewModel_HiltModules.BindsModule.class,
-          TransferProgressViewModel_HiltModules.BindsModule.class
+          TransferViewModel_HiltModules.BindsModule.class
       }
   )
   @ViewModelScoped
