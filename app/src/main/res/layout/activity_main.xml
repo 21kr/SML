@@ -24,6 +24,14 @@
             android:text="@string/connection_section_title"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
+
+        <TextView
+            android:id="@+id/permissionStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/permissions_required" />
+
         <TextView
             android:id="@+id/connectionStateText"
             android:layout_width="match_parent"

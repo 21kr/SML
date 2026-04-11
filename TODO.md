@@ -95,5 +95,9 @@ Phase 5: Stability and tests
 - [x] Add retry/error UX polish ✓
 
 Phase 6: Integration hardening
-- [ ] Add instrumentation test smoke run
-- [ ] Add runtime permissions UX
+- [x] Add instrumentation test smoke run ✓
+- [x] Add runtime permissions UX ✓
+
+Phase 7: WiFi Direct hardening
+- [ ] Add actual peer discovery UI list
+- [ ] Add connect/disconnect lifecycle handling

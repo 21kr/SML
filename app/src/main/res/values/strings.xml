@@ -21,4 +21,8 @@
 
     <string name="history_section_title">History</string>
     <string name="history_initial">History: 0 records</string>
+
+    <string name="permissions_required">Permissions required for discovery and file transfer.</string>
+    <string name="permissions_granted">Required permissions granted.</string>
+    <string name="permissions_denied">Permissions denied. Please grant permissions in Settings.</string>
 </resources>
