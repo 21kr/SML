@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 import com.mrp.sml.core.common.DefaultDispatchersProvider;
+import com.mrp.sml.core.common.DispatchersProvider;
 import com.mrp.sml.data.di.DataModule;
 import com.mrp.sml.data.di.DataModule_ProvideDeviceConnectionRepositoryFactory;
 import com.mrp.sml.data.di.DataModule_ProvideFileTransferRepositoryFactory;
@@ -569,6 +570,8 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     private Provider<DefaultDispatchersProvider> defaultDispatchersProvider;
 
+    private Provider<DispatchersProvider> bindDispatchersProvider;
+
     private Provider<DeviceConnectionRepository> provideDeviceConnectionRepositoryProvider;
 
     private Provider<SmlDatabase> provideSmlDatabaseProvider;
@@ -589,7 +592,8 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
-      this.defaultDispatchersProvider = DoubleCheck.provider(new SwitchingProvider<DefaultDispatchersProvider>(singletonCImpl, 1));
+      this.defaultDispatchersProvider = new SwitchingProvider<>(singletonCImpl, 1);
+      this.bindDispatchersProvider = DoubleCheck.provider((Provider) defaultDispatchersProvider);
       this.provideDeviceConnectionRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<DeviceConnectionRepository>(singletonCImpl, 0));
       this.provideSmlDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<SmlDatabase>(singletonCImpl, 3));
       this.provideTransferHistoryRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<TransferHistoryRepository>(singletonCImpl, 2));
@@ -630,7 +634,7 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
       public T get() {
         switch (id) {
           case 0: // com.mrp.sml.domain.repository.DeviceConnectionRepository 
-          return (T) DataModule_ProvideDeviceConnectionRepositoryFactory.provideDeviceConnectionRepository(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.defaultDispatchersProvider.get());
+          return (T) DataModule_ProvideDeviceConnectionRepositoryFactory.provideDeviceConnectionRepository(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.bindDispatchersProvider.get());
 
           case 1: // com.mrp.sml.core.common.DefaultDispatchersProvider 
           return (T) new DefaultDispatchersProvider();
@@ -642,7 +646,7 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
           return (T) DataModule_ProvideSmlDatabaseFactory.provideSmlDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
           case 4: // com.mrp.sml.domain.repository.FileTransferRepository 
-          return (T) DataModule_ProvideFileTransferRepositoryFactory.provideFileTransferRepository(singletonCImpl.defaultDispatchersProvider.get(), singletonCImpl.provideTransferHistoryRepositoryProvider.get());
+          return (T) DataModule_ProvideFileTransferRepositoryFactory.provideFileTransferRepository(singletonCImpl.bindDispatchersProvider.get(), singletonCImpl.provideTransferHistoryRepositoryProvider.get());
 
           default: throw new AssertionError(id);
         }

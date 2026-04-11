@@ -8,6 +8,7 @@ import com.mrp.sml.data.local.TransferDao;
 import com.mrp.sml.data.repository.DefaultDeviceConnectionRepository;
 import com.mrp.sml.data.repository.DefaultFileTransferRepository;
 import com.mrp.sml.data.repository.DefaultTransferHistoryRepository;
+import com.mrp.sml.core.common.DefaultDispatchersProvider;
 import com.mrp.sml.domain.repository.DeviceConnectionRepository;
 import com.mrp.sml.domain.repository.FileTransferRepository;
 import com.mrp.sml.domain.repository.TransferHistoryRepository;

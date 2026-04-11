@@ -1,9 +1,9 @@
 <libraries>
   <library
       name=":@@:data::debug"
-      jars="/home/codespace/.gradle/caches/transforms-4/dbc7424dbfc76163bddd05d82a3866e8/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/dbc7424dbfc76163bddd05d82a3866e8/transformed/out/jars/libs/R.jar"
+      jars="/home/codespace/.gradle/caches/transforms-4/1d66f9d1cb9d9d7d41cc8fd7f3d49662/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/1d66f9d1cb9d9d7d41cc8fd7f3d49662/transformed/out/jars/libs/R.jar"
       resolved="SML:data:unspecified"
-      folder="/home/codespace/.gradle/caches/transforms-4/dbc7424dbfc76163bddd05d82a3866e8/transformed/out"
+      folder="/home/codespace/.gradle/caches/transforms-4/1d66f9d1cb9d9d7d41cc8fd7f3d49662/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -18,9 +18,9 @@
       resolved="::"/>
   <library
       name=":@@:core::debug"
-      jars="/home/codespace/.gradle/caches/transforms-4/f1be641d710749a6a0053acc3191fc76/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/f1be641d710749a6a0053acc3191fc76/transformed/out/jars/libs/R.jar"
+      jars="/home/codespace/.gradle/caches/transforms-4/de80ac18f84cdafe2e395c6fcf4fc1ab/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/de80ac18f84cdafe2e395c6fcf4fc1ab/transformed/out/jars/libs/R.jar"
       resolved="SML:core:unspecified"
-      folder="/home/codespace/.gradle/caches/transforms-4/f1be641d710749a6a0053acc3191fc76/transformed/out"
+      folder="/home/codespace/.gradle/caches/transforms-4/de80ac18f84cdafe2e395c6fcf4fc1ab/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

@@ -5,9 +5,9 @@
       resolved="::"/>
   <library
       name=":@@:core::release"
-      jars="/home/codespace/.gradle/caches/transforms-4/f1be641d710749a6a0053acc3191fc76/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/f1be641d710749a6a0053acc3191fc76/transformed/out/jars/libs/R.jar"
+      jars="/home/codespace/.gradle/caches/transforms-4/de80ac18f84cdafe2e395c6fcf4fc1ab/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/de80ac18f84cdafe2e395c6fcf4fc1ab/transformed/out/jars/libs/R.jar"
       resolved="SML:core:unspecified"
-      folder="/home/codespace/.gradle/caches/transforms-4/f1be641d710749a6a0053acc3191fc76/transformed/out"
+      folder="/home/codespace/.gradle/caches/transforms-4/de80ac18f84cdafe2e395c6fcf4fc1ab/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

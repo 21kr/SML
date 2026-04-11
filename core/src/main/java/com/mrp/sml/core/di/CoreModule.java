@@ -14,5 +14,5 @@ public abstract class CoreModule {
 
     @Binds
     @Singleton
-    public abstract DispatchersProvider bindDispatchersProvider(DefaultDispatchersProvider implementation);
+    public abstract DispatchersProvider bindDispatchersProvider(DefaultDispatchersProvider impl);
 }
