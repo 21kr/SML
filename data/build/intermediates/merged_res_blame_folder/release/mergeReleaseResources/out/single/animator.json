@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.mrp.sml.data-release-18:/animator/fragment_close_exit.xml",
+        "source": "com.mrp.sml.data-fragment-1.5.1-1:/animator/fragment_close_exit.xml"
+    },
+    {
+        "merged": "com.mrp.sml.data-release-18:/animator/fragment_fade_enter.xml",
+        "source": "com.mrp.sml.data-fragment-1.5.1-1:/animator/fragment_fade_enter.xml"
+    },
+    {
+        "merged": "com.mrp.sml.data-release-18:/animator/fragment_open_exit.xml",
+        "source": "com.mrp.sml.data-fragment-1.5.1-1:/animator/fragment_open_exit.xml"
+    },
+    {
+        "merged": "com.mrp.sml.data-release-18:/animator/fragment_fade_exit.xml",
+        "source": "com.mrp.sml.data-fragment-1.5.1-1:/animator/fragment_fade_exit.xml"
+    },
+    {
+        "merged": "com.mrp.sml.data-release-18:/animator/fragment_close_enter.xml",
+        "source": "com.mrp.sml.data-fragment-1.5.1-1:/animator/fragment_close_enter.xml"
+    },
+    {
+        "merged": "com.mrp.sml.data-release-18:/animator/fragment_open_enter.xml",
+        "source": "com.mrp.sml.data-fragment-1.5.1-1:/animator/fragment_open_enter.xml"
+    }
+]

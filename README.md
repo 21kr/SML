@@ -10,7 +10,8 @@ SML File Share is designed to transfer files directly between Android devices wi
 
 - Package Name: "com.mrp.sml"
 - Platform: Android
-- Language: Kotlin
+- Language: Java
+- UI: XML Layouts
 
 The app uses local network communication (WiFi Direct or hotspot + TCP sockets) to achieve high-speed transfers similar to ShareIt.
 
@@ -27,167 +28,184 @@ The app uses local network communication (WiFi Direct or hotspot + TCP sockets) 
 📁 File Transfer
 
 - Send and receive:
-  
-    - Images
-      - Videos
-        - Documents
-          - APK files
+  - Images
+  - Videos
+  - Documents
+  - APK files
 
-          - Real-time transfer information:
-            
-              - Progress (%)
-                - Speed (MB/s)
-                  - Status (sending, receiving, completed, failed)
+- Real-time transfer information:
+  - Progress (%)
+  - Speed (MB/s)
+  - Status (sending, receiving, completed, failed)
 
-                  📂 File Manager
+📂 File Manager
 
-                  - Browse device storage
-                  - Select single or multiple files
-                  - View file metadata
+- Browse device storage
+- Select single or multiple files
+- View file metadata
 
-                  🕓 Transfer History
+🕓 Transfer History
 
-                  - Store transfer logs locally using Room Database
-                  - View previous transfers
+- Store transfer logs locally using Room Database
+- View previous transfers
 
-                  ---
+---
 
-                  🛠 Tech Stack
+🛠 Tech Stack
 
-                  - Kotlin
-                  - Jetpack Compose
-                  - MVVM Architecture
-                  - Room Database
-                  - Coroutines + Flow
-                  - Hilt (Dependency Injection)
+- Java
+- XML Layouts (ViewBinding/DataBinding)
+- MVVM Architecture
+- Room Database
+- RxJava / Executors for async
+- Hilt (Dependency Injection)
+- Gradle (Groovy DSL)
 
-                  ---
+---
 
-                  🧱 Architecture
+🧱 Architecture
 
-                  This project follows Clean Architecture principles.
+This project follows Clean Architecture principles.
 
-                  Layers
+Layers:
 
-                  Presentation Layer
+**Presentation Layer**
+- XML-based Activities/Fragments
+- ViewModels
+- LiveData for UI state
 
-                  - Jetpack Compose UI
-                  - ViewModels
-                  - StateFlow for UI state
+**Domain Layer**
+- Use cases (business logic)
+- Pure Java models
 
-                  Domain Layer
+**Data Layer**
+- Repository implementations
+- Room database
+- Network handling (WiFi Direct / sockets)
 
-                  - Use cases (business logic)
-                  - Pure Kotlin models
+---
 
-                  Data Layer
+📂 File Structure Map
 
-                  - Repository implementations
-                  - Room database
-                  - Network handling (WiFi Direct / sockets)
+```
+SML File Share Project Structure (/workspaces/SML)
+├── app/
+│   ├── build.gradle (Groovy)
+│   ├── src/main/
+│   │   ├── AndroidManifest.xml
+│   │   ├── kotlin/ → java/ (com/mrp/sml/)
+│   │   │   ├── MainActivity.java
+│   │   │   ├── SmlApplication.java
+│   │   │   └── ui/ (Activities/Fragments/ViewModels)
+│   │   └── res/ (XML layouts, drawables, values)
+│   └── build/ (outputs)
+├── core/ (common utils)
+│   ├── build.gradle
+│   └── src/main/java/
+├── data/ (repositories, Room)
+│   ├── build.gradle
+│   └── src/main/java/
+├── domain/ (use cases, models)
+│   ├── build.gradle
+│   └── src/main/java/
+├── gradle/
+│   └── libs.versions.toml
+├── build.gradle (root, Groovy)
+├── settings.gradle
+├── gradle.properties
+├── AGENTS.md, README.md, etc.
+└── gradlew / gradlew.bat
+```
 
-                  ---
+(Note: feature modules like feature_connection/ to be added later)
 
-                  📦 Project Structure
+---
 
-                  app/
-                  core/
-                  data/
-                  domain/
-                  feature_connection/
-                  feature_transfer/
-                  feature_history/
+🌐 Networking Strategy
 
-                  ---
+**Primary Method**
+- WiFi Direct (Peer-to-Peer)
 
-                  🌐 Networking Strategy
+**Fallback Method**
+- Hotspot + TCP socket communication
 
-                  Primary Method
+**Requirements**
+- Supports large file transfers (>1GB)
+- Uses buffered streams
+- Handles connection failures and retries
 
-                  - WiFi Direct (Peer-to-Peer)
+---
 
-                  Fallback Method
+🎨 UI Design
 
-                  - Hotspot + TCP socket communication
+- Material Design with XML layouts
+- Dark mode support (themes.xml)
+- Responsive layouts
 
-                  Requirements
+**Main Screens**
+- Home (Send / Receive)
+- Device Discovery
+- File Picker
+- Transfer Progress
+- Transfer History
 
-                  - Supports large file transfers (>1GB)
-                  - Uses buffered streams
-                  - Handles connection failures and retries
+---
 
-                  ---
+🔐 Permissions Required
 
-                  🎨 UI Design
+- Nearby devices / WiFi access
+- Storage access
+- Location (required for WiFi Direct)
 
-                  - Material 3 design
-                  - Dark mode support
-                  - Responsive layouts
+---
 
-                  Main Screens
+⚙️ Build & Run
 
-                  - Home (Send / Receive)
-                  - Device Discovery
-                  - File Picker
-                  - Transfer Progress
-                  - Transfer History
+Follow instructions in:
 
-                  ---
+👉 "BUILD.md"
 
-                  🔐 Permissions Required
+---
 
-                  - Nearby devices / WiFi access
-                  - Storage access
-                  - Location (required for WiFi Direct)
+📋 Development Workflow
 
-                  ---
+Codex and contributors must follow:
 
-                  ⚙️ Build & Run
+1. "AGENTS.md" → Rules and architecture
+2. "TODO.md" → Task execution order
+3. "CONSTRAINTS.md" → Implementation guardrails
+4. "BUILD.md" → Build and validation process
 
-                  Follow instructions in:
+SDK Configuration Source of Truth: `BUILD.md` (minSdk 24, targetSdk 35, compileSdk 35)
 
-                  👉 "BUILD.md"
+---
 
-                  ---
+✅ Definition of Done
 
-                  📋 Development Workflow
+- Devices connect successfully
+- Files transfer without errors
+- Progress updates in real-time
+- Transfer history is stored and retrievable
+- App handles large files reliably
+- No crashes during operation
 
-                  Codex and contributors must follow:
+---
 
-                  1. "AGENTS.md" → Rules and architecture
-                  2. "TODO.md" → Task execution order
-                  3. "CONSTRAINTS.md" → Implementation guardrails
-                  4. "BUILD.md" → Build and validation process
-                  - SDK Configuration Source of Truth: `BUILD.md` (minSdk 24, targetSdk 35, compileSdk 35)
+🔮 Future Improvements
 
-                  ---
+- QR code-based connection
+- Internet-based transfer
+- Cross-platform support
+- End-to-end encryption
 
-                  ✅ Definition of Done
+---
 
-                  - Devices connect successfully
-                  - Files transfer without errors
-                  - Progress updates in real-time
-                  - Transfer history is stored and retrievable
-                  - App handles large files reliably
-                  - No crashes during operation
+📄 License
 
-                  ---
+This project is intended for educational and development purposes.
 
-                  🔮 Future Improvements
+---
 
-                  - QR code-based connection
-                  - Internet-based transfer
-                  - Cross-platform support
-                  - End-to-end encryption
+👨‍💻 Author
 
-                  ---
-
-                  📄 License
-
-                  This project is intended for educational and development purposes.
-
-                  ---
-
-                  👨‍💻 Author
-
-                  Developed by MRP
+Developed by MRP

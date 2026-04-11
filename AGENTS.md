@@ -2,93 +2,137 @@
 AGENTS.md
 AGENTS.md
 Project Overview
+
 Build a peer-to-peer Android file sharing application similar to ShareIt.
+
 - App name: SML
 - Package name: "com.mrp.sml"
 - Platform: Android
-- Language: Kotlin
+- Language: Java
+- UI Framework: XML Layouts
+
 The app enables devices to transfer files directly over a local hotspot connection (WiFi Direct or hotspot + TCP sockets), without internet.
+
 ---
+
 Agent Instructions (IMPORTANT)
+
 - Always follow this file before making decisions
 - Follow "TODO.md" strictly in order
 - Do NOT skip phases
 - Do NOT implement features before project setup
 - Always ensure the project builds successfully before proceeding
-- Create a Pull Request after completing each phase
+
 ---
+
 Tech Stack
-- Kotlin
-- Jetpack Compose
+
+- Java
+- XML Layouts
 - MVVM Architecture
 - Room Database
-- Coroutines + Flow
+- RxJava / Executors + Handlers for async
 - Hilt (Dependency Injection)
+- Gradle Groovy DSL
+
 ---
+
 Architecture Rules
+
 Clean Architecture (Strict)
-Presentation Layer
-- Jetpack Compose UI
+
+**Presentation Layer**
+- XML Layouts with Activities/Fragments
 - ViewModels
-- StateFlow for UI state
-Domain Layer
+- LiveData for UI state
+
+**Domain Layer**
 - Use cases only
 - No Android dependencies
-Data Layer
+- Pure Java
+
+**Data Layer**
 - Repository implementations
 - Room database
 - Network (WiFi Direct / sockets)
+
 ---
+
 Module Structure
-- "app/"
-- "core/"
-- "data/"
-- "domain/"
-- "feature_connection/"
-- "feature_transfer/"
-- "feature_history/"
+
+- app/
+- core/
+- data/
+- domain/
+- feature:connection/ (future)
+- feature:transfer/ (future)
+- feature:history/ (future)
+
 ---
+
 Networking Rules
-Preferred
+
+**Preferred**
 - WiFi Direct (P2P)
-Fallback
+
+**Fallback**
 - Hotspot + TCP sockets
-Requirements
-- Use coroutines for background work
+
+**Requirements**
+- Use Executors / AsyncTask for background work
 - Use buffered streams (DO NOT load full file into memory)
 - Support large files (>1GB)
 - Handle disconnections safely
+
 ---
+
 UI Rules
-- Use Jetpack Compose ONLY (no XML)
-- Follow Material 3
-- Support dark mode
+
+- Use XML layouts ONLY (ViewBinding / DataBinding)
+- Follow Material Design guidelines
+- Support dark mode (themes.xml)
+- Responsive layouts
+
 ---
+
 Permissions
+
 - Nearby devices / WiFi
 - Storage access
 - Location (for WiFi Direct)
+
 ---
+
 Coding Standards
-- Follow Kotlin conventions
-- No business logic in UI
+
+- Follow Java conventions (Google Java Style)
+- No business logic in UI (Activities/Fragments)
 - Use repository pattern strictly
-- Use coroutines for async work
+- Use LiveData / RxJava for async updates
+
 ---
+
 Testing Rules
-- Unit tests for ViewModels
+
+- Unit tests for ViewModels (JUnit + Mockito)
 - Test use cases independently
 - Mock repositories
+
 ---
+
 Build Rules
-- Project must compile successfully after each phase
+
+- Project must compile successfully after each phase (`./gradlew build`)
 - Fix all build errors before continuing
-- Use Gradle Kotlin DSL ("build.gradle.kts")
+- Use Gradle Groovy DSL ("build.gradle")
+
 ---
+
 Definition of Done
+
 - Devices connect locally
 - Files transfer successfully
-- Progress is accurate
-- History is stored
+- Progress is accurate (LiveData updates)
+- History is stored (Room)
 - No crashes for large files
 

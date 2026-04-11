@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.mrp.sml.core-release-12:/values-am/values-am.xml",
+            "map": [
+                {
+                    "source": "/home/codespace/.gradle/caches/transforms-4/6b38d6c81256e3f8d005f03e7bab5591/transformed/core-1.8.0/res/values-am/values-am.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.mrp.sml.core-mergeReleaseResources-10:/values-am/values-am.xml",
+            "map": [
+                {
+                    "source": "/home/codespace/.gradle/caches/transforms-4/6b38d6c81256e3f8d005f03e7bab5591/transformed/core-1.8.0/res/values-am/values-am.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}

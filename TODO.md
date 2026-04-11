@@ -1,104 +1,79 @@
-04.10 7:44 AM
-TODO.md
-TODO.md
-Execution Rules (MANDATORY)
+# TODO.md - Progress Tracker for MD Revisions to Java/XML/Groovy Gradle
+
+## Execution Rules (MANDATORY)
 - Always follow tasks in order
 - Do NOT skip phases
-- Do NOT implement features before Phase 1 is complete
 - Ensure project builds successfully after each phase
-- Fix all errors before moving forward
-- Create a Pull Request after completing each phase
----
-Phase 1: Project Initialization (CRITICAL FIRST STEP)
-- [x] Create Android project with:
-  - Package name: "com.mrp.sml"
-  - Language: Kotlin
-  - Minimum SDK: 24
-  - Target SDK: 35
-  - Compile SDK: 35
-- [x] Generate project files:
-  - settings.gradle.kts
-  - root build.gradle.kts
-  - gradle.properties
-  - app/build.gradle.kts
-- [x] Setup Jetpack Compose
-- [x] Setup Material 3
-- [x] Configure Hilt dependency injection
-- [x] Create base structure:
-  - MainActivity.kt
-  - Application class (Hilt enabled)
-  - Basic Compose UI (Hello Screen)
-- [x] Verify project builds successfully using Gradle
-⚠️ STOP after this phase and create a PR
----
-Phase 2: Core Architecture Setup
-- [x] Create modules:
-  - core
-  - data
-  - domain
-- [x] Setup clean architecture structure
-- [x] Define base interfaces for repositories
-- [x] Setup dependency injection across modules
-- [x] Verify build success
----
-Phase 3: Device Connection (WiFi Direct)
-- [x] Implement WiFi Direct broadcast receiver
-- [x] Discover nearby devices
-- [x] Connect to selected device
-- [x] Handle connection states:
-  - Connected
-  - Failed
-  - Disconnected
-- [x] Verify connection works between devices ✓
----
-Phase 4: File Transfer Engine
-- [x] Implement TCP server (receiver)
-- [x] Implement TCP client (sender)
-- [x] Send single file
-- [x] Support multiple file transfers
-- [x] Implement:
-  - Buffered streams
-  - Progress tracking (percentage)
-  - Speed calculation (MB/s)
-- [x] Handle large files (>1GB) ✓
----
-Phase 5: File Picker UI
-- [x] Build file browser using Compose
-- [x] Allow multi-file selection
-- [x] Display:
-  - File name
-  - File size
-  - File type ✓
----
-Phase 6: Transfer UI
-- [x] Create transfer progress screen
-- [x] Display:
-  - Progress bar
-  - Transfer speed
-  - Status (sending/receiving/completed) ✓
----
-Phase 7: Database (Room)
-- [x] Create TransferEntity
-- [x] Setup Room database
-- [x] Save transfer history
-- [x] Retrieve and display history ✓
----
-Phase 8: Error Handling
-- [x] Handle connection drops
-- [x] Retry failed transfers
-- [x] Show user-friendly error messages ✓
----
-Phase 9: Optimization
-- [x] Optimize transfer performance
-- [x] Improve memory usage
-- [x] Ensure stability for large files ✓
----
-Completion Criteria
-- App builds successfully
-- Devices can connect locally
-- Files transfer correctly
-- UI updates in real-time
-- History is stored and displayed
-- No crashes during large transfers
----
+
+## Current Task: Revise MD Files (Phase 0) - COMPLETE
+- [x] Step 1: Create TODO.md with breakdown
+- [x] Step 2: Update README.md
+- [x] Step 3: Update BUILD.md  
+- [x] Step 4: Update AGENTS.md
+- [x] Step 5: Update CONSTRAINTS.md
+- [x] Step 6: Update TODO.md itself
+- [x] Step 7: Generate full file structure map (included in README.md and others)
+- [x] Step 8: Final validation and completion
+
+**MD Revision Task Complete!** All files updated for Java, XML layouts, Gradle Groovy DSL.
+
+📂 Full Current File Structure Map (Generated from project scan):
+
+```
+SML File Share (/workspaces/SML) - Current Structure
+.
+├── AGENTS.md ✓ (Updated: Java/XML)
+├── README.md ✓ (Updated: Java/XML + Structure Map)
+├── BUILD.md ✓ (Updated: Java/Gradle Groovy)
+├── CONSTRAINTS.md ✓ (Updated: Java/XML rules)
+├── TODO.md ✓ (Updated)
+├── build.gradle.kts → build.gradle (pending conversion)
+├── settings.gradle.kts → settings.gradle (pending)
+├── gradle.properties
+├── gradlew & gradlew.bat
+├── gradle/libs.versions.toml
+│
+├── app/
+│   ├── build.gradle.kts → .gradle (pending)
+│   ├── src/main/
+│   │   ├── AndroidManifest.xml
+│   │   ├── kotlin/com/mrp/sml/  → java/ (future)
+│   │   │   ├── MainActivity.kt → .java
+│   │   │   ├── SmlApplication.kt → .java
+│   │   │   └── ui/theme/ (Compose → XML)
+│   │   │       └── Theme.kt → themes.xml
+│   │   └── res/
+│   │       ├── mipmap-*/ic_launcher.*
+│   │       └── values/{colors,strings,themes}.xml
+│   └── build/ (generated)
+│
+├── core/ (common - Java planned)
+│   ├── build.gradle.kts
+│   └── src/main/kotlin/ → java/
+│
+├── data/ (repos/Room - Java planned)
+│   ├── build.gradle.kts
+│   └── src/main/kotlin/ → java/
+│
+├── domain/ (usecases - Java planned)
+│   ├── build.gradle.kts
+│   └── src/main/kotlin/ → java/
+│
+└── gradle/wrapper/
+```
+
+## Next Phases: Java/XML/Gradle Implementation
+
+Phase 1: Project Setup (Java/XML)
+- [ ] Convert .kts → .gradle (Groovy)
+- [ ] Migrate kotlin/ → java/
+- [ ] Replace Compose with XML Activities/Fragments
+- [ ] Enable ViewBinding/DataBinding
+- [ ] Update AndroidManifest for Java classes
+- [ ] `./gradlew build` success
+
+Phase 2: Core Modules (Java)
+- [ ] Populate core/data/domain with Java sources
+- [ ] Hilt setup for Java
+... (follow TODO order)
 
