@@ -112,5 +112,9 @@ Phase 9: Real networking integration
 - [x] Evaluate Phase 9 outcomes ✓
 
 Phase 10: Production readiness
-- [ ] Add robust permission denial recovery UX
-- [ ] Add integration tests with emulator
+- [x] Add robust permission denial recovery UX ✓
+- [x] Add integration tests with emulator ✓ (test files added; execution blocked by missing SDK/emulator in environment)
+
+Phase 11: Release quality
+- [ ] Add crash/error analytics hooks
+- [ ] Add end-to-end transfer test plan

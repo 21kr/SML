@@ -32,4 +32,8 @@
     <string name="permissions_required">Permissions required for discovery and file transfer.</string>
     <string name="permissions_granted">Required permissions granted.</string>
     <string name="permissions_denied">Permissions denied. Please grant permissions in Settings.</string>
+    <string name="permissions_dialog_title">Permissions needed</string>
+    <string name="permissions_dialog_message">SML needs permissions for device discovery and transfers. You can retry or open app settings.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="retry_permissions">Retry Permissions</string>
 </resources>

@@ -6,11 +6,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -64,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        connectionViewModel.discoverDevices();
+        if (hasRequiredPermissions()) {
+            connectionViewModel.discoverDevices();
+        }
     }
 
     @Override
@@ -159,6 +163,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private boolean hasRequiredPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.NEARBY_WIFI_DEVICES)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
     private void ensureRuntimePermissions() {
         List<String> pendingPermissions = new ArrayList<>();
         addPermissionIfMissing(pendingPermissions, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -213,7 +232,23 @@ public class MainActivity extends AppCompatActivity {
             connectionViewModel.discoverDevices();
         } else {
             binding.permissionStatusText.setText(getString(R.string.permissions_denied));
-            Toast.makeText(this, R.string.permissions_denied, Toast.LENGTH_LONG).show();
+            showPermissionRecoveryDialog();
         }
+    }
+
+    private void showPermissionRecoveryDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.permissions_dialog_title)
+                .setMessage(R.string.permissions_dialog_message)
+                .setPositiveButton(R.string.open_settings, (dialog, which) -> openAppSettings())
+                .setNegativeButton(R.string.retry_permissions, (dialog, which) -> ensureRuntimePermissions())
+                .setNeutralButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void openAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        startActivity(intent);
     }
 }
