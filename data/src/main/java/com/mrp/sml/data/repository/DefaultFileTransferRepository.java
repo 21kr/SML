@@ -1,7 +1,5 @@
 package com.mrp.sml.data.repository;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import com.mrp.sml.core.common.DispatchersProvider;
 import com.mrp.sml.domain.model.TransferDirection;
 import com.mrp.sml.domain.model.TransferRecord;
@@ -11,21 +9,33 @@ import com.mrp.sml.domain.repository.TransferExecutionStatus;
 import com.mrp.sml.domain.repository.TransferHistoryRepository;
 import com.mrp.sml.domain.repository.TransferProgress;
 import com.mrp.sml.domain.repository.TransferStatusUpdate;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class DefaultFileTransferRepository implements FileTransferRepository {
+    private static final int DEFAULT_TRANSFER_PORT = 8988;
+    private static final int BUFFER_SIZE_BYTES = 256 * 1024;
 
     private final DispatchersProvider dispatchersProvider;
     private final TransferHistoryRepository transferHistoryRepository;
-    private final MutableLiveData<TransferProgress> progressLiveData =
-            new MutableLiveData<>(new TransferProgress(0L, 0L, 0.0, 0f));
-    private final MutableLiveData<TransferStatusUpdate> statusLiveData =
-            new MutableLiveData<>(new TransferStatusUpdate(TransferExecutionStatus.IDLE, null));
+
+    private final CopyOnWriteArrayList<TransferProgressListener> progressListeners = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<TransferStatusListener> statusListeners = new CopyOnWriteArrayList<>();
 
     @Inject
     public DefaultFileTransferRepository(
@@ -37,13 +47,25 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
     }
 
     @Override
-    public LiveData<TransferProgress> observeTransferProgress() {
-        return progressLiveData;
+    public void observeTransferProgress(TransferProgressListener listener) {
+        progressListeners.addIfAbsent(listener);
+        listener.onProgressUpdated(new TransferProgress(0L, 0L, 0.0, 0f));
     }
 
     @Override
-    public LiveData<TransferStatusUpdate> observeTransferStatus() {
-        return statusLiveData;
+    public void removeTransferProgressObserver(TransferProgressListener listener) {
+        progressListeners.remove(listener);
+    }
+
+    @Override
+    public void observeTransferStatus(TransferStatusListener listener) {
+        statusListeners.addIfAbsent(listener);
+        listener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.IDLE, "Idle"));
+    }
+
+    @Override
+    public void removeTransferStatusObserver(TransferStatusListener listener) {
+        statusListeners.remove(listener);
     }
 
     @Override
@@ -53,26 +75,14 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void sendFiles(List<String> sourcePaths, String destinationAddress) {
-        statusLiveData.postValue(new TransferStatusUpdate(TransferExecutionStatus.SENDING, "Preparing files"));
+        postStatus(new TransferStatusUpdate(TransferExecutionStatus.SENDING, "Sending files"));
         dispatchersProvider.ioExecutor().execute(() -> {
-            long totalBytes = 0L;
-            for (String sourcePath : sourcePaths) {
-                File file = new File(sourcePath);
-                if (file.exists() && file.isFile()) {
-                    totalBytes += file.length();
-                    transferHistoryRepository.saveTransferRecord(new TransferRecord(
-                            0L,
-                            file.getName(),
-                            file.length(),
-                            "application/octet-stream",
-                            TransferDirection.SENT,
-                            TransferStatus.COMPLETED,
-                            System.currentTimeMillis()
-                    ));
-                }
+            try {
+                performSendFiles(sourcePaths, destinationAddress);
+                postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, "Files sent"));
+            } catch (IOException exception) {
+                postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, exception.getMessage()));
             }
-            progressLiveData.postValue(new TransferProgress(totalBytes, totalBytes, 0.0, 100f));
-            statusLiveData.postValue(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, "Files marked as sent"));
         });
     }
 
@@ -83,10 +93,189 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void receiveFiles(String destinationDirectoryPath) {
-        statusLiveData.postValue(new TransferStatusUpdate(TransferExecutionStatus.RECEIVING, "Waiting for files"));
+        postStatus(new TransferStatusUpdate(TransferExecutionStatus.RECEIVING, "Waiting for incoming files"));
         dispatchersProvider.ioExecutor().execute(() -> {
-            progressLiveData.postValue(new TransferProgress(0L, 0L, 0.0, 0f));
-            statusLiveData.postValue(new TransferStatusUpdate(TransferExecutionStatus.IDLE, "Receiver ready"));
+            try {
+                performReceiveFiles(destinationDirectoryPath);
+                postStatus(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, "Files received"));
+            } catch (IOException exception) {
+                postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, exception.getMessage()));
+            }
         });
+    }
+
+    private void performSendFiles(List<String> sourcePaths, String destinationAddress) throws IOException {
+        if (sourcePaths == null || sourcePaths.isEmpty()) {
+            throw new IOException("At least one source path is required");
+        }
+        if (destinationAddress == null || destinationAddress.trim().isEmpty()) {
+            throw new IOException("Destination address is required");
+        }
+
+        List<File> files = new ArrayList<>();
+        long totalBytes = 0L;
+        for (String sourcePath : sourcePaths) {
+            File file = validateReadableFile(sourcePath);
+            files.add(file);
+            totalBytes += file.length();
+        }
+
+        long transferred = 0L;
+        postProgress(new TransferProgress(0L, totalBytes, 0.0, 0f));
+        long start = System.currentTimeMillis();
+
+        try (Socket socket = new Socket(destinationAddress, DEFAULT_TRANSFER_PORT);
+             DataOutputStream output = new DataOutputStream(
+                     new BufferedOutputStream(socket.getOutputStream(), BUFFER_SIZE_BYTES))) {
+
+            output.writeInt(files.size());
+            byte[] buffer = new byte[BUFFER_SIZE_BYTES];
+
+            for (File file : files) {
+                output.writeUTF(file.getName());
+                output.writeLong(file.length());
+                try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE_BYTES)) {
+                    int read;
+                    while ((read = input.read(buffer)) >= 0) {
+                        output.write(buffer, 0, read);
+                        transferred += read;
+                        postProgress(progressFromBytes(transferred, totalBytes, start));
+                    }
+                }
+
+                transferHistoryRepository.saveTransferRecord(new TransferRecord(
+                        0L,
+                        file.getName(),
+                        file.length(),
+                        "application/octet-stream",
+                        TransferDirection.SENT,
+                        TransferStatus.COMPLETED,
+                        System.currentTimeMillis()
+                ));
+            }
+            output.flush();
+        }
+    }
+
+    private void performReceiveFiles(String destinationDirectoryPath) throws IOException {
+        File destinationDirectory = validateDestinationDirectory(destinationDirectoryPath);
+        try (ServerSocket serverSocket = new ServerSocket(DEFAULT_TRANSFER_PORT);
+             Socket socket = serverSocket.accept();
+             DataInputStream input = new DataInputStream(
+                     new BufferedInputStream(socket.getInputStream(), BUFFER_SIZE_BYTES))) {
+
+            int fileCount = input.readInt();
+            if (fileCount <= 0) {
+                throw new IOException("No files were provided by sender");
+            }
+
+            List<FileHeader> headers = new ArrayList<>();
+            long totalBytes = 0L;
+            for (int i = 0; i < fileCount; i++) {
+                String name = input.readUTF();
+                long sizeBytes = input.readLong();
+                headers.add(new FileHeader(name, sizeBytes));
+                totalBytes += sizeBytes;
+            }
+
+            long transferred = 0L;
+            long start = System.currentTimeMillis();
+            byte[] buffer = new byte[BUFFER_SIZE_BYTES];
+
+            for (FileHeader header : headers) {
+                File outputFile = new File(destinationDirectory, sanitizeFileName(header.fileName));
+                long remaining = header.sizeBytes;
+                try (BufferedOutputStream output = new BufferedOutputStream(
+                        new FileOutputStream(outputFile), BUFFER_SIZE_BYTES)) {
+                    while (remaining > 0) {
+                        int bytesToRead = (int) Math.min((long) buffer.length, remaining);
+                        int read = input.read(buffer, 0, bytesToRead);
+                        if (read < 0) {
+                            throw new IOException("Connection dropped during file transfer");
+                        }
+                        output.write(buffer, 0, read);
+                        remaining -= read;
+                        transferred += read;
+                        postProgress(progressFromBytes(transferred, totalBytes, start));
+                    }
+                    output.flush();
+                }
+
+                transferHistoryRepository.saveTransferRecord(new TransferRecord(
+                        0L,
+                        outputFile.getName(),
+                        outputFile.length(),
+                        "application/octet-stream",
+                        TransferDirection.RECEIVED,
+                        TransferStatus.COMPLETED,
+                        System.currentTimeMillis()
+                ));
+            }
+        }
+    }
+
+    private TransferProgress progressFromBytes(long transferredBytes, long totalBytes, long startMillis) {
+        long elapsedMillis = Math.max(System.currentTimeMillis() - startMillis, 1L);
+        double speedBytesPerSecond = transferredBytes * 1000.0 / elapsedMillis;
+        float percent = totalBytes <= 0L ? 0f : (float) ((transferredBytes * 100.0) / totalBytes);
+        return new TransferProgress(transferredBytes, totalBytes, speedBytesPerSecond, Math.min(percent, 100f));
+    }
+
+    private void postStatus(TransferStatusUpdate statusUpdate) {
+        for (TransferStatusListener listener : statusListeners) {
+            listener.onStatusUpdated(statusUpdate);
+        }
+    }
+
+    private void postProgress(TransferProgress progress) {
+        for (TransferProgressListener listener : progressListeners) {
+            listener.onProgressUpdated(progress);
+        }
+    }
+
+    private File validateReadableFile(String sourcePath) throws IOException {
+        if (sourcePath == null || sourcePath.trim().isEmpty()) {
+            throw new IOException("Source path must not be blank");
+        }
+        File file = new File(sourcePath);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException("File does not exist: " + sourcePath);
+        }
+        if (!file.canRead()) {
+            throw new IOException("File is not readable: " + sourcePath);
+        }
+        return file;
+    }
+
+    private File validateDestinationDirectory(String destinationPath) throws IOException {
+        if (destinationPath == null || destinationPath.trim().isEmpty()) {
+            throw new IOException("Destination directory must not be blank");
+        }
+
+        File directory = new File(destinationPath);
+        if (!directory.exists() && !directory.mkdirs()) {
+            throw new IOException("Unable to create destination directory: " + destinationPath);
+        }
+        if (!directory.isDirectory()) {
+            throw new IOException("Destination path is not a directory: " + destinationPath);
+        }
+        return directory;
+    }
+
+    private String sanitizeFileName(String fileName) {
+        if (fileName == null || fileName.trim().isEmpty()) {
+            return "received_" + System.currentTimeMillis();
+        }
+        return fileName.replace("..", "").replace('/', '_').replace('\\', '_');
+    }
+
+    private static class FileHeader {
+        private final String fileName;
+        private final long sizeBytes;
+
+        private FileHeader(String fileName, long sizeBytes) {
+            this.fileName = fileName;
+            this.sizeBytes = sizeBytes;
+        }
     }
 }

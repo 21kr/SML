@@ -73,7 +73,7 @@ Phase 1: Project Setup (Java/XML)
 - [x] `./gradlew build` attempted (blocked by missing Android SDK path in environment) ✓
 
 Phase 2: Core Modules (Java)
-- [ ] Populate core/data/domain with Java sources
-- [ ] Hilt setup for Java
+- [x] Populate core/data/domain with Java sources ✓
+- [x] Hilt setup for Java ✓
 ... (follow TODO order)
 

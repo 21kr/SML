@@ -8,5 +8,6 @@ java {
 }
 
 dependencies {
-    api 'androidx.lifecycle:lifecycle-livedata:2.8.4'
+    implementation 'javax.inject:javax.inject:1'
+    testImplementation 'junit:junit:4.13.2'
 }

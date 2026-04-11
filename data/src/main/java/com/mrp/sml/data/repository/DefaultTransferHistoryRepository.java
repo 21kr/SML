@@ -1,7 +1,5 @@
 package com.mrp.sml.data.repository;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 import com.mrp.sml.data.local.TransferDao;
 import com.mrp.sml.data.local.TransferEntity;
 import com.mrp.sml.domain.model.TransferDirection;
@@ -9,7 +7,9 @@ import com.mrp.sml.domain.model.TransferRecord;
 import com.mrp.sml.domain.model.TransferStatus;
 import com.mrp.sml.domain.repository.TransferHistoryRepository;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 public class DefaultTransferHistoryRepository implements TransferHistoryRepository {
 
     private final TransferDao transferDao;
+    private final CopyOnWriteArrayList<TransferHistoryListener> listeners = new CopyOnWriteArrayList<>();
 
     @Inject
     public DefaultTransferHistoryRepository(TransferDao transferDao) {
@@ -24,25 +25,25 @@ public class DefaultTransferHistoryRepository implements TransferHistoryReposito
     }
 
     @Override
-    public LiveData<List<TransferRecord>> observeTransferHistory() {
-        return Transformations.map(transferDao.observeTransferHistory(), entities -> {
-            List<TransferRecord> records = new ArrayList<>();
-            if (entities == null) {
-                return records;
-            }
-            for (TransferEntity entity : entities) {
-                records.add(new TransferRecord(
-                        entity.id,
-                        entity.fileName,
-                        entity.fileSizeBytes,
-                        entity.mimeType,
-                        TransferDirection.valueOf(entity.direction),
-                        TransferStatus.valueOf(entity.status),
-                        entity.timestampEpochMillis
-                ));
-            }
+    public List<TransferRecord> getTransferHistory() {
+        List<TransferEntity> entities = transferDao.getTransferHistory();
+        List<TransferRecord> records = new ArrayList<>();
+        if (entities == null) {
             return records;
-        });
+        }
+
+        for (TransferEntity entity : entities) {
+            records.add(new TransferRecord(
+                    entity.id,
+                    entity.fileName,
+                    entity.fileSizeBytes,
+                    entity.mimeType,
+                    TransferDirection.valueOf(entity.direction),
+                    TransferStatus.valueOf(entity.status),
+                    entity.timestampEpochMillis
+            ));
+        }
+        return records;
     }
 
     @Override
@@ -56,5 +57,24 @@ public class DefaultTransferHistoryRepository implements TransferHistoryReposito
                 record.getTimestampEpochMillis()
         );
         transferDao.insert(entity);
+        notifyHistoryChanged();
+    }
+
+    @Override
+    public void observeTransferHistory(TransferHistoryListener listener) {
+        listeners.addIfAbsent(listener);
+        listener.onHistoryChanged(Collections.unmodifiableList(getTransferHistory()));
+    }
+
+    @Override
+    public void removeTransferHistoryObserver(TransferHistoryListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void notifyHistoryChanged() {
+        List<TransferRecord> snapshot = Collections.unmodifiableList(getTransferHistory());
+        for (TransferHistoryListener listener : listeners) {
+            listener.onHistoryChanged(snapshot);
+        }
     }
 }
