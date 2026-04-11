@@ -233,26 +233,23 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                 throw new IOException("No files were provided by sender");
             }
 
-            List<FileHeader> headers = new ArrayList<>();
-            long totalBytes = 0L;
-            for (int i = 0; i < fileCount; i++) {
-                String name = input.readUTF();
-                long sizeBytes = input.readLong();
-                headers.add(new FileHeader(name, sizeBytes));
-                totalBytes += sizeBytes;
-            }
-
             long transferred = 0L;
-            long start = System.currentTimeMillis();
             byte[] buffer = new byte[BUFFER_SIZE_BYTES];
+            long start = System.currentTimeMillis();
 
-            for (FileHeader header : headers) {
+            for (int i = 0; i < fileCount; i++) {
                 throwIfCancelled();
-                File outputFile = new File(destinationDirectory, sanitizeFileName(header.fileName));
-                long remaining = header.sizeBytes;
+                String incomingName = input.readUTF();
+                long expectedSize = input.readLong();
+                if (expectedSize < 0L) {
+                    throw new IOException("Invalid incoming file size: " + expectedSize);
+                }
+
+                File outputFile = new File(destinationDirectory, sanitizeFileName(incomingName));
+                long remaining = expectedSize;
                 try (BufferedOutputStream output = new BufferedOutputStream(
                         new FileOutputStream(outputFile), BUFFER_SIZE_BYTES)) {
-                    while (remaining > 0) {
+                    while (remaining > 0L) {
                         throwIfCancelled();
                         int bytesToRead = (int) Math.min((long) buffer.length, remaining);
                         int read = input.read(buffer, 0, bytesToRead);
@@ -262,10 +259,13 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                         output.write(buffer, 0, read);
                         remaining -= read;
                         transferred += read;
-                        postProgress(progressFromBytes(transferred, totalBytes, start));
+                        long totalBytesHint = Math.max(transferred + remaining, transferred);
+                        postProgress(progressFromBytes(transferred, totalBytesHint, start));
                     }
                     output.flush();
                 }
+
+                postProgress(new TransferProgress(transferred, transferred, 0.0, 100f));
 
                 transferHistoryRepository.saveTransferRecord(new TransferRecord(
                         0L,
@@ -411,13 +411,4 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         }
     }
 
-    private static class FileHeader {
-        private final String fileName;
-        private final long sizeBytes;
-
-        private FileHeader(String fileName, long sizeBytes) {
-            this.fileName = fileName;
-            this.sizeBytes = sizeBytes;
-        }
-    }
 }

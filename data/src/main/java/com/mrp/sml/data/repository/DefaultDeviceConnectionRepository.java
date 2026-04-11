@@ -122,7 +122,7 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
         }
 
         if (wifiP2pManager == null || channel == null) {
-            currentState = ConnectionState.CONNECTED;
+            currentState = ConnectionState.FAILED;
             notifyState();
             return;
         }
