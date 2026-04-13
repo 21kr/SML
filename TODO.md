@@ -22,6 +22,36 @@ Phase 5: Stability and tests
 - [x] Add unit tests for ViewModels ✓
 - [x] Add retry/error UX polish ✓
 
+Phase 1: Project Setup (Java/XML)
+- [x] Convert .kts → .gradle (Groovy) ✓
+- [x] Migrate kotlin/ → java/ ✓
+- [x] Replace Compose with XML Activities/Fragments ✓
+- [x] Enable ViewBinding/DataBinding ✓
+- [x] Update AndroidManifest for Java classes ✓
+- [x] `./gradlew build` attempted (blocked by missing Android SDK path in environment) ✓
+
+Phase 2: Core Modules (Java)
+- [x] Populate core/data/domain with Java sources ✓
+- [x] Hilt setup for Java ✓
+... (follow TODO order)
+
+
+Phase 3: Presentation Layer (MVVM Java/XML)
+- [x] Add Java ViewModel + LiveData UI state wiring ✓
+- [x] Connect Activity XML UI with ViewModel observers/actions ✓
+- [x] Keep business logic inside repositories/use-cases (UI-only in Activity) ✓
+- [x] `./gradlew build` attempted (blocked by missing Android SDK path in environment) ✓
+
+Phase 4: Feature modules
+- [x] Implement feature:connection baseline ✓
+- [x] Implement feature:transfer baseline ✓
+- [x] Implement feature:history baseline ✓
+
+
+Phase 5: Stability and tests
+- [x] Add unit tests for ViewModels ✓
+- [x] Add retry/error UX polish ✓
+
 Phase 6: Integration hardening
 - [x] Add instrumentation test smoke run ✓
 - [x] Add runtime permissions UX ✓

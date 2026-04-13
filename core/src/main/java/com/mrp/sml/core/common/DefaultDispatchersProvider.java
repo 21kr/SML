@@ -5,7 +5,9 @@ import android.os.Looper;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class DefaultDispatchersProvider implements DispatchersProvider {
 
     private final ExecutorService ioExecutor = Executors.newFixedThreadPool(4);

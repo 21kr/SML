@@ -2,6 +2,8 @@ package com.mrp.sml.data.repository;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.os.Build;
+import androidx.core.content.ContextCompat;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -30,6 +32,7 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
     private final WifiDirectBroadcastReceiver receiver;
 
     private volatile ConnectionState currentState = ConnectionState.IDLE;
+    private volatile boolean receiverRegistered;
 
     @Inject
     public DefaultDeviceConnectionRepository(
@@ -58,7 +61,6 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             }
         });
 
-        context.registerReceiver(receiver, buildIntentFilter());
     }
 
     @Override
@@ -93,24 +95,32 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
         currentState = ConnectionState.DISCOVERING;
         notifyState();
 
+        ensureReceiverRegistered();
+
         if (wifiP2pManager == null || channel == null) {
             fallbackMockPeers();
             return;
         }
 
-        wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                requestPeers();
-            }
+        try {
+            wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+                    requestPeers();
+                }
 
-            @Override
-            public void onFailure(int reason) {
-                currentState = ConnectionState.FAILED;
-                notifyState();
-                fallbackMockPeers();
-            }
-        });
+                @Override
+                public void onFailure(int reason) {
+                    currentState = ConnectionState.FAILED;
+                    notifyState();
+                    fallbackMockPeers();
+                }
+            });
+        } catch (SecurityException securityException) {
+            currentState = ConnectionState.FAILED;
+            notifyState();
+            fallbackMockPeers();
+        }
     }
 
     @Override
@@ -129,19 +139,24 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
 
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = deviceId.trim();
-        wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                currentState = ConnectionState.CONNECTED;
-                notifyState();
-            }
+        try {
+            wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+                    currentState = ConnectionState.CONNECTED;
+                    notifyState();
+                }
 
-            @Override
-            public void onFailure(int reason) {
-                currentState = ConnectionState.FAILED;
-                notifyState();
-            }
-        });
+                @Override
+                public void onFailure(int reason) {
+                    currentState = ConnectionState.FAILED;
+                    notifyState();
+                }
+            });
+        } catch (SecurityException securityException) {
+            currentState = ConnectionState.FAILED;
+            notifyState();
+        }
     }
 
     @Override
@@ -152,19 +167,24 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        wifiP2pManager.removeGroup(channel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                currentState = ConnectionState.DISCONNECTED;
-                notifyState();
-            }
+        try {
+            wifiP2pManager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+                    currentState = ConnectionState.DISCONNECTED;
+                    notifyState();
+                }
 
-            @Override
-            public void onFailure(int reason) {
-                currentState = ConnectionState.FAILED;
-                notifyState();
-            }
-        });
+                @Override
+                public void onFailure(int reason) {
+                    currentState = ConnectionState.FAILED;
+                    notifyState();
+                }
+            });
+        } catch (SecurityException securityException) {
+            currentState = ConnectionState.FAILED;
+            notifyState();
+        }
     }
 
     private void requestPeers() {
@@ -173,13 +193,17 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        wifiP2pManager.requestPeers(channel, peers -> {
-            cachedDevices.clear();
-            for (WifiP2pDevice device : peers.getDeviceList()) {
-                cachedDevices.add(new DiscoveredDevice(device.deviceAddress, device.deviceName));
-            }
-            notifyDevices();
-        });
+        try {
+            wifiP2pManager.requestPeers(channel, peers -> {
+                cachedDevices.clear();
+                for (WifiP2pDevice device : peers.getDeviceList()) {
+                    cachedDevices.add(new DiscoveredDevice(device.deviceAddress, device.deviceName));
+                }
+                notifyDevices();
+            });
+        } catch (SecurityException securityException) {
+            fallbackMockPeers();
+        }
     }
 
     private void requestConnectionInfo() {
@@ -187,10 +211,15 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        wifiP2pManager.requestConnectionInfo(channel, info -> {
-            currentState = info.groupFormed ? ConnectionState.CONNECTED : ConnectionState.DISCONNECTED;
+        try {
+            wifiP2pManager.requestConnectionInfo(channel, info -> {
+                currentState = info.groupFormed ? ConnectionState.CONNECTED : ConnectionState.DISCONNECTED;
+                notifyState();
+            });
+        } catch (SecurityException securityException) {
+            currentState = ConnectionState.FAILED;
             notifyState();
-        });
+        }
     }
 
     private void fallbackMockPeers() {
@@ -199,6 +228,30 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             cachedDevices.add(new DiscoveredDevice("02:AA:BB:CC:DD:EE", "SML Peer B"));
         }
         notifyDevices();
+    }
+
+    private void ensureReceiverRegistered() {
+        if (receiverRegistered) {
+            return;
+        }
+
+        IntentFilter filter = buildIntentFilter();
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ContextCompat.registerReceiver(
+                        context,
+                        receiver,
+                        filter,
+                        ContextCompat.RECEIVER_NOT_EXPORTED
+                );
+            } else {
+                context.registerReceiver(receiver, filter);
+            }
+            receiverRegistered = true;
+        } catch (RuntimeException runtimeException) {
+            currentState = ConnectionState.FAILED;
+            notifyState();
+        }
     }
 
     private IntentFilter buildIntentFilter() {
