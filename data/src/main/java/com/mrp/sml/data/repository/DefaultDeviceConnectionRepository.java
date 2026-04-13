@@ -3,7 +3,6 @@ package com.mrp.sml.data.repository;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Build;
-import androidx.core.content.ContextCompat;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -238,12 +237,7 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
         IntentFilter filter = buildIntentFilter();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                ContextCompat.registerReceiver(
-                        context,
-                        receiver,
-                        filter,
-                        ContextCompat.RECEIVER_NOT_EXPORTED
-                );
+                context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
             } else {
                 context.registerReceiver(receiver, filter);
             }
