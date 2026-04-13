@@ -15,7 +15,7 @@ import javax.annotation.processing.Generated;
  * A generated base class to be extended by the @dagger.hilt.android.HiltAndroidApp annotated class. If using the Gradle plugin, this is swapped as the base class via bytecode transformation.
  */
 @Generated("dagger.hilt.android.processor.internal.androidentrypoint.ApplicationGenerator")
-public abstract class Hilt_SmlApplication extends Application implements GeneratedComponentManagerHolder {
+abstract class Hilt_SmlApplication extends Application implements GeneratedComponentManagerHolder {
   private boolean injected = false;
 
   private final ApplicationComponentManager componentManager = new ApplicationComponentManager(new ComponentSupplier() {
