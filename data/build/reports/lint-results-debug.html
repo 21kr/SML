@@ -177,18 +177,18 @@ document.getElementById(id).style.display = 'none';
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Lint Report: 7 warnings</span>
+      <span class="mdl-layout-title">Lint Report: 5 warnings</span>
       <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Sat Apr 11 13:32:04 UTC 2026 by AGP (8.4.2)</nav>
+      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Sat Apr 11 15:53:16 UTC 2026 by AGP (8.4.2)</nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Issue Types</span>
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="#overview"><i class="material-icons">dashboard</i>Overview</a>
+      <a class="mdl-navigation__link" href="#DefaultLocale"><i class="material-icons warning-icon">warning</i>Implied default locale in case conversion (1)</a>
       <a class="mdl-navigation__link" href="#UnspecifiedRegisterReceiverFlag"><i class="material-icons warning-icon">warning</i>Missing <code>registerReceiver()</code> exported flag (1)</a>
-      <a class="mdl-navigation__link" href="#GradleDependency"><i class="material-icons warning-icon">warning</i>Obsolete Gradle Dependency (5)</a>
-      <a class="mdl-navigation__link" href="#KaptUsageInsteadOfKsp"><i class="material-icons warning-icon">warning</i>Kapt usage should be replaced with KSP (1)</a>
+      <a class="mdl-navigation__link" href="#GradleDependency"><i class="material-icons warning-icon">warning</i>Obsolete Gradle Dependency (3)</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -205,15 +205,13 @@ document.getElementById(id).style.display = 'none';
 </td></tr>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
-<a href="#UnspecifiedRegisterReceiverFlag">UnspecifiedRegisterReceiverFlag</a>: Missing <code>registerReceiver()</code> exported flag</td></tr>
-<tr>
-<td class="countColumn">5</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
-<a href="#GradleDependency">GradleDependency</a>: Obsolete Gradle Dependency</td></tr>
-<tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Performance">Performance</a>
-</td></tr>
+<a href="#DefaultLocale">DefaultLocale</a>: Implied default locale in case conversion</td></tr>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
-<a href="#KaptUsageInsteadOfKsp">KaptUsageInsteadOfKsp</a>: Kapt usage should be replaced with KSP</td></tr>
+<a href="#UnspecifiedRegisterReceiverFlag">UnspecifiedRegisterReceiverFlag</a>: Missing <code>registerReceiver()</code> exported flag</td></tr>
+<tr>
+<td class="countColumn">3</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<a href="#GradleDependency">GradleDependency</a>: Obsolete Gradle Dependency</td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#ExtraIssues">Included Additional Checks (16)</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (39)</a>
@@ -226,7 +224,56 @@ Dismiss</button>            </div>
             </div>
           </section>
 <a name="Correctness"></a>
-<a name="UnspecifiedRegisterReceiverFlag"></a>
+<a name="DefaultLocale"></a>
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="DefaultLocaleCard" style="display: block;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Implied default locale in case conversion</h2>
+  </div>
+              <div class="mdl-card__supporting-text">
+<div class="issue">
+<div class="warningslist">
+<span class="location"><a href="../../src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java">../../src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java</a>:313</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 310 </span>            <span class="keyword">return</span> <span class="string">"Unknown network or file error."</span>;
+<span class="lineno"> 311 </span>        }
+<span class="lineno"> 312 </span>
+<span class="caretline"><span class="lineno"> 313 </span>        String message = exception.getMessage().<span class="warning">toLowerCase</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 314 </span>        <span class="keyword">if</span> (message.contains(<span class="string">"timed out"</span>)) {
+<span class="lineno"> 315 </span>            <span class="keyword">return</span> <span class="string">"Connection timed out."</span>;
+<span class="lineno"> 316 </span>        }
+</pre>
+
+</div>
+<div class="metadata"><div class="explanation" id="explanationDefaultLocale" style="display: none;">
+Calling <code>String#toLowerCase()</code> or <code>#toUpperCase()</code> <b>without specifying an explicit locale</b> is a common source of bugs. The reason for that is that those methods will use the current locale on the user's device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for <code>i</code> is <b>not</b> <code>I</code>.<br/>
+<br/>
+If you want the methods to just perform ASCII replacement, for example to convert an enum name, call <code>String#toUpperCase(Locale.ROOT)</code> instead. If you really want to use the current locale, call <code>String#toUpperCase(Locale.getDefault())</code> instead.<br/><div class="moreinfo">More info: <a href="https://developer.android.com/reference/java/util/Locale.html#default_locale">https://developer.android.com/reference/java/util/Locale.html#default_locale</a>
+</div>Note: This issue has an associated quickfix operation in Android Studio and IntelliJ IDEA.<br>
+To suppress this error, use the issue id "DefaultLocale" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+<br/></div>
+</div>
+</div>
+<div class="chips">
+<span class="mdl-chip">
+    <span class="mdl-chip__text">DefaultLocale</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Correctness</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Warning</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Priority 6/10</span>
+</span>
+</div>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationDefaultLocaleLink" onclick="reveal('explanationDefaultLocale');">
+Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="DefaultLocaleCardLink" onclick="hideid('DefaultLocaleCard');">
+Dismiss</button>            </div>
+            </div>
+          </section><a name="UnspecifiedRegisterReceiverFlag"></a>
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="UnspecifiedRegisterReceiverFlagCard" style="display: block;">
             <div class="mdl-card mdl-cell mdl-cell--12-col">
   <div class="mdl-card__title">
@@ -235,15 +282,14 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../src/main/kotlin/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.kt">../../src/main/kotlin/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.kt</a>:43</span>: <span class="message"><code>receiver</code> is missing <code>RECEIVER_EXPORTED</code> or <code>RECEIVER_NOT_EXPORTED</code> flag for unprotected broadcasts registered for an IntentFilter that cannot be inspected by lint</span><br /><pre class="errorlines">
-<span class="lineno">  40 </span>  )
-<span class="lineno">  41 </span>
-<span class="lineno">  42 </span>  init {
-<span class="caretline"><span class="lineno">  43 </span>      <span class="warning">context.registerReceiver(receiver, buildIntentFilter())</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno">  44 </span>  }
-<span class="lineno">  45 </span>
-<span class="lineno">  46 </span>  override <span class="keyword">fun</span> observeConnectionState(): Flow&lt;ConnectionState> = connectionState.asStateFlow()
-</pre>
+<span class="location"><a href="../../src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java">../../src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java</a>:61</span>: <span class="message"><code>receiver</code> is missing <code>RECEIVER_EXPORTED</code> or <code>RECEIVER_NOT_EXPORTED</code> flag for unprotected broadcasts registered for an IntentFilter that cannot be inspected by lint</span><br /><pre class="errorlines">
+<span class="lineno">  58 </span>            }
+<span class="lineno">  59 </span>        });
+<span class="lineno">  60 </span>
+<span class="caretline"><span class="lineno">  61 </span>        <span class="warning">context.registerReceiver(receiver, buildIntentFilter())</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  62 </span>    }
+<span class="lineno">  63 </span>
+<span class="lineno">  64 </span>    <span class="annotation">@Override</span></pre>
 
 </div>
 <div class="metadata"><div class="explanation" id="explanationUnspecifiedRegisterReceiverFlag" style="display: none;">
@@ -283,54 +329,32 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle.kts">../../build.gradle.kts</a>:35</span>: <span class="message">A newer version of com.google.dagger:hilt-android than 2.48 is available: 2.57.2</span><br /><pre class="errorlines">
-<span class="lineno"> 32 </span>    implementation(project(":core"))
-<span class="lineno"> 33 </span>
-<span class="lineno"> 34 </span>    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-<span class="caretline"><span class="lineno"> 35 </span>    implementation("<span class="warning">com.google.dagger:hilt-android:2.48</span>")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 36 </span>    implementation("androidx.room:room-runtime:2.6.1")
-<span class="lineno"> 37 </span>    implementation("androidx.room:room-ktx:2.6.1")
-<span class="lineno"> 38 </span>    kapt("androidx.room:room-compiler:2.6.1")
-</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:25</span>: <span class="message">A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.4</span><br /><pre class="errorlines">
+<span class="lineno"> 22 </span>    implementation project(<span class="string">':domain'</span>)
+<span class="lineno"> 23 </span>    implementation project(<span class="string">':core'</span>)
+<span class="lineno"> 24 </span>
+<span class="caretline"><span class="lineno"> 25 </span>    implementation <span class="warning"><span class="string">'androidx.room:room-runtime:2.6.1'</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 26 </span>    annotationProcessor <span class="string">'androidx.room:room-compiler:2.6.1'</span>
+<span class="lineno"> 27 </span>
+<span class="lineno"> 28 </span>    implementation <span class="string">'com.google.dagger:hilt-android:2.48'</span></pre>
 
-<span class="location"><a href="../../build.gradle.kts">../../build.gradle.kts</a>:36</span>: <span class="message">A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.4</span><br /><pre class="errorlines">
-<span class="lineno"> 33 </span>
-<span class="lineno"> 34 </span>    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-<span class="lineno"> 35 </span>    implementation("com.google.dagger:hilt-android:2.48")
-<span class="caretline"><span class="lineno"> 36 </span>    implementation("<span class="warning">androidx.room:room-runtime:2.6.1</span>")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 37 </span>    implementation("androidx.room:room-ktx:2.6.1")
-<span class="lineno"> 38 </span>    kapt("androidx.room:room-compiler:2.6.1")
-<span class="lineno"> 39 </span>    kapt("com.google.dagger:hilt-compiler:2.48")
-</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:26</span>: <span class="message">A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.4</span><br /><pre class="errorlines">
+<span class="lineno"> 23 </span>    implementation project(<span class="string">':core'</span>)
+<span class="lineno"> 24 </span>
+<span class="lineno"> 25 </span>    implementation <span class="string">'androidx.room:room-runtime:2.6.1'</span>
+<span class="caretline"><span class="lineno"> 26 </span>    annotationProcessor <span class="warning"><span class="string">'androidx.room:room-compiler:2.6.1'</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 27 </span>
+<span class="lineno"> 28 </span>    implementation <span class="string">'com.google.dagger:hilt-android:2.48'</span>
+<span class="lineno"> 29 </span>    annotationProcessor <span class="string">'com.google.dagger:hilt-android-compiler:2.48'</span></pre>
 
-<span class="location"><a href="../../build.gradle.kts">../../build.gradle.kts</a>:37</span>: <span class="message">A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.4</span><br /><pre class="errorlines">
-<span class="lineno"> 34 </span>    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-<span class="lineno"> 35 </span>    implementation("com.google.dagger:hilt-android:2.48")
-<span class="lineno"> 36 </span>    implementation("androidx.room:room-runtime:2.6.1")
-<span class="caretline"><span class="lineno"> 37 </span>    implementation("<span class="warning">androidx.room:room-ktx:2.6.1</span>")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 38 </span>    kapt("androidx.room:room-compiler:2.6.1")
-<span class="lineno"> 39 </span>    kapt("com.google.dagger:hilt-compiler:2.48")
-</pre>
-
-<span class="location"><a href="../../build.gradle.kts">../../build.gradle.kts</a>:38</span>: <span class="message">A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.4</span><br /><pre class="errorlines">
-<span class="lineno"> 35 </span>    implementation("com.google.dagger:hilt-android:2.48")
-<span class="lineno"> 36 </span>    implementation("androidx.room:room-runtime:2.6.1")
-<span class="lineno"> 37 </span>    implementation("androidx.room:room-ktx:2.6.1")
-<span class="caretline"><span class="lineno"> 38 </span>    kapt("<span class="warning">androidx.room:room-compiler:2.6.1</span>")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 39 </span>    kapt("com.google.dagger:hilt-compiler:2.48")
-<span class="lineno"> 40 </span>
-<span class="lineno"> 41 </span>    testImplementation("junit:junit:4.13.2")
-</pre>
-
-<span class="location"><a href="../../build.gradle.kts">../../build.gradle.kts</a>:39</span>: <span class="message">A newer version of com.google.dagger:hilt-compiler than 2.48 is available: 2.57.2</span><br /><pre class="errorlines">
-<span class="lineno"> 36 </span>    implementation("androidx.room:room-runtime:2.6.1")
-<span class="lineno"> 37 </span>    implementation("androidx.room:room-ktx:2.6.1")
-<span class="lineno"> 38 </span>    kapt("androidx.room:room-compiler:2.6.1")
-<span class="caretline"><span class="lineno"> 39 </span>    kapt("<span class="warning">com.google.dagger:hilt-compiler:2.48</span>")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 40 </span>
-<span class="lineno"> 41 </span>    testImplementation("junit:junit:4.13.2")
-<span class="lineno"> 42 </span>}
-</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:28</span>: <span class="message">A newer version of com.google.dagger:hilt-android than 2.48 is available: 2.57.2</span><br /><pre class="errorlines">
+<span class="lineno"> 25 </span>    implementation <span class="string">'androidx.room:room-runtime:2.6.1'</span>
+<span class="lineno"> 26 </span>    annotationProcessor <span class="string">'androidx.room:room-compiler:2.6.1'</span>
+<span class="lineno"> 27 </span>
+<span class="caretline"><span class="lineno"> 28 </span>    implementation <span class="warning"><span class="string">'com.google.dagger:hilt-android:2.48'</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 29 </span>    annotationProcessor <span class="string">'com.google.dagger:hilt-android-compiler:2.48'</span>
+<span class="lineno"> 30 </span>
+<span class="lineno"> 31 </span>    testImplementation <span class="string">'junit:junit:4.13.2'</span></pre>
 
 </div>
 <div class="metadata"><div class="explanation" id="explanationGradleDependency" style="display: none;">
@@ -357,54 +381,6 @@ To suppress this error, use the issue id "GradleDependency" as explained in the 
               <div class="mdl-card__actions mdl-card--border">
 <button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationGradleDependencyLink" onclick="reveal('explanationGradleDependency');">
 Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="GradleDependencyCardLink" onclick="hideid('GradleDependencyCard');">
-Dismiss</button>            </div>
-            </div>
-          </section>
-<a name="Performance"></a>
-<a name="KaptUsageInsteadOfKsp"></a>
-<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="KaptUsageInsteadOfKspCard" style="display: block;">
-            <div class="mdl-card mdl-cell mdl-cell--12-col">
-  <div class="mdl-card__title">
-    <h2 class="mdl-card__title-text">Kapt usage should be replaced with KSP</h2>
-  </div>
-              <div class="mdl-card__supporting-text">
-<div class="issue">
-<div class="warningslist">
-<span class="location"><a href="../../build.gradle.kts">../../build.gradle.kts</a>:38</span>: <span class="message">This library supports using KSP instead of kapt, which greatly improves performance. Learn more: <a href="https://developer.android.com/studio/build/migrate-to-ksp">https://developer.android.com/studio/build/migrate-to-ksp</a></span><br /><pre class="errorlines">
-<span class="lineno"> 35 </span>    implementation("com.google.dagger:hilt-android:2.48")
-<span class="lineno"> 36 </span>    implementation("androidx.room:room-runtime:2.6.1")
-<span class="lineno"> 37 </span>    implementation("androidx.room:room-ktx:2.6.1")
-<span class="caretline"><span class="lineno"> 38 </span>    <span class="warning">kapt("androidx.room:room-compiler:2.6.1")</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 39 </span>    kapt("com.google.dagger:hilt-compiler:2.48")
-<span class="lineno"> 40 </span>
-<span class="lineno"> 41 </span>    testImplementation("junit:junit:4.13.2")
-</pre>
-
-</div>
-<div class="metadata"><div class="explanation" id="explanationKaptUsageInsteadOfKsp" style="display: none;">
-KSP is a more efficient replacement for kapt. For libraries that support both, KSP should be used to improve build times.<br/><div class="moreinfo">More info: <a href="https://developer.android.com/studio/build/migrate-to-ksp">https://developer.android.com/studio/build/migrate-to-ksp</a>
-</div>To suppress this error, use the issue id "KaptUsageInsteadOfKsp" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-<br/></div>
-</div>
-</div>
-<div class="chips">
-<span class="mdl-chip">
-    <span class="mdl-chip__text">KaptUsageInsteadOfKsp</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Performance</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Warning</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Priority 4/10</span>
-</span>
-</div>
-              </div>
-              <div class="mdl-card__actions mdl-card--border">
-<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationKaptUsageInsteadOfKspLink" onclick="reveal('explanationKaptUsageInsteadOfKsp');">
-Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="KaptUsageInsteadOfKspCardLink" onclick="hideid('KaptUsageInsteadOfKspCard');">
 Dismiss</button>            </div>
             </div>
           </section>

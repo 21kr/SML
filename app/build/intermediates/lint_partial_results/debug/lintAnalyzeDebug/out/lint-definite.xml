@@ -2,6 +2,118 @@
 <incidents format="6" by="lint 8.4.2" type="incidents">
 
     <incident
+        id="Autofill"
+        severity="warning"
+        message="Missing `autofillHints` attribute">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set autofillHints"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="autofillHints"
+                value=""
+                point="0"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAutofill=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAutofill"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="57"
+            column="10"
+            startOffset="2110"
+            endLine="57"
+            endColumn="18"
+            endOffset="2118"/>
+    </incident>
+
+    <incident
+        id="Autofill"
+        severity="warning"
+        message="Missing `autofillHints` attribute">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set autofillHints"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="autofillHints"
+                value=""
+                point="0"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAutofill=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAutofill"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="115"
+            column="10"
+            startOffset="4302"
+            endLine="115"
+            endColumn="18"
+            endOffset="4310"/>
+    </incident>
+
+    <incident
+        id="Autofill"
+        severity="warning"
+        message="Missing `autofillHints` attribute">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set autofillHints"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="autofillHints"
+                value=""
+                point="0"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAutofill=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAutofill"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="123"
+            column="10"
+            startOffset="4595"
+            endLine="123"
+            endColumn="18"
+            endOffset="4603"/>
+    </incident>
+
+    <incident
+        id="Autofill"
+        severity="warning"
+        message="Missing `autofillHints` attribute">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set autofillHints"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="autofillHints"
+                value=""
+                point="0"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAutofill=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAutofill"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="131"
+            column="10"
+            startOffset="4911"
+            endLine="131"
+            endColumn="18"
+            endOffset="4919"/>
+    </incident>
+
+    <incident
         id="MonochromeLauncherIcon"
         severity="warning"
         message="The application adaptive icon is missing a monochrome tag">
@@ -30,17 +142,45 @@
     </incident>
 
     <incident
-        id="ModifierParameter"
+        id="NotifyDataSetChanged"
         severity="warning"
-        message="Modifier parameter should be the first optional parameter">
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
         <location
-            file="${:app*debug*MAIN*sourceProvider*0*javaDir*2}/com/mrp/sml/ui/HelloScreen.kt"
-            line="20"
-            column="5"
-            startOffset="692"
-            endLine="20"
-            endColumn="13"
-            endOffset="700"/>
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/ui/connection/ConnectionDeviceAdapter.java"
+            line="32"
+            column="9"
+            startOffset="1020"
+            endLine="32"
+            endColumn="31"
+            endOffset="1042"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/ui/history/HistoryRecordAdapter.java"
+            line="32"
+            column="9"
+            startOffset="903"
+            endLine="32"
+            endColumn="31"
+            endOffset="925"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/ui/transfer/TransferViewModel.java"
+            line="77"
+            column="23"
+            startOffset="3064"
+            endLine="81"
+            endColumn="10"
+            endOffset="3253"/>
     </incident>
 
     <incident
@@ -54,93 +194,33 @@
             replacement="1.18.0"
             priority="0"/>
         <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="49"
-            column="21"
-            startOffset="962"
-            endLine="49"
-            endColumn="50"
-            endOffset="991"/>
+            file="${:app*projectDir}/build.gradle"
+            line="42"
+            column="20"
+            startOffset="887"
+            endLine="42"
+            endColumn="51"
+            endOffset="918"/>
     </incident>
 
     <incident
         id="GradleDependency"
         severity="warning"
-        message="A newer version of androidx.activity:activity-compose than 1.9.1 is available: 1.13.0">
+        message="A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.7.1">
         <fix-replace
-            description="Change to 1.13.0"
+            description="Change to 1.7.1"
             family="Update versions"
-            oldString="1.9.1"
-            replacement="1.13.0"
+            oldString="1.7.0"
+            replacement="1.7.1"
             priority="0"/>
         <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="50"
-            column="21"
-            startOffset="1014"
-            endLine="50"
-            endColumn="61"
-            endOffset="1054"/>
-    </incident>
-
-    <incident
-        id="GradleDependency"
-        severity="warning"
-        message="A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.8.4 is available: 2.10.0">
-        <fix-replace
-            description="Change to 2.10.0"
-            family="Update versions"
-            oldString="2.8.4"
-            replacement="2.10.0"
-            priority="0"/>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="52"
-            column="21"
-            startOffset="1078"
-            endLine="52"
-            endColumn="71"
-            endOffset="1128"/>
-    </incident>
-
-    <incident
-        id="GradleDependency"
-        severity="warning"
-        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-ktx than 2.8.4 is available: 2.10.0">
-        <fix-replace
-            description="Change to 2.10.0"
-            family="Update versions"
-            oldString="2.8.4"
-            replacement="2.10.0"
-            priority="0"/>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="53"
-            column="21"
-            startOffset="1151"
-            endLine="53"
-            endColumn="69"
-            endOffset="1199"/>
-    </incident>
-
-    <incident
-        id="GradleDependency"
-        severity="warning"
-        message="A newer version of androidx.hilt:hilt-navigation-compose than 1.2.0 is available: 1.3.0">
-        <fix-replace
-            description="Change to 1.3.0"
-            family="Update versions"
-            oldString="1.2.0"
-            replacement="1.3.0"
-            priority="0"/>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="54"
-            column="21"
-            startOffset="1222"
-            endLine="54"
-            endColumn="64"
-            endOffset="1265"/>
+            file="${:app*projectDir}/build.gradle"
+            line="43"
+            column="20"
+            startOffset="938"
+            endLine="43"
+            endColumn="56"
+            endOffset="974"/>
     </incident>
 
     <incident
@@ -154,13 +234,93 @@
             replacement="1.13.0"
             priority="0"/>
         <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="61"
-            column="21"
-            startOffset="1527"
-            endLine="61"
+            file="${:app*projectDir}/build.gradle"
+            line="44"
+            column="20"
+            startOffset="994"
+            endLine="44"
+            endColumn="65"
+            endOffset="1039"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.lifecycle:lifecycle-viewmodel than 2.8.4 is available: 2.10.0">
+        <fix-replace
+            description="Change to 2.10.0"
+            family="Update versions"
+            oldString="2.8.4"
+            replacement="2.10.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle"
+            line="45"
+            column="20"
+            startOffset="1059"
+            endLine="45"
+            endColumn="66"
+            endOffset="1105"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime than 2.8.4 is available: 2.10.0">
+        <fix-replace
+            description="Change to 2.10.0"
+            family="Update versions"
+            oldString="2.8.4"
+            replacement="2.10.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle"
+            line="46"
+            column="20"
+            startOffset="1125"
+            endLine="46"
             endColumn="64"
-            endOffset="1570"/>
+            endOffset="1169"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.lifecycle:lifecycle-livedata than 2.8.4 is available: 2.10.0">
+        <fix-replace
+            description="Change to 2.10.0"
+            family="Update versions"
+            oldString="2.8.4"
+            replacement="2.10.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle"
+            line="47"
+            column="20"
+            startOffset="1189"
+            endLine="47"
+            endColumn="65"
+            endOffset="1234"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.recyclerview:recyclerview than 1.3.2 is available: 1.4.0">
+        <fix-replace
+            description="Change to 1.4.0"
+            family="Update versions"
+            oldString="1.3.2"
+            replacement="1.4.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle"
+            line="48"
+            column="20"
+            startOffset="1254"
+            endLine="48"
+            endColumn="62"
+            endOffset="1296"/>
     </incident>
 
     <incident
@@ -174,33 +334,67 @@
             replacement="2.57.2"
             priority="0"/>
         <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="63"
-            column="17"
-            startOffset="1590"
-            endLine="63"
-            endColumn="52"
-            endOffset="1625"/>
+            file="${:app*projectDir}/build.gradle"
+            line="50"
+            column="20"
+            startOffset="1317"
+            endLine="50"
+            endColumn="57"
+            endOffset="1354"/>
     </incident>
 
     <incident
         id="GradleDependency"
         severity="warning"
-        message="A newer version of com.google.dagger:hilt-compiler than 2.48 is available: 2.57.2">
+        message="A newer version of androidx.test.ext:junit than 1.2.1 is available: 1.3.0">
         <fix-replace
-            description="Change to 2.57.2"
+            description="Change to 1.3.0"
             family="Update versions"
-            oldString="2.48"
-            replacement="2.57.2"
+            oldString="1.2.1"
+            replacement="1.3.0"
             priority="0"/>
         <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="64"
-            column="7"
-            startOffset="1634"
-            endLine="64"
-            endColumn="43"
-            endOffset="1670"/>
+            file="${:app*projectDir}/build.gradle"
+            line="57"
+            column="31"
+            startOffset="1622"
+            endLine="57"
+            endColumn="62"
+            endOffset="1653"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.6.1 is available: 3.7.0">
+        <fix-replace
+            description="Change to 3.7.0"
+            family="Update versions"
+            oldString="3.6.1"
+            replacement="3.7.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle"
+            line="58"
+            column="31"
+            startOffset="1684"
+            endLine="58"
+            endColumn="75"
+            endOffset="1728"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `?attr/selectableItemBackground` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_discovered_device.xml"
+            line="5"
+            column="5"
+            startOffset="197"
+            endLine="5"
+            endColumn="56"
+            endOffset="248"/>
     </incident>
 
 </incidents>

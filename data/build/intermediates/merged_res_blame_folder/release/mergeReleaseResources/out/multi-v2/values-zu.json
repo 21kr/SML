@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.data-mergeReleaseResources-16:/values-zu/values-zu.xml",
+            "outputFile": "com.mrp.sml.data-mergeReleaseResources-15:/values-zu/values-zu.xml",
             "map": [
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/6b38d6c81256e3f8d005f03e7bab5591/transformed/core-1.8.0/res/values-zu/values-zu.xml",
+                    "source": "/home/codespace/.gradle/caches/transforms-4/3ad166bd29d42576d06f0fa83fafa95f/transformed/core-1.8.0/res/values-zu/values-zu.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "com.mrp.sml.data-release-18:/values-zu/values-zu.xml",
+            "outputFile": "com.mrp.sml.data-release-17:/values-zu/values-zu.xml",
             "map": [
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/6b38d6c81256e3f8d005f03e7bab5591/transformed/core-1.8.0/res/values-zu/values-zu.xml",
+                    "source": "/home/codespace/.gradle/caches/transforms-4/3ad166bd29d42576d06f0fa83fafa95f/transformed/core-1.8.0/res/values-zu/values-zu.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

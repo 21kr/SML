@@ -1,9 +1,6 @@
-/workspaces/SML/core/build.gradle.kts:32: Warning: A newer version of com.google.dagger:hilt-android than 2.48 is available: 2.57.2 [GradleDependency]
-implementation("com.google.dagger:hilt-android:2.48")
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/core/build.gradle.kts:33: Warning: A newer version of com.google.dagger:hilt-compiler than 2.48 is available: 2.57.2 [GradleDependency]
-    kapt("com.google.dagger:hilt-compiler:2.48")
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/core/build.gradle:21: Warning: A newer version of com.google.dagger:hilt-android than 2.48 is available: 2.57.2 [GradleDependency]
+    implementation 'com.google.dagger:hilt-android:2.48'
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    Explanation for issues of type "GradleDependency":
    This detector looks for usages of libraries where the version you are using
@@ -12,4 +9,4 @@ implementation("com.google.dagger:hilt-android:2.48")
    However, you may simply not be aware that a more recent version is
    available, and that is what this lint check helps find.
 
-0 errors, 2 warnings
+0 errors, 1 warnings

@@ -2,40 +2,17 @@
 <incidents format="6" by="lint 8.4.2" type="incidents">
 
     <incident
-        id="KaptUsageInsteadOfKsp"
+        id="DefaultLocale"
         severity="warning"
-        message="This library supports using KSP instead of kapt, which greatly improves performance. Learn more: https://developer.android.com/studio/build/migrate-to-ksp">
-        <show-url
-            description="Learn about how to enable KSP and use the KSP processor for this dependency instead"
-            url="https://developer.android.com/studio/build/migrate-to-ksp"/>
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`.">
         <location
-            file="${:data*projectDir}/build.gradle.kts"
-            line="38"
-            column="5"
-            startOffset="833"
-            endLine="38"
-            endColumn="46"
-            endOffset="874"/>
-    </incident>
-
-    <incident
-        id="GradleDependency"
-        severity="warning"
-        message="A newer version of com.google.dagger:hilt-android than 2.48 is available: 2.57.2">
-        <fix-replace
-            description="Change to 2.57.2"
-            family="Update versions"
-            oldString="2.48"
-            replacement="2.57.2"
-            priority="0"/>
-        <location
-            file="${:data*projectDir}/build.gradle.kts"
-            line="35"
-            column="21"
-            startOffset="685"
-            endLine="35"
-            endColumn="56"
-            endOffset="720"/>
+            file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultFileTransferRepository.java"
+            line="313"
+            column="49"
+            startOffset="12739"
+            endLine="313"
+            endColumn="60"
+            endOffset="12750"/>
     </incident>
 
     <incident
@@ -49,33 +26,13 @@
             replacement="2.8.4"
             priority="0"/>
         <location
-            file="${:data*projectDir}/build.gradle.kts"
-            line="36"
-            column="21"
-            startOffset="743"
-            endLine="36"
-            endColumn="53"
-            endOffset="775"/>
-    </incident>
-
-    <incident
-        id="GradleDependency"
-        severity="warning"
-        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.4">
-        <fix-replace
-            description="Change to 2.8.4"
-            family="Update versions"
-            oldString="2.6.1"
-            replacement="2.8.4"
-            priority="0"/>
-        <location
-            file="${:data*projectDir}/build.gradle.kts"
-            line="37"
-            column="21"
-            startOffset="798"
-            endLine="37"
-            endColumn="49"
-            endOffset="826"/>
+            file="${:data*projectDir}/build.gradle"
+            line="25"
+            column="20"
+            startOffset="481"
+            endLine="25"
+            endColumn="54"
+            endOffset="515"/>
     </incident>
 
     <incident
@@ -89,19 +46,19 @@
             replacement="2.8.4"
             priority="0"/>
         <location
-            file="${:data*projectDir}/build.gradle.kts"
-            line="38"
-            column="11"
-            startOffset="839"
-            endLine="38"
-            endColumn="44"
-            endOffset="872"/>
+            file="${:data*projectDir}/build.gradle"
+            line="26"
+            column="25"
+            startOffset="540"
+            endLine="26"
+            endColumn="60"
+            endOffset="575"/>
     </incident>
 
     <incident
         id="GradleDependency"
         severity="warning"
-        message="A newer version of com.google.dagger:hilt-compiler than 2.48 is available: 2.57.2">
+        message="A newer version of com.google.dagger:hilt-android than 2.48 is available: 2.57.2">
         <fix-replace
             description="Change to 2.57.2"
             family="Update versions"
@@ -109,13 +66,13 @@
             replacement="2.57.2"
             priority="0"/>
         <location
-            file="${:data*projectDir}/build.gradle.kts"
-            line="39"
-            column="11"
-            startOffset="885"
-            endLine="39"
-            endColumn="47"
-            endOffset="921"/>
+            file="${:data*projectDir}/build.gradle"
+            line="28"
+            column="20"
+            startOffset="596"
+            endLine="28"
+            endColumn="57"
+            endOffset="633"/>
     </incident>
 
 </incidents>

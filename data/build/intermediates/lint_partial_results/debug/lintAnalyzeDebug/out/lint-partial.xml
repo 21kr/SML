@@ -5,12 +5,5 @@
             name="model"
             string=""/>
     </map>
-    <map id="UnsafeIntentLaunch">
-            <map id="unprotected">
-                <entry
-                    name="com.mrp.sml.data.repository.WifiDirectBroadcastReceiver"
-                    boolean="true"/>
-            </map>
-    </map>
 
 </incidents>

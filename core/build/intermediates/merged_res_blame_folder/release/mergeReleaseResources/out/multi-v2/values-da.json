@@ -4,7 +4,7 @@
             "outputFile": "com.mrp.sml.core-release-12:/values-da/values-da.xml",
             "map": [
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/6b38d6c81256e3f8d005f03e7bab5591/transformed/core-1.8.0/res/values-da/values-da.xml",
+                    "source": "/home/codespace/.gradle/caches/transforms-4/3ad166bd29d42576d06f0fa83fafa95f/transformed/core-1.8.0/res/values-da/values-da.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -19,7 +19,7 @@
             "outputFile": "com.mrp.sml.core-mergeReleaseResources-10:/values-da/values-da.xml",
             "map": [
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/6b38d6c81256e3f8d005f03e7bab5591/transformed/core-1.8.0/res/values-da/values-da.xml",
+                    "source": "/home/codespace/.gradle/caches/transforms-4/3ad166bd29d42576d06f0fa83fafa95f/transformed/core-1.8.0/res/values-da/values-da.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
