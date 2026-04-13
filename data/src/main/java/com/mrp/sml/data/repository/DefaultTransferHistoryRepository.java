@@ -1,6 +1,5 @@
 package com.mrp.sml.data.repository;
 
-import com.mrp.sml.core.common.DispatchersProvider;
 import com.mrp.sml.data.local.TransferDao;
 import com.mrp.sml.data.local.TransferEntity;
 import com.mrp.sml.domain.model.TransferDirection;
@@ -18,43 +17,53 @@ import javax.inject.Singleton;
 public class DefaultTransferHistoryRepository implements TransferHistoryRepository {
 
     private final TransferDao transferDao;
-    private final DispatchersProvider dispatchersProvider;
     private final CopyOnWriteArrayList<TransferHistoryListener> listeners = new CopyOnWriteArrayList<>();
-    private volatile List<TransferRecord> cachedHistory = new ArrayList<>();
 
     @Inject
-    public DefaultTransferHistoryRepository(TransferDao transferDao, DispatchersProvider dispatchersProvider) {
+    public DefaultTransferHistoryRepository(TransferDao transferDao) {
         this.transferDao = transferDao;
-        this.dispatchersProvider = dispatchersProvider;
-        refreshHistoryAsync();
     }
 
     @Override
     public List<TransferRecord> getTransferHistory() {
-        return new ArrayList<>(cachedHistory);
+        List<TransferEntity> entities = transferDao.getTransferHistory();
+        List<TransferRecord> records = new ArrayList<>();
+        if (entities == null) {
+            return records;
+        }
+
+        for (TransferEntity entity : entities) {
+            records.add(new TransferRecord(
+                    entity.id,
+                    entity.fileName,
+                    entity.fileSizeBytes,
+                    entity.mimeType,
+                    TransferDirection.valueOf(entity.direction),
+                    TransferStatus.valueOf(entity.status),
+                    entity.timestampEpochMillis
+            ));
+        }
+        return records;
     }
 
     @Override
     public void saveTransferRecord(TransferRecord record) {
-        dispatchersProvider.ioExecutor().execute(() -> {
-            TransferEntity entity = new TransferEntity(
-                    record.getFileName(),
-                    record.getFileSizeBytes(),
-                    record.getMimeType(),
-                    record.getDirection().name(),
-                    record.getStatus().name(),
-                    record.getTimestampEpochMillis()
-            );
-            transferDao.insert(entity);
-            refreshHistoryAsync();
-        });
+        TransferEntity entity = new TransferEntity(
+                record.getFileName(),
+                record.getFileSizeBytes(),
+                record.getMimeType(),
+                record.getDirection().name(),
+                record.getStatus().name(),
+                record.getTimestampEpochMillis()
+        );
+        transferDao.insert(entity);
+        notifyHistoryChanged();
     }
 
     @Override
     public void observeTransferHistory(TransferHistoryListener listener) {
         listeners.addIfAbsent(listener);
-        listener.onHistoryChanged(Collections.unmodifiableList(new ArrayList<>(cachedHistory)));
-        refreshHistoryAsync();
+        listener.onHistoryChanged(Collections.unmodifiableList(getTransferHistory()));
     }
 
     @Override
@@ -62,31 +71,10 @@ public class DefaultTransferHistoryRepository implements TransferHistoryReposito
         listeners.remove(listener);
     }
 
-    private void refreshHistoryAsync() {
-        dispatchersProvider.ioExecutor().execute(() -> {
-            List<TransferEntity> entities = transferDao.getTransferHistory();
-            List<TransferRecord> mapped = new ArrayList<>();
-            if (entities != null) {
-                for (TransferEntity entity : entities) {
-                    mapped.add(new TransferRecord(
-                            entity.id,
-                            entity.fileName,
-                            entity.fileSizeBytes,
-                            entity.mimeType,
-                            TransferDirection.valueOf(entity.direction),
-                            TransferStatus.valueOf(entity.status),
-                            entity.timestampEpochMillis
-                    ));
-                }
-            }
-
-            cachedHistory = mapped;
-            dispatchersProvider.mainHandler().post(() -> {
-                List<TransferRecord> snapshot = Collections.unmodifiableList(new ArrayList<>(cachedHistory));
-                for (TransferHistoryListener historyListener : listeners) {
-                    historyListener.onHistoryChanged(snapshot);
-                }
-            });
-        });
+    private void notifyHistoryChanged() {
+        List<TransferRecord> snapshot = Collections.unmodifiableList(getTransferHistory());
+        for (TransferHistoryListener listener : listeners) {
+            listener.onHistoryChanged(snapshot);
+        }
     }
 }

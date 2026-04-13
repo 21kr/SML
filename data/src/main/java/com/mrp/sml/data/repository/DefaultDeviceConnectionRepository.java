@@ -2,8 +2,6 @@ package com.mrp.sml.data.repository;
 
 import android.content.Context;
 import android.content.IntentFilter;
-import android.os.Build;
-import androidx.core.content.ContextCompat;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -60,7 +58,7 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             }
         });
 
-        registerWifiReceiverSafely();
+        context.registerReceiver(receiver, buildIntentFilter());
     }
 
     @Override
@@ -100,25 +98,19 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        try {
-            wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
-                @Override
-                public void onSuccess() {
-                    requestPeers();
-                }
+        wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                requestPeers();
+            }
 
-                @Override
-                public void onFailure(int reason) {
-                    currentState = ConnectionState.FAILED;
-                    notifyState();
-                    fallbackMockPeers();
-                }
-            });
-        } catch (SecurityException securityException) {
-            currentState = ConnectionState.FAILED;
-            notifyState();
-            fallbackMockPeers();
-        }
+            @Override
+            public void onFailure(int reason) {
+                currentState = ConnectionState.FAILED;
+                notifyState();
+                fallbackMockPeers();
+            }
+        });
     }
 
     @Override
@@ -137,24 +129,19 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
 
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = deviceId.trim();
-        try {
-            wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
-                @Override
-                public void onSuccess() {
-                    currentState = ConnectionState.CONNECTED;
-                    notifyState();
-                }
+        wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                currentState = ConnectionState.CONNECTED;
+                notifyState();
+            }
 
-                @Override
-                public void onFailure(int reason) {
-                    currentState = ConnectionState.FAILED;
-                    notifyState();
-                }
-            });
-        } catch (SecurityException securityException) {
-            currentState = ConnectionState.FAILED;
-            notifyState();
-        }
+            @Override
+            public void onFailure(int reason) {
+                currentState = ConnectionState.FAILED;
+                notifyState();
+            }
+        });
     }
 
     @Override
@@ -165,24 +152,19 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        try {
-            wifiP2pManager.removeGroup(channel, new WifiP2pManager.ActionListener() {
-                @Override
-                public void onSuccess() {
-                    currentState = ConnectionState.DISCONNECTED;
-                    notifyState();
-                }
+        wifiP2pManager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                currentState = ConnectionState.DISCONNECTED;
+                notifyState();
+            }
 
-                @Override
-                public void onFailure(int reason) {
-                    currentState = ConnectionState.FAILED;
-                    notifyState();
-                }
-            });
-        } catch (SecurityException securityException) {
-            currentState = ConnectionState.FAILED;
-            notifyState();
-        }
+            @Override
+            public void onFailure(int reason) {
+                currentState = ConnectionState.FAILED;
+                notifyState();
+            }
+        });
     }
 
     private void requestPeers() {
@@ -191,17 +173,13 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        try {
-            wifiP2pManager.requestPeers(channel, peers -> {
-                cachedDevices.clear();
-                for (WifiP2pDevice device : peers.getDeviceList()) {
-                    cachedDevices.add(new DiscoveredDevice(device.deviceAddress, device.deviceName));
-                }
-                notifyDevices();
-            });
-        } catch (SecurityException securityException) {
-            fallbackMockPeers();
-        }
+        wifiP2pManager.requestPeers(channel, peers -> {
+            cachedDevices.clear();
+            for (WifiP2pDevice device : peers.getDeviceList()) {
+                cachedDevices.add(new DiscoveredDevice(device.deviceAddress, device.deviceName));
+            }
+            notifyDevices();
+        });
     }
 
     private void requestConnectionInfo() {
@@ -209,15 +187,10 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             return;
         }
 
-        try {
-            wifiP2pManager.requestConnectionInfo(channel, info -> {
-                currentState = info.groupFormed ? ConnectionState.CONNECTED : ConnectionState.DISCONNECTED;
-                notifyState();
-            });
-        } catch (SecurityException securityException) {
-            currentState = ConnectionState.FAILED;
+        wifiP2pManager.requestConnectionInfo(channel, info -> {
+            currentState = info.groupFormed ? ConnectionState.CONNECTED : ConnectionState.DISCONNECTED;
             notifyState();
-        }
+        });
     }
 
     private void fallbackMockPeers() {
@@ -226,25 +199,6 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             cachedDevices.add(new DiscoveredDevice("02:AA:BB:CC:DD:EE", "SML Peer B"));
         }
         notifyDevices();
-    }
-
-    private void registerWifiReceiverSafely() {
-        IntentFilter filter = buildIntentFilter();
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                ContextCompat.registerReceiver(
-                        context,
-                        receiver,
-                        filter,
-                        ContextCompat.RECEIVER_NOT_EXPORTED
-                );
-            } else {
-                context.registerReceiver(receiver, filter);
-            }
-        } catch (RuntimeException runtimeException) {
-            currentState = ConnectionState.FAILED;
-            notifyState();
-        }
     }
 
     private IntentFilter buildIntentFilter() {
