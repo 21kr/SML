@@ -29,7 +29,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 @AndroidEntryPoint
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         binding.pickFileButton.setOnClickListener(view -> filePickerLauncher.launch(new String[]{"*/*"}));
         binding.openHistoryButton.setOnClickListener(view ->
                 startActivity(new Intent(this, HistoryActivity.class)));
+        binding.prepareReceiverButton.setOnClickListener(view -> prepareReceiverMode());
 
         binding.sendButton.setOnClickListener(view ->
                 transferViewModel.sendFile(
@@ -171,6 +176,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return ContextCompat.checkSelfPermission(this, Manifest.permission.NEARBY_WIFI_DEVICES)
+                    == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                    == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO)
+                    == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO)
                     == PackageManager.PERMISSION_GRANTED;
         }
 
@@ -184,6 +195,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             addPermissionIfMissing(pendingPermissions, Manifest.permission.NEARBY_WIFI_DEVICES);
+            addPermissionIfMissing(pendingPermissions, Manifest.permission.READ_MEDIA_IMAGES);
+            addPermissionIfMissing(pendingPermissions, Manifest.permission.READ_MEDIA_VIDEO);
+            addPermissionIfMissing(pendingPermissions, Manifest.permission.READ_MEDIA_AUDIO);
         } else {
             addPermissionIfMissing(pendingPermissions, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -250,5 +264,48 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", getPackageName(), null));
         startActivity(intent);
+    }
+
+    private void prepareReceiverMode() {
+        String localAddress = resolveLocalIpv4Address();
+        if (localAddress == null) {
+            binding.receiverAddressText.setText(getString(R.string.receiver_address_unavailable));
+            Toast.makeText(this, R.string.receiver_address_unavailable, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        binding.receiverAddressText.setText(getString(R.string.receiver_address_label, localAddress));
+        binding.destinationAddressInput.setText(localAddress);
+        if (binding.outputDirectoryInput.getText() == null
+                || binding.outputDirectoryInput.getText().toString().trim().isEmpty()) {
+            binding.outputDirectoryInput.setText(getFilesDir().getAbsolutePath());
+        }
+        transferViewModel.receiveFiles(binding.outputDirectoryInput.getText().toString());
+        Toast.makeText(this, R.string.receiver_ready_toast, Toast.LENGTH_SHORT).show();
+    }
+
+    @Nullable
+    private String resolveLocalIpv4Address() {
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces != null && interfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = interfaces.nextElement();
+                if (!networkInterface.isUp() || networkInterface.isLoopback()) {
+                    continue;
+                }
+                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    InetAddress address = addresses.nextElement();
+                    if (address instanceof Inet4Address
+                            && !address.isLoopbackAddress()
+                            && !address.isLinkLocalAddress()) {
+                        return address.getHostAddress();
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+            return null;
+        }
+        return null;
     }
 }

@@ -105,6 +105,27 @@
             android:layout_marginTop="4dp"
             android:text="@string/progress_initial" />
 
+        <TextView
+            android:id="@+id/transferGuideText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/transfer_quick_guide" />
+
+        <Button
+            android:id="@+id/prepareReceiverButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/prepare_receiver" />
+
+        <TextView
+            android:id="@+id/receiverAddressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/receiver_address_unavailable" />
+
         <Button
             android:id="@+id/pickFileButton"
             android:layout_width="match_parent"
