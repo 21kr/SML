@@ -121,9 +121,12 @@ public class MainActivity extends AppCompatActivity {
         binding.sendButton.setOnClickListener(view ->
                 transferViewModel.sendFile(
                         binding.filePathInput.getText().toString(),
-                        binding.destinationAddressInput.getText().toString()));
+                        binding.destinationAddressInput.getText().toString(),
+                        binding.sessionTokenInput.getText().toString()));
         binding.receiveButton.setOnClickListener(view ->
-                transferViewModel.receiveFiles(binding.outputDirectoryInput.getText().toString()));
+                transferViewModel.receiveFiles(
+                        binding.outputDirectoryInput.getText().toString(),
+                        binding.sessionTokenInput.getText().toString()));
         binding.cancelTransferButton.setOnClickListener(view -> transferViewModel.cancelTransfer());
         binding.resumeTransferButton.setOnClickListener(view -> transferViewModel.resumeTransfer());
     }
@@ -280,7 +283,10 @@ public class MainActivity extends AppCompatActivity {
                 || binding.outputDirectoryInput.getText().toString().trim().isEmpty()) {
             binding.outputDirectoryInput.setText(getFilesDir().getAbsolutePath());
         }
-        transferViewModel.receiveFiles(binding.outputDirectoryInput.getText().toString());
+        transferViewModel.receiveFiles(
+                binding.outputDirectoryInput.getText().toString(),
+                binding.sessionTokenInput.getText().toString()
+        );
         Toast.makeText(this, R.string.receiver_ready_toast, Toast.LENGTH_SHORT).show();
     }
 

@@ -17,21 +17,27 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.zip.CRC32;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class DefaultFileTransferRepository implements FileTransferRepository {
+    private static final String PROTOCOL_MAGIC = "SMLP2P";
+    private static final int PROTOCOL_VERSION = 1;
     private static final int DEFAULT_TRANSFER_PORT = 8988;
     private static final int BUFFER_SIZE_BYTES = 256 * 1024;
     private static final int MAX_RETRY_ATTEMPTS = 3;
     private static final long RETRY_DELAY_MS = 350L;
+    private static final int SOCKET_CONNECT_TIMEOUT_MS = 10_000;
+    private static final int SOCKET_READ_TIMEOUT_MS = 15_000;
 
     private final DispatchersProvider dispatchersProvider;
     private final TransferHistoryRepository transferHistoryRepository;
@@ -41,6 +47,8 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     private volatile TransferRequest lastTransferRequest;
     private volatile boolean cancelled;
+    private volatile Socket activeSocket;
+    private volatile ServerSocket activeServerSocket;
 
     @Inject
     public DefaultFileTransferRepository(
@@ -75,34 +83,54 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     @Override
     public void sendFile(String sourcePath, String destinationAddress) {
-        sendFiles(Collections.singletonList(sourcePath), destinationAddress);
+        sendFile(sourcePath, destinationAddress, "");
+    }
+
+    @Override
+    public void sendFile(String sourcePath, String destinationAddress, String sessionToken) {
+        sendFiles(Collections.singletonList(sourcePath), destinationAddress, sessionToken);
     }
 
     @Override
     public void sendFiles(List<String> sourcePaths, String destinationAddress) {
+        sendFiles(sourcePaths, destinationAddress, "");
+    }
+
+    @Override
+    public void sendFiles(List<String> sourcePaths, String destinationAddress, String sessionToken) {
         cancelled = false;
-        lastTransferRequest = TransferRequest.forSend(sourcePaths, destinationAddress);
+        lastTransferRequest = TransferRequest.forSend(sourcePaths, destinationAddress, sessionToken);
         dispatchersProvider.ioExecutor().execute(() -> runWithRetry(
                 TransferExecutionStatus.SENDING,
                 "Sending files",
-                () -> performSendFiles(sourcePaths, destinationAddress),
+                () -> performSendFiles(sourcePaths, destinationAddress, sessionToken),
                 "Files sent"
         ));
     }
 
     @Override
     public void receiveFile(String destinationPath) {
-        receiveFiles(destinationPath);
+        receiveFile(destinationPath, "");
+    }
+
+    @Override
+    public void receiveFile(String destinationPath, String sessionToken) {
+        receiveFiles(destinationPath, sessionToken);
     }
 
     @Override
     public void receiveFiles(String destinationDirectoryPath) {
+        receiveFiles(destinationDirectoryPath, "");
+    }
+
+    @Override
+    public void receiveFiles(String destinationDirectoryPath, String sessionToken) {
         cancelled = false;
-        lastTransferRequest = TransferRequest.forReceive(destinationDirectoryPath);
+        lastTransferRequest = TransferRequest.forReceive(destinationDirectoryPath, sessionToken);
         dispatchersProvider.ioExecutor().execute(() -> runWithRetry(
                 TransferExecutionStatus.RECEIVING,
                 "Waiting for incoming files",
-                () -> performReceiveFiles(destinationDirectoryPath),
+                () -> performReceiveFiles(destinationDirectoryPath, sessionToken),
                 "Files received"
         ));
     }
@@ -110,6 +138,7 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
     @Override
     public void cancelTransfer() {
         cancelled = true;
+        closeActiveSockets();
         postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, "Transfer cancelled by user."));
     }
 
@@ -122,9 +151,9 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         }
 
         if (request.type == TransferType.SEND) {
-            sendFiles(request.sourcePaths, request.destinationAddress);
+            sendFiles(request.sourcePaths, request.destinationAddress, request.sessionToken);
         } else {
-            receiveFiles(request.destinationDirectoryPath);
+            receiveFiles(request.destinationDirectoryPath, request.sessionToken);
         }
     }
 
@@ -166,7 +195,8 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         postStatus(new TransferStatusUpdate(TransferExecutionStatus.FAILED, failureMessage));
     }
 
-    private void performSendFiles(List<String> sourcePaths, String destinationAddress) throws IOException {
+    private void performSendFiles(List<String> sourcePaths, String destinationAddress, String sessionToken)
+            throws IOException {
         if (sourcePaths == null || sourcePaths.isEmpty()) {
             throw new IOException("At least one source path is required");
         }
@@ -186,9 +216,16 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         postProgress(new TransferProgress(0L, totalBytes, 0.0, 0f));
         long start = System.currentTimeMillis();
 
-        try (Socket socket = new Socket(destinationAddress, DEFAULT_TRANSFER_PORT);
+        Socket socket = new Socket();
+        socket.connect(new InetSocketAddress(destinationAddress, DEFAULT_TRANSFER_PORT), SOCKET_CONNECT_TIMEOUT_MS);
+        socket.setSoTimeout(SOCKET_READ_TIMEOUT_MS);
+        activeSocket = socket;
+        try (Socket ignored = socket;
              DataOutputStream output = new DataOutputStream(
                      new BufferedOutputStream(socket.getOutputStream(), BUFFER_SIZE_BYTES))) {
+            output.writeUTF(PROTOCOL_MAGIC);
+            output.writeInt(PROTOCOL_VERSION);
+            output.writeUTF(sanitizeSessionToken(sessionToken));
 
             output.writeInt(files.size());
             byte[] buffer = new byte[BUFFER_SIZE_BYTES];
@@ -197,15 +234,18 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                 throwIfCancelled();
                 output.writeUTF(file.getName());
                 output.writeLong(file.length());
+                CRC32 crc32 = new CRC32();
                 try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE_BYTES)) {
                     int read;
                     while ((read = input.read(buffer)) >= 0) {
                         throwIfCancelled();
                         output.write(buffer, 0, read);
+                        crc32.update(buffer, 0, read);
                         transferred += read;
                         postProgress(progressFromBytes(transferred, totalBytes, start));
                     }
                 }
+                output.writeLong(crc32.getValue());
 
                 transferHistoryRepository.saveTransferRecord(new TransferRecord(
                         0L,
@@ -218,64 +258,95 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                 ));
             }
             output.flush();
+        } finally {
+            activeSocket = null;
         }
     }
 
-    private void performReceiveFiles(String destinationDirectoryPath) throws IOException {
+    private void performReceiveFiles(String destinationDirectoryPath, String sessionToken) throws IOException {
         File destinationDirectory = validateDestinationDirectory(destinationDirectoryPath);
-        try (ServerSocket serverSocket = new ServerSocket(DEFAULT_TRANSFER_PORT);
-             Socket socket = serverSocket.accept();
-             DataInputStream input = new DataInputStream(
-                     new BufferedInputStream(socket.getInputStream(), BUFFER_SIZE_BYTES))) {
+        try (ServerSocket serverSocket = new ServerSocket(DEFAULT_TRANSFER_PORT)) {
+            activeServerSocket = serverSocket;
+            serverSocket.setReuseAddress(true);
+            Socket socket = serverSocket.accept();
+            socket.setSoTimeout(SOCKET_READ_TIMEOUT_MS);
+            activeSocket = socket;
+            try (Socket ignored = socket;
+                 DataInputStream input = new DataInputStream(
+                         new BufferedInputStream(socket.getInputStream(), BUFFER_SIZE_BYTES))) {
 
-            int fileCount = input.readInt();
-            if (fileCount <= 0) {
-                throw new IOException("No files were provided by sender");
-            }
-
-            List<FileHeader> headers = new ArrayList<>();
-            long totalBytes = 0L;
-            for (int i = 0; i < fileCount; i++) {
-                String name = input.readUTF();
-                long sizeBytes = input.readLong();
-                headers.add(new FileHeader(name, sizeBytes));
-                totalBytes += sizeBytes;
-            }
-
-            long transferred = 0L;
-            long start = System.currentTimeMillis();
-            byte[] buffer = new byte[BUFFER_SIZE_BYTES];
-
-            for (FileHeader header : headers) {
-                throwIfCancelled();
-                File outputFile = new File(destinationDirectory, sanitizeFileName(header.fileName));
-                long remaining = header.sizeBytes;
-                try (BufferedOutputStream output = new BufferedOutputStream(
-                        new FileOutputStream(outputFile), BUFFER_SIZE_BYTES)) {
-                    while (remaining > 0) {
-                        throwIfCancelled();
-                        int bytesToRead = (int) Math.min((long) buffer.length, remaining);
-                        int read = input.read(buffer, 0, bytesToRead);
-                        if (read < 0) {
-                            throw new IOException("Connection dropped during file transfer");
-                        }
-                        output.write(buffer, 0, read);
-                        remaining -= read;
-                        transferred += read;
-                        postProgress(progressFromBytes(transferred, totalBytes, start));
-                    }
-                    output.flush();
+                String protocolMagic = input.readUTF();
+                int protocolVersion = input.readInt();
+                String providedSessionToken = input.readUTF();
+                if (!PROTOCOL_MAGIC.equals(protocolMagic) || protocolVersion != PROTOCOL_VERSION) {
+                    throw new IOException("Unsupported transfer protocol.");
+                }
+                if (!sanitizeSessionToken(sessionToken).equals(providedSessionToken)) {
+                    throw new IOException("Session token mismatch.");
                 }
 
-                transferHistoryRepository.saveTransferRecord(new TransferRecord(
-                        0L,
-                        outputFile.getName(),
-                        outputFile.length(),
-                        "application/octet-stream",
-                        TransferDirection.RECEIVED,
-                        TransferStatus.COMPLETED,
-                        System.currentTimeMillis()
-                ));
+                int fileCount = input.readInt();
+                if (fileCount <= 0) {
+                    throw new IOException("No files were provided by sender");
+                }
+
+                List<FileHeader> headers = new ArrayList<>();
+                long totalBytes = 0L;
+                for (int i = 0; i < fileCount; i++) {
+                    String name = input.readUTF();
+                    long sizeBytes = input.readLong();
+                    headers.add(new FileHeader(name, sizeBytes));
+                    totalBytes += sizeBytes;
+                }
+
+                long transferred = 0L;
+                long start = System.currentTimeMillis();
+                byte[] buffer = new byte[BUFFER_SIZE_BYTES];
+
+                for (FileHeader header : headers) {
+                    throwIfCancelled();
+                    File outputFile = new File(destinationDirectory, sanitizeFileName(header.fileName));
+                    long remaining = header.sizeBytes;
+                    CRC32 crc32 = new CRC32();
+                    try (BufferedOutputStream output = new BufferedOutputStream(
+                            new FileOutputStream(outputFile), BUFFER_SIZE_BYTES)) {
+                        while (remaining > 0) {
+                            throwIfCancelled();
+                            int bytesToRead = (int) Math.min((long) buffer.length, remaining);
+                            int read = input.read(buffer, 0, bytesToRead);
+                            if (read < 0) {
+                                throw new IOException("Connection dropped during file transfer");
+                            }
+                            output.write(buffer, 0, read);
+                            crc32.update(buffer, 0, read);
+                            remaining -= read;
+                            transferred += read;
+                            postProgress(progressFromBytes(transferred, totalBytes, start));
+                        }
+                        output.flush();
+                    }
+                    long expectedCrc = input.readLong();
+                    long actualCrc = crc32.getValue();
+                    if (expectedCrc != actualCrc) {
+                        if (!outputFile.delete()) {
+                            // Keep mismatch failure primary; best-effort cleanup only.
+                        }
+                        throw new IOException("File integrity check failed.");
+                    }
+
+                    transferHistoryRepository.saveTransferRecord(new TransferRecord(
+                            0L,
+                            outputFile.getName(),
+                            outputFile.length(),
+                            "application/octet-stream",
+                            TransferDirection.RECEIVED,
+                            TransferStatus.COMPLETED,
+                            System.currentTimeMillis()
+                    ));
+                }
+            } finally {
+                activeSocket = null;
+                activeServerSocket = null;
             }
         }
     }
@@ -323,6 +394,12 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         if (message.contains("dropped")) {
             return "Connection dropped during transfer.";
         }
+        if (message.contains("token mismatch")) {
+            return "Sender/receiver token mismatch.";
+        }
+        if (message.contains("integrity")) {
+            return "Integrity verification failed. Please retry transfer.";
+        }
         return exception.getMessage();
     }
 
@@ -331,6 +408,35 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
             Thread.sleep(delayMillis);
         } catch (InterruptedException interruptedException) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    private void closeActiveSockets() {
+        closeSocketQuietly(activeSocket);
+        closeServerSocketQuietly(activeServerSocket);
+        activeSocket = null;
+        activeServerSocket = null;
+    }
+
+    private void closeSocketQuietly(Socket socket) {
+        if (socket == null) {
+            return;
+        }
+        try {
+            socket.close();
+        } catch (IOException ignored) {
+            // Ignore close errors during cancellation.
+        }
+    }
+
+    private void closeServerSocketQuietly(ServerSocket serverSocket) {
+        if (serverSocket == null) {
+            return;
+        }
+        try {
+            serverSocket.close();
+        } catch (IOException ignored) {
+            // Ignore close errors during cancellation.
         }
     }
 
@@ -370,6 +476,10 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         return fileName.replace("..", "").replace('/', '_').replace('\\', '_');
     }
 
+    private String sanitizeSessionToken(String sessionToken) {
+        return sessionToken == null ? "" : sessionToken.trim();
+    }
+
     private interface TransferOperation {
         void execute() throws IOException;
     }
@@ -384,30 +494,40 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         private final List<String> sourcePaths;
         private final String destinationAddress;
         private final String destinationDirectoryPath;
+        private final String sessionToken;
 
         private TransferRequest(
                 TransferType type,
                 List<String> sourcePaths,
                 String destinationAddress,
-                String destinationDirectoryPath
+                String destinationDirectoryPath,
+                String sessionToken
         ) {
             this.type = type;
             this.sourcePaths = sourcePaths;
             this.destinationAddress = destinationAddress;
             this.destinationDirectoryPath = destinationDirectoryPath;
+            this.sessionToken = sessionToken;
         }
 
-        static TransferRequest forSend(List<String> sourcePaths, String destinationAddress) {
+        static TransferRequest forSend(List<String> sourcePaths, String destinationAddress, String sessionToken) {
             return new TransferRequest(
                     TransferType.SEND,
                     sourcePaths == null ? Collections.emptyList() : new ArrayList<>(sourcePaths),
                     destinationAddress,
-                    null
+                    null,
+                    sessionToken
             );
         }
 
-        static TransferRequest forReceive(String destinationDirectoryPath) {
-            return new TransferRequest(TransferType.RECEIVE, Collections.emptyList(), null, destinationDirectoryPath);
+        static TransferRequest forReceive(String destinationDirectoryPath, String sessionToken) {
+            return new TransferRequest(
+                    TransferType.RECEIVE,
+                    Collections.emptyList(),
+                    null,
+                    destinationDirectoryPath,
+                    sessionToken
+            );
         }
     }
 

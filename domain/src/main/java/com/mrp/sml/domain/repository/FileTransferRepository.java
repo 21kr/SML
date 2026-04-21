@@ -9,10 +9,26 @@ public interface FileTransferRepository {
     void observeTransferStatus(TransferStatusListener listener);
     void removeTransferStatusObserver(TransferStatusListener listener);
 
-    void sendFile(String sourcePath, String destinationAddress);
-    void sendFiles(List<String> sourcePaths, String destinationAddress);
-    void receiveFile(String destinationPath);
-    void receiveFiles(String destinationDirectoryPath);
+    default void sendFile(String sourcePath, String destinationAddress) {
+        sendFile(sourcePath, destinationAddress, "");
+    }
+
+    default void sendFiles(List<String> sourcePaths, String destinationAddress) {
+        sendFiles(sourcePaths, destinationAddress, "");
+    }
+
+    default void receiveFile(String destinationPath) {
+        receiveFile(destinationPath, "");
+    }
+
+    default void receiveFiles(String destinationDirectoryPath) {
+        receiveFiles(destinationDirectoryPath, "");
+    }
+
+    void sendFile(String sourcePath, String destinationAddress, String sessionToken);
+    void sendFiles(List<String> sourcePaths, String destinationAddress, String sessionToken);
+    void receiveFile(String destinationPath, String sessionToken);
+    void receiveFiles(String destinationDirectoryPath, String sessionToken);
     void cancelTransfer();
     void resumeLastTransfer();
 

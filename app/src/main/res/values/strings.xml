@@ -14,13 +14,14 @@
     <string name="transfer_section_title">Transfer</string>
     <string name="transfer_idle">Transfer: IDLE</string>
     <string name="progress_initial">Progress: 0.00% (0.00 MB/s)</string>
-    <string name="transfer_quick_guide">Quick guide: Receiver enables hotspot/Wi-Fi and taps \"Prepare Receiver\". Sender joins the same network, enters Receiver IP, then taps Send File.</string>
+    <string name="transfer_quick_guide">Quick guide: Receiver enables hotspot/Wi-Fi and taps \"Prepare Receiver\". Sender joins the same network, enters Receiver IP, set same session token on both devices, then taps Send File.</string>
     <string name="prepare_receiver">Prepare Receiver (Hotspot/Wi-Fi)</string>
     <string name="receiver_address_label">Receiver IP for sender: %1$s</string>
     <string name="receiver_address_unavailable">Receiver IP for sender: unavailable (connect to hotspot/Wi-Fi first)</string>
     <string name="receiver_ready_toast">Receiver ready. Share the shown IP with sender.</string>
     <string name="file_path_hint">Source file path</string>
     <string name="destination_address_hint">Destination IP address</string>
+    <string name="session_token_hint">Session token (must match sender/receiver)</string>
     <string name="output_directory_hint">Output directory path</string>
     <string name="send_file">Send File</string>
     <string name="receive_files">Receive Files</string>

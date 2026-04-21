@@ -110,11 +110,21 @@ final class ViewModelTestDoubles {
 
         @Override
         public void sendFile(String sourcePath, String destinationAddress) {
-            sendFiles(Collections.singletonList(sourcePath), destinationAddress);
+            sendFile(sourcePath, destinationAddress, "");
         }
 
         @Override
         public void sendFiles(List<String> sourcePaths, String destinationAddress) {
+            sendFiles(sourcePaths, destinationAddress, "");
+        }
+
+        @Override
+        public void sendFile(String sourcePath, String destinationAddress, String sessionToken) {
+            sendFiles(Collections.singletonList(sourcePath), destinationAddress, sessionToken);
+        }
+
+        @Override
+        public void sendFiles(List<String> sourcePaths, String destinationAddress, String sessionToken) {
             if (statusListener != null) {
                 statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.SENDING, "Sending"));
             }
@@ -128,11 +138,21 @@ final class ViewModelTestDoubles {
 
         @Override
         public void receiveFile(String destinationPath) {
-            receiveFiles(destinationPath);
+            receiveFile(destinationPath, "");
         }
 
         @Override
         public void receiveFiles(String destinationDirectoryPath) {
+            receiveFiles(destinationDirectoryPath, "");
+        }
+
+        @Override
+        public void receiveFile(String destinationPath, String sessionToken) {
+            receiveFiles(destinationPath, sessionToken);
+        }
+
+        @Override
+        public void receiveFiles(String destinationDirectoryPath, String sessionToken) {
             if (statusListener != null) {
                 statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.RECEIVING, "Waiting"));
             }

@@ -37,6 +37,10 @@ public class TransferViewModel extends ViewModel {
     }
 
     public void sendFile(String path, String destinationAddress) {
+        sendFile(path, destinationAddress, "");
+    }
+
+    public void sendFile(String path, String destinationAddress, String sessionToken) {
         if (path == null || path.trim().isEmpty()) {
             transferStatusText.postValue("Transfer: FAILED - file path is required");
             return;
@@ -45,15 +49,26 @@ public class TransferViewModel extends ViewModel {
             transferStatusText.postValue("Transfer: FAILED - destination address is required");
             return;
         }
-        fileTransferRepository.sendFiles(Collections.singletonList(path.trim()), destinationAddress.trim());
+        fileTransferRepository.sendFiles(
+                Collections.singletonList(path.trim()),
+                destinationAddress.trim(),
+                sessionToken == null ? "" : sessionToken.trim()
+        );
     }
 
     public void receiveFiles(String outputDirectoryPath) {
+        receiveFiles(outputDirectoryPath, "");
+    }
+
+    public void receiveFiles(String outputDirectoryPath, String sessionToken) {
         if (outputDirectoryPath == null || outputDirectoryPath.trim().isEmpty()) {
             transferStatusText.postValue("Transfer: FAILED - output directory is required");
             return;
         }
-        fileTransferRepository.receiveFiles(outputDirectoryPath.trim());
+        fileTransferRepository.receiveFiles(
+                outputDirectoryPath.trim(),
+                sessionToken == null ? "" : sessionToken.trim()
+        );
     }
 
 

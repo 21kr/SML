@@ -6,6 +6,7 @@ import android.os.Build;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
+import com.mrp.sml.data.BuildConfig;
 import com.mrp.sml.core.common.DispatchersProvider;
 import com.mrp.sml.domain.repository.ConnectionState;
 import com.mrp.sml.domain.repository.DeviceConnectionRepository;
@@ -222,6 +223,11 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
     }
 
     private void fallbackMockPeers() {
+        if (!BuildConfig.DEBUG) {
+            currentState = ConnectionState.FAILED;
+            notifyState();
+            return;
+        }
         if (cachedDevices.isEmpty()) {
             cachedDevices.add(new DiscoveredDevice("02:11:22:33:44:55", "SML Peer A"));
             cachedDevices.add(new DiscoveredDevice("02:AA:BB:CC:DD:EE", "SML Peer B"));
