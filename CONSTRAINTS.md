@@ -1,150 +1,132 @@
-04.10 7:47 AM
-CONSTRAINTS.md
-CONSTRAINTS.md
-Purpose
+# CONSTRAINTS.md
 
-This file defines strict rules and limitations Codex must follow to ensure performance, stability, and correct architecture.
+## Purpose
 
-Codex MUST respect all constraints when implementing features.
+Defines strict system-level constraints for:
 
----
+* Performance
+* Memory
+* Networking
+* Concurrency
+* Runtime safety
 
-General Restrictions
-
-- Do NOT skip Clean Architecture layers
-- Do NOT mix UI logic with business logic
-- Do NOT write everything inside a single file
-- Do NOT block the main thread (use background threads)
-- Use XML layouts (ViewBinding/DataBinding preferred)
+These constraints are NON-NEGOTIABLE.
 
 ---
 
-⚡ Performance Constraints
+## ⚡ Performance Constraints
 
-- MUST support file transfers larger than 1GB
-- MUST use buffered streams (InputStream / OutputStream)
-- MUST NOT load entire file into memory
-- Use chunk-based file transfer
-
----
-
-Networking Constraints
-
-**WiFi Direct (Preferred)**
-- Must be implemented for device discovery
-- Handle connection lifecycle properly
-
-**Socket Communication (Fallback)**
-- Use TCP sockets
-- Use background threads (ExecutorService / AsyncTask)
-- Handle:
-  - Connection timeout
-  - Disconnections
-  - Retry logic (max 3 attempts)
+* MUST support file transfers > 1GB
+* MUST use buffered streams (InputStream / OutputStream)
+* MUST use chunk-based transfer
+* MUST NOT load entire file into memory
 
 ---
 
-🧠 Memory Constraints
+## 🧠 Memory Constraints
 
-- Avoid memory leaks (use WeakReferences if needed)
-- Do not keep large file references in memory
-- Stream files directly from storage
-
----
-
-Concurrency Rules
-
-- Use ExecutorService, AsyncTask, or RxJava
-- Use IO thread pool for file operations
-- Use LiveData / RxJava for UI updates
-- Avoid blocking calls on main thread (use Handler)
+* Do NOT hold large files in memory
+* Stream files directly from storage
+* Release references after use
+* Avoid memory leaks (use WeakReference where appropriate)
 
 ---
 
-🧱 Architecture Constraints
+## 🌐 Networking Constraints
 
-**MUST follow:**
-- MVVM pattern
-- Repository pattern
-- Clean Architecture separation
+### General
 
-**MUST NOT:**
-- Access database directly from UI
-- Access network directly from UI
-- Put business logic inside Activity/Fragment
+* MUST validate connection before transfer
+* MUST handle disconnections safely
 
----
+### TCP Socket Rules
 
-UI Constraints
+* Use TCP sockets for file transfer
+* MUST run on background threads
+* MUST implement:
 
-- Use XML layouts ONLY
-- Follow Material Design guidelines (themes.xml)
-- Support dark mode
-- UI must react to LiveData changes
-- Use ViewBinding/DataBinding for efficiency
+  * Connection timeout
+  * Retry logic (max 3 attempts)
 
 ---
 
-File Handling Constraints
+## ⚙️ Concurrency Constraints
 
-- Support:
-  - Images
-  - Videos
-  - Documents
-  - APK files
-- Validate file existence before sending
-- Handle file read/write errors safely (try-catch)
+* No blocking operations on main thread
+* File operations MUST run on IO thread
+* UI updates MUST occur on main thread
+* Use:
 
----
-
-Safety Constraints
-
-- Prevent crashes from invalid file paths
-- Validate network connections before transfer
-- Handle permission denial gracefully (show dialogs)
+  * ExecutorService
+  * RxJava
+  * Handlers (for UI thread)
 
 ---
 
-🧪 Testing Constraints
+## 📂 File Handling Constraints
 
-- ViewModels must be testable (no Android context)
-- Use dependency injection (Hilt) for testability
-- Mock repositories in tests (Mockito)
+* Validate file existence before sending
+* Handle file read/write exceptions (try-catch)
+* Supported file types:
 
----
-
-Failure Handling Rules
-
-- Always handle exceptions (try-catch)
-- Do not allow silent failures (log + user message)
-- Provide meaningful error messages (Toast/Dialog)
+  * Images
+  * Videos
+  * Documents
+  * APK files
 
 ---
 
-✅ Code Quality Rules
+## 🛑 Runtime Safety Constraints
 
-- Follow Java conventions (Google Java Format)
-- Write clean, modular code
-- Use meaningful naming
-- Avoid duplicate logic (extract methods)
+System MUST prevent crashes caused by:
 
----
+* Invalid file paths
+* Network interruptions
+* Missing permissions
 
-🛑 Hard Stop Conditions
+System MUST:
 
-Codex MUST stop and fix issues if:
-
-- Project does not compile (`./gradlew build`)
-- File transfer crashes
-- Memory usage becomes unsafe
-- Architecture rules are violated
+* Validate inputs
+* Catch exceptions
+* Provide user-friendly error messages
 
 ---
 
-Final Rule
+## 🔁 Failure Handling Constraints
 
-If unsure:
-- Choose the safest option
-- Choose the most maintainable
-- Choose the most scalable solution
+* No silent failures
+* All errors MUST:
 
+  * Be logged
+  * Be propagated to UI
+
+---
+
+## 🛑 Hard Stop Conditions
+
+Implementation MUST STOP and FIX if:
+
+* Build fails (`./gradlew build`)
+* App crashes during execution
+* File transfer fails repeatedly
+* Memory usage becomes unsafe
+
+---
+
+## Trade-off Rules
+
+When trade-offs are required:
+
+1. Stability > Performance
+2. Correctness > Speed
+3. Maintainability > Complexity
+
+---
+
+## Final Rule
+
+If any implementation violates these constraints:
+
+→ STOP
+→ FIX
+→ DO NOT proceed
