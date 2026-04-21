@@ -1,138 +1,129 @@
-04.10 7:44 AM
-AGENTS.md
-AGENTS.md
-Project Overview
+# AGENTS.md
 
-Build a peer-to-peer Android file sharing application similar to ShareIt.
+## Project Overview
 
-- App name: SML
-- Package name: "com.mrp.sml"
-- Platform: Android
-- Language: Java
-- UI Framework: XML Layouts
+SML is a peer-to-peer Android file sharing application.
 
-The app enables devices to transfer files directly over a local hotspot connection (WiFi Direct or hotspot + TCP sockets), without internet.
+* Package: com.mrp.sml
+* Platform: Android
+* Language: Java
+* UI: XML Layouts
+
+The app transfers files directly between devices using WiFi Direct or hotspot + TCP sockets, without internet.
 
 ---
 
-Agent Instructions (IMPORTANT)
+## Execution Rules (MANDATORY)
 
-- Always follow this file before making decisions
-- Follow "TODO.md" strictly in order
-- Do NOT skip phases
-- Do NOT implement features before project setup
-- Always ensure the project builds successfully before proceeding
-
----
-
-Tech Stack
-
-- Java
-- XML Layouts
-- MVVM Architecture
-- Room Database
-- RxJava / Executors + Handlers for async
-- Hilt (Dependency Injection)
-- Gradle Groovy DSL
+* Follow `TODO.md` strictly in order
+* Do NOT skip phases
+* Do NOT implement future features early
+* Validate each phase before proceeding
+* Always ensure project builds successfully
 
 ---
 
-Architecture Rules
+## Control System (MANDATORY)
 
-Clean Architecture (Strict)
+All tasks MUST follow:
 
-**Presentation Layer**
-- XML Layouts with Activities/Fragments
-- ViewModels
-- LiveData for UI state
+* `ARCHITECTURE.md` → structural rules
+* `AI_CONTRACT.md` → behavior rules
+* `DECISIONS.md` → locked tech choices
+* `BUILD.md` → build + environment validation
+* `CONSTRAINTS.md` → runtime and performance limits
 
-**Domain Layer**
-- Use cases only
-- No Android dependencies
-- Pure Java
+If any conflict occurs:
 
-**Data Layer**
-- Repository implementations
-- Room database
-- Network (WiFi Direct / sockets)
+1. BUILD.md overrides execution
+2. CONSTRAINTS.md overrides implementation
+3. ARCHITECTURE.md overrides structure
+4. AI_CONTRACT.md overrides behavior
 
 ---
 
-Module Structure
+## Build Enforcement
 
-- app/
-- core/
-- data/
-- domain/
-- feature:connection/ (future)
-- feature:transfer/ (future)
-- feature:history/ (future)
+* After EVERY implementation:
 
----
+  * Run: `./gradlew build`
+* If build fails:
 
-Networking Rules
-
-**Preferred**
-- WiFi Direct (P2P)
-
-**Fallback**
-- Hotspot + TCP sockets
-
-**Requirements**
-- Use Executors / AsyncTask for background work
-- Use buffered streams (DO NOT load full file into memory)
-- Support large files (>1GB)
-- Handle disconnections safely
+  * Fix errors immediately
+  * Rebuild until SUCCESS
+* NEVER proceed with a failing build
 
 ---
 
-UI Rules
+## Phase Execution Rules
 
-- Use XML layouts ONLY (ViewBinding / DataBinding)
-- Follow Material Design guidelines
-- Support dark mode (themes.xml)
-- Responsive layouts
+Each phase MUST include:
 
----
+* Implementation complete
+* Build passes (`./gradlew build`)
+* No runtime crash on launch
 
-Permissions
-
-- Nearby devices / WiFi
-- Storage access
-- Location (for WiFi Direct)
+A phase is NOT complete unless all conditions are satisfied.
 
 ---
 
-Coding Standards
+## Coding Rules (High-Level)
 
-- Follow Java conventions (Google Java Style)
-- No business logic in UI (Activities/Fragments)
-- Use repository pattern strictly
-- Use LiveData / RxJava for async updates
-
----
-
-Testing Rules
-
-- Unit tests for ViewModels (JUnit + Mockito)
-- Test use cases independently
-- Mock repositories
+* Follow Clean Architecture strictly
+* Use MVVM for UI layer
+* No business logic in Activities/Fragments
+* Use Repository pattern
+* Use LiveData / RxJava for async updates
 
 ---
 
-Build Rules
+## Task Execution Pattern
 
-- Project must compile successfully after each phase (`./gradlew build`)
-- Fix all build errors before continuing
-- Use Gradle Groovy DSL ("build.gradle")
+For every task:
+
+1. Understand requirements
+2. Follow all control files
+3. Implement minimal correct solution
+4. Run build validation
+5. Fix issues if any
+6. Mark task complete ONLY if validation passes
 
 ---
 
-Definition of Done
+## Failure Handling
 
-- Devices connect locally
-- Files transfer successfully
-- Progress is accurate (LiveData updates)
-- History is stored (Room)
-- No crashes for large files
+If issues occur:
 
+* Stop implementation
+* Identify root cause
+* Fix before continuing
+
+DO NOT:
+
+* Ignore errors
+* Continue with broken state
+* Apply hacks to bypass issues
+
+---
+
+## Definition of Done (GLOBAL)
+
+A feature is complete only if:
+
+* Devices can connect successfully
+* File transfer works reliably
+* Progress updates correctly
+* History is stored and retrievable
+* No crashes occur
+* Large files (>1GB) are handled safely
+
+---
+
+## Final Rule
+
+If uncertain:
+
+* Do NOT guess
+* Do NOT assume
+* Follow the safest, most maintainable solution
+* Ask or stop instead of proceeding incorrectly
