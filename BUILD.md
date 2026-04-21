@@ -1,117 +1,220 @@
-Build Instructions (MANDATORY)
+# BUILD.md
 
-Codex must ensure the project builds successfully after each phase.
+## Purpose
 
----
+Defines build, environment, and validation rules.
 
-Environment Requirements
+This file is the **SOURCE OF TRUTH** for:
 
-- JDK 21
-- Android SDK installed
-- Gradle Wrapper included ("./gradlew")
-
----
-
-Project Configuration
-
-- Language: Java
-- Build System: Gradle Groovy DSL (".gradle")
-- SDK Source of Truth: This file (BUILD.md)
-- Minimum SDK: 24
-- Target SDK: 35
-- Compile SDK: 35
+* SDK configuration
+* Build validation
+* Execution readiness
 
 ---
 
-Build Commands
+## SDK Configuration (FINAL)
 
-**Build Project**
+* minSdk = 24
+* targetSdk = 35
+* compileSdk = 35
+
+These values MUST NOT be changed.
+
+---
+
+## Environment Requirements
+
+* JDK 21 installed
+* Android SDK installed
+* Gradle Wrapper included (`./gradlew`)
+
+---
+
+## Local Configuration
+
+A `local.properties` file MUST exist:
+
 ```
-./gradlew build
+sdk.dir=/path/to/android/sdk
 ```
 
-**Clean Project**
+Examples:
+
+**Windows**
+
+```
+sdk.dir=C:\\Users\\YourName\\AppData\\Local\\Android\\Sdk
+```
+
+**Mac/Linux**
+
+```
+sdk.dir=/Users/yourname/Library/Android/sdk
+```
+
+---
+
+## Build System Rules
+
+* Use Gradle Groovy DSL ONLY (`.gradle`)
+* Java project ONLY (no Kotlin)
+* Use Gradle Wrapper (`./gradlew`) only
+
+---
+
+## Mandatory Build Cycle (STRICT)
+
+After EVERY implementation:
+
+1. Run:
+
+   ```
+   ./gradlew build
+   ```
+
+2. If build FAILS:
+
+   * Identify ALL errors
+   * Fix errors
+   * Re-run build
+
+3. Repeat until:
+
+   ```
+   BUILD SUCCESSFUL
+   ```
+
+4. ONLY proceed when build passes
+
+🚫 Skipping this process is NOT allowed
+
+---
+
+## Clean Build
+
 ```
 ./gradlew clean
 ```
 
+Use when:
+
+* Dependencies change
+* Build cache issues occur
+
 ---
 
-Testing
+## Testing
 
-**Run Unit Tests**
+Run:
+
 ```
 ./gradlew test
 ```
 
+Rules:
+
+* All tests MUST pass
+* Fix failing tests before proceeding
+
 ---
 
-Lint Check
+## Lint Check
+
+Run:
 
 ```
 ./gradlew lint
 ```
 
----
+Rules:
 
-Critical Build Rules
-
-- The project MUST compile successfully before proceeding to next phase
-- If build fails:
-  - Identify errors
-  - Fix code
-  - Rebuild until successful
-- Do NOT continue if build is broken
+* Fix critical issues
+* Do NOT ignore fatal warnings
 
 ---
 
-Dependency Rules
+## Dependency Rules
 
-- Use latest stable versions unless specified
-- Use Java-compatible libraries
-- Avoid deprecated APIs
-
----
-
-ViewBinding / DataBinding Setup
-
-- Enable ViewBinding in gradle.properties or build.gradle
-- Use `viewBinding true` or DataBinding in modules
-- No Compose compiler needed
+* Use stable versions ONLY
+* Must be Java-compatible
+* Avoid deprecated APIs
+* Do NOT introduce experimental libraries
 
 ---
 
-Hilt Setup Requirements
+## ViewBinding / DataBinding
 
-- Add Hilt dependencies to build.gradle
-- Configure Application class with `@HiltAndroidApp`
-- Apply Hilt Gradle plugin in modules
-- Entry points for Activities/Fragments
-
----
-
-Output Requirements
-
-After each phase:
-- Project builds successfully
-- No compilation errors
-- No unresolved dependencies
+* MUST be enabled in Gradle
+* Use ViewBinding or DataBinding ONLY
+* Jetpack Compose is NOT allowed
 
 ---
 
-Failure Handling
+## Hilt Configuration
+
+MUST include:
+
+* `@HiltAndroidApp` in Application class
+* Hilt Gradle plugin applied
+* Proper dependency setup
+
+Do NOT:
+
+* Use manual dependency injection
+
+---
+
+## Failure Handling (STRICT)
 
 If build fails repeatedly:
-- Simplify implementation
-- Remove unstable code
-- Rebuild incrementally
+
+1. Revert last changes
+2. Simplify implementation
+3. Rebuild incrementally
+
+🚫 Do NOT continue with broken build
 
 ---
 
-Final Validation
+## Completion Criteria (MANDATORY)
 
-Before marking any phase complete:
-- `./gradlew build` passes
-- App launches successfully on emulator/device
-- No runtime crashes on startup
+A phase is COMPLETE ONLY IF:
 
+* `./gradlew build` → SUCCESS
+* No compilation errors
+* No unresolved dependencies
+* App launches successfully
+* No crash on startup
+
+---
+
+## Runtime Validation
+
+After build success:
+
+* Launch app on emulator/device
+* Verify no startup crash
+* Validate basic navigation
+
+---
+
+## Hard Stop Rule
+
+If ANY of the following occur:
+
+* Build fails
+* App crashes on launch
+* Dependencies unresolved
+
+→ STOP
+→ FIX
+→ REBUILD
+
+---
+
+## Final Rule
+
+Build success is NOT optional.
+
+If it does not build:
+→ The feature does NOT exist
