@@ -20,11 +20,17 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.zip.CRC32;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -38,6 +44,8 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
     private static final long RETRY_DELAY_MS = 350L;
     private static final int SOCKET_CONNECT_TIMEOUT_MS = 10_000;
     private static final int SOCKET_READ_TIMEOUT_MS = 15_000;
+    private static final int AUTH_NONCE_SIZE = 16;
+    private static final String AUTH_HMAC_ALGORITHM = "HmacSHA256";
 
     private final DispatchersProvider dispatchersProvider;
     private final TransferHistoryRepository transferHistoryRepository;
@@ -225,7 +233,13 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                      new BufferedOutputStream(socket.getOutputStream(), BUFFER_SIZE_BYTES))) {
             output.writeUTF(PROTOCOL_MAGIC);
             output.writeInt(PROTOCOL_VERSION);
-            output.writeUTF(sanitizeSessionToken(sessionToken));
+            String safeToken = sanitizeSessionToken(sessionToken);
+            output.writeUTF(safeToken);
+            byte[] authNonce = new byte[AUTH_NONCE_SIZE];
+            new SecureRandom().nextBytes(authNonce);
+            output.writeInt(authNonce.length);
+            output.write(authNonce);
+            output.writeUTF(computeAuthSignature(safeToken, authNonce));
 
             output.writeInt(files.size());
             byte[] buffer = new byte[BUFFER_SIZE_BYTES];
@@ -281,8 +295,23 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                 if (!PROTOCOL_MAGIC.equals(protocolMagic) || protocolVersion != PROTOCOL_VERSION) {
                     throw new IOException("Unsupported transfer protocol.");
                 }
-                if (!sanitizeSessionToken(sessionToken).equals(providedSessionToken)) {
+                String safeToken = sanitizeSessionToken(sessionToken);
+                if (!safeToken.equals(providedSessionToken)) {
                     throw new IOException("Session token mismatch.");
+                }
+                int nonceLength = input.readInt();
+                if (nonceLength <= 0 || nonceLength > 1024) {
+                    throw new IOException("Invalid auth nonce.");
+                }
+                byte[] nonce = new byte[nonceLength];
+                input.readFully(nonce);
+                String providedSignature = input.readUTF();
+                String expectedSignature = computeAuthSignature(safeToken, nonce);
+                if (!MessageDigest.isEqual(
+                        expectedSignature.getBytes(StandardCharsets.UTF_8),
+                        providedSignature.getBytes(StandardCharsets.UTF_8)
+                )) {
+                    throw new IOException("Authentication failed.");
                 }
 
                 int fileCount = input.readInt();
@@ -397,6 +426,9 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
         if (message.contains("token mismatch")) {
             return "Sender/receiver token mismatch.";
         }
+        if (message.contains("authentication")) {
+            return "Authentication failed. Check session token and retry.";
+        }
         if (message.contains("integrity")) {
             return "Integrity verification failed. Please retry transfer.";
         }
@@ -478,6 +510,28 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
 
     private String sanitizeSessionToken(String sessionToken) {
         return sessionToken == null ? "" : sessionToken.trim();
+    }
+
+    private String computeAuthSignature(String sessionToken, byte[] nonce) throws IOException {
+        try {
+            Mac mac = Mac.getInstance(AUTH_HMAC_ALGORITHM);
+            mac.init(new SecretKeySpec(
+                    sanitizeSessionToken(sessionToken).getBytes(StandardCharsets.UTF_8),
+                    AUTH_HMAC_ALGORITHM
+            ));
+            byte[] digest = mac.doFinal(nonce);
+            return toHex(digest);
+        } catch (GeneralSecurityException securityException) {
+            throw new IOException("Authentication setup failed.", securityException);
+        }
+    }
+
+    private String toHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder(bytes.length * 2);
+        for (byte value : bytes) {
+            builder.append(String.format("%02x", value));
+        }
+        return builder.toString();
     }
 
     private interface TransferOperation {
