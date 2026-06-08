@@ -54,16 +54,24 @@ public class ConnectionDeviceAdapter extends RecyclerView.Adapter<ConnectionDevi
     static class DeviceViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleText;
         private final TextView subtitleText;
+        private final TextView avatarText;
 
         DeviceViewHolder(@NonNull View itemView) {
             super(itemView);
             titleText = itemView.findViewById(R.id.deviceNameText);
             subtitleText = itemView.findViewById(R.id.deviceIdText);
+            avatarText = itemView.findViewById(R.id.deviceAvatarText);
         }
 
         void bind(DiscoveredDevice device, DeviceClickListener clickListener) {
-            titleText.setText(device.getName());
+            String name = device.getName();
+            titleText.setText(name);
             subtitleText.setText(device.getId());
+            if (name != null && !name.isEmpty()) {
+                avatarText.setText(String.valueOf(name.charAt(0)).toUpperCase());
+            } else {
+                avatarText.setText("?");
+            }
             itemView.setOnClickListener(view -> clickListener.onDeviceClicked(device));
         }
     }

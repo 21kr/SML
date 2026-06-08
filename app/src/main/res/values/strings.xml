@@ -33,7 +33,9 @@
 
     <string name="history_section_title">History</string>
     <string name="history_initial">History: 0 records</string>
-    <string name="open_history_screen">Open History Screen</string>
+    <string name="history_subtitle">Your transfer records</string>
+    <string name="history_icon_default">F</string>
+    <string name="open_history_screen">Open History</string>
 
     <string name="permissions_required">Permissions required for discovery and file transfer.</string>
     <string name="permissions_granted">Required permissions granted.</string>

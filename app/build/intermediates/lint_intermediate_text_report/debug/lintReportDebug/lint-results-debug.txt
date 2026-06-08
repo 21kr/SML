@@ -1,3 +1,6 @@
+/workspaces/SML/app/src/main/java/com/mrp/sml/ui/connection/ConnectionDeviceAdapter.java:71: Warning: Implicitly using the default locale is a common source of bugs: Use toUpperCase(Locale) instead. For strings meant to be internal use Locale.ROOT, otherwise Locale.getDefault(). [DefaultLocale]
+                avatarText.setText(String.valueOf(name.charAt(0)).toUpperCase());
+                                                                  ~~~~~~~~~~~
 /workspaces/SML/app/src/main/java/com/mrp/sml/ui/transfer/TransferViewModel.java:93: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
         String text = String.format(
                       ^
@@ -103,9 +106,27 @@
    all existing items and structure may no longer be valid. `LayoutManager`s
    will be forced to fully rebind and relayout all visible views.
 
-/workspaces/SML/app/src/main/res/layout/activity_history.xml:8: Warning: Possible overdraw: Root element paints background @color/surface_variant with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
-    android:background="@color/surface_variant">
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/layout/activity_main.xml:463: Warning: This tag and its children can be replaced by one <TextView/> and a compound drawable [UseCompoundDrawables]
+                <LinearLayout
+                 ~~~~~~~~~~~~
+
+   Explanation for issues of type "UseCompoundDrawables":
+   A LinearLayout which contains an ImageView and a TextView can be more
+   efficiently handled as a compound drawable (a single TextView, using the
+   drawableTop, drawableLeft, drawableRight and/or drawableBottom attributes
+   to draw one or more images adjacent to the text).
+
+   If the two widgets are offset from each other with margins, this can be
+   replaced with a drawablePadding attribute.
+
+   There's a lint quickfix to perform this conversion in the Eclipse plugin.
+
+/workspaces/SML/app/src/main/res/layout/activity_history.xml:7: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
+    android:background="@color/background">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/layout/activity_main.xml:6: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
+    android:background="@color/background"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    Explanation for issues of type "Overdraw":
    If you set a background drawable on a root view, then you should use a
@@ -129,23 +150,68 @@
    resulting image or color as a custom theme background instead.
 
 /workspaces/SML/app/src/main/res/values/colors.xml:3: Warning: The resource R.color.seed appears to be unused [UnusedResources]
-    <color name="seed">#FF1A73E8</color>
+    <color name="seed">#FF2563EB</color>
            ~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/colors.xml:31: Warning: The resource R.color.status_sent appears to be unused [UnusedResources]
-    <color name="status_sent">#FF1A73E8</color>
-           ~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/colors.xml:32: Warning: The resource R.color.status_received appears to be unused [UnusedResources]
-    <color name="status_received">#FF1E8E3E</color>
-           ~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/colors.xml:33: Warning: The resource R.color.status_completed appears to be unused [UnusedResources]
-    <color name="status_completed">#FF1E8E3E</color>
-           ~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/colors.xml:34: Warning: The resource R.color.status_failed appears to be unused [UnusedResources]
-    <color name="status_failed">#FFD93025</color>
+/workspaces/SML/app/src/main/res/values/colors.xml:5: Warning: The resource R.color.primary_dark appears to be unused [UnusedResources]
+    <color name="primary_dark">#FF1D4ED8</color>
+           ~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:6: Warning: The resource R.color.primary_light appears to be unused [UnusedResources]
+    <color name="primary_light">#FFDBE8FF</color>
            ~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:3: Warning: The resource R.string.ready_status appears to be unused [UnusedResources]
-    <string name="ready_status">Ready for P2P file transfer via WiFi Direct</string>
-            ~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:11: Warning: The resource R.color.secondary_dark appears to be unused [UnusedResources]
+    <color name="secondary_dark">#FF05B88A</color>
+           ~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:12: Warning: The resource R.color.secondary_light appears to be unused [UnusedResources]
+    <color name="secondary_light">#FFC8FCE8</color>
+           ~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:29: Warning: The resource R.color.surface_container appears to be unused [UnusedResources]
+    <color name="surface_container">#FFFFFFFF</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:30: Warning: The resource R.color.surface_container_low appears to be unused [UnusedResources]
+    <color name="surface_container_low">#FFF8F9FA</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:33: Warning: The resource R.color.black appears to be unused [UnusedResources]
+    <color name="black">#FF000000</color>
+           ~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:40: Warning: The resource R.color.state_connecting appears to be unused [UnusedResources]
+    <color name="state_connecting">#FF2563EB</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:42: Warning: The resource R.color.status_sent appears to be unused [UnusedResources]
+    <color name="status_sent">#FF2563EB</color>
+           ~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:43: Warning: The resource R.color.status_received appears to be unused [UnusedResources]
+    <color name="status_received">#FF059669</color>
+           ~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:44: Warning: The resource R.color.status_completed appears to be unused [UnusedResources]
+    <color name="status_completed">#FF059669</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:45: Warning: The resource R.color.status_failed appears to be unused [UnusedResources]
+    <color name="status_failed">#FFDC2626</color>
+           ~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:46: Warning: The resource R.color.status_in_progress appears to be unused [UnusedResources]
+    <color name="status_in_progress">#FFD97706</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:48: Warning: The resource R.color.avatar_bg_1 appears to be unused [UnusedResources]
+    <color name="avatar_bg_1">#FFDBE8FF</color>
+           ~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:49: Warning: The resource R.color.avatar_bg_2 appears to be unused [UnusedResources]
+    <color name="avatar_bg_2">#FFC8FCE8</color>
+           ~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:50: Warning: The resource R.color.avatar_bg_3 appears to be unused [UnusedResources]
+    <color name="avatar_bg_3">#FFFFF3E0</color>
+           ~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:51: Warning: The resource R.color.avatar_bg_4 appears to be unused [UnusedResources]
+    <color name="avatar_bg_4">#FFFCE8E6</color>
+           ~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:56: Warning: The resource R.color.card_shadow appears to be unused [UnusedResources]
+    <color name="card_shadow">#1A000000</color>
+           ~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/drawable/ic_device_phone.xml:2: Warning: The resource R.drawable.ic_device_phone appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspaces/SML/app/src/main/res/drawable/ic_send.xml:2: Warning: The resource R.drawable.ic_send appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
 /workspaces/SML/app/src/main/res/values/strings.xml:12: Warning: The resource R.string.tap_device_hint appears to be unused [UnusedResources]
     <string name="tap_device_hint">Tap a discovered device to auto-fill and connect.</string>
             ~~~~~~~~~~~~~~~~~~~~~~
@@ -183,4 +249,4 @@
    application iconwill not show if your monochrome attribute is not also
    specified in android:roundIcon.
 
-0 errors, 25 warnings
+0 errors, 43 warnings

@@ -20,14 +20,19 @@ public final class ItemHistoryRecordBinding implements ViewBinding {
   private final MaterialCardView rootView;
 
   @NonNull
+  public final TextView historyIconText;
+
+  @NonNull
   public final TextView historySubtitleText;
 
   @NonNull
   public final TextView historyTitleText;
 
   private ItemHistoryRecordBinding(@NonNull MaterialCardView rootView,
-      @NonNull TextView historySubtitleText, @NonNull TextView historyTitleText) {
+      @NonNull TextView historyIconText, @NonNull TextView historySubtitleText,
+      @NonNull TextView historyTitleText) {
     this.rootView = rootView;
+    this.historyIconText = historyIconText;
     this.historySubtitleText = historySubtitleText;
     this.historyTitleText = historyTitleText;
   }
@@ -59,6 +64,12 @@ public final class ItemHistoryRecordBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.historyIconText;
+      TextView historyIconText = ViewBindings.findChildViewById(rootView, id);
+      if (historyIconText == null) {
+        break missingId;
+      }
+
       id = R.id.historySubtitleText;
       TextView historySubtitleText = ViewBindings.findChildViewById(rootView, id);
       if (historySubtitleText == null) {
@@ -71,8 +82,8 @@ public final class ItemHistoryRecordBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemHistoryRecordBinding((MaterialCardView) rootView, historySubtitleText,
-          historyTitleText);
+      return new ItemHistoryRecordBinding((MaterialCardView) rootView, historyIconText,
+          historySubtitleText, historyTitleText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

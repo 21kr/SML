@@ -1,15 +1,19 @@
 [
     {
-        "merged": "com.mrp.sml.app-mergeReleaseResources-35:/layout/activity_history.xml",
-        "source": "com.mrp.sml.app-main-37:/layout/activity_history.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeReleaseResources-35:/layout/activity_history.xml",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/activity_history.xml"
     },
     {
-        "merged": "com.mrp.sml.app-mergeReleaseResources-35:/layout/item_discovered_device.xml",
-        "source": "com.mrp.sml.app-main-37:/layout/item_discovered_device.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeReleaseResources-35:/layout/item_discovered_device.xml",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/item_discovered_device.xml"
     },
     {
-        "merged": "com.mrp.sml.app-mergeReleaseResources-35:/layout/item_history_record.xml",
-        "source": "com.mrp.sml.app-main-37:/layout/item_history_record.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeReleaseResources-35:/layout/item_history_record.xml",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/item_history_record.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeReleaseResources-35:/layout/activity_main.xml",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/activity_main.xml"
     },
     {
         "merged": "com.mrp.sml.app-mergeReleaseResources-35:/layout/activity_main.xml",

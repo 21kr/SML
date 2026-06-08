@@ -177,22 +177,23 @@ document.getElementById(id).style.display = 'none';
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Lint Report: 25 warnings</span>
+      <span class="mdl-layout-title">Lint Report: 43 warnings</span>
       <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Mon Jun 08 11:02:05 UTC 2026 by AGP (8.4.2)</nav>
+      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Mon Jun 08 11:50:00 UTC 2026 by AGP (8.4.2)</nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Issue Types</span>
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="#overview"><i class="material-icons">dashboard</i>Overview</a>
-      <a class="mdl-navigation__link" href="#DefaultLocale"><i class="material-icons warning-icon">warning</i>Implied default locale in case conversion (1)</a>
+      <a class="mdl-navigation__link" href="#DefaultLocale"><i class="material-icons warning-icon">warning</i>Implied default locale in case conversion (2)</a>
       <a class="mdl-navigation__link" href="#UnusedAttribute"><i class="material-icons warning-icon">warning</i>Attribute unused on older versions (1)</a>
       <a class="mdl-navigation__link" href="#SelectedPhotoAccess"><i class="material-icons warning-icon">warning</i>Behavior change when requesting photo library access (2)</a>
       <a class="mdl-navigation__link" href="#GradleDependency"><i class="material-icons warning-icon">warning</i>Obsolete Gradle Dependency (9)</a>
       <a class="mdl-navigation__link" href="#NotifyDataSetChanged"><i class="material-icons warning-icon">warning</i>Invalidating All RecyclerView Data (2)</a>
-      <a class="mdl-navigation__link" href="#Overdraw"><i class="material-icons warning-icon">warning</i>Overdraw: Painting regions more than once (1)</a>
-      <a class="mdl-navigation__link" href="#UnusedResources"><i class="material-icons warning-icon">warning</i>Unused resources (7)</a>
+      <a class="mdl-navigation__link" href="#UseCompoundDrawables"><i class="material-icons warning-icon">warning</i>Node can be replaced by a <code>TextView</code> with compound drawables (1)</a>
+      <a class="mdl-navigation__link" href="#Overdraw"><i class="material-icons warning-icon">warning</i>Overdraw: Painting regions more than once (2)</a>
+      <a class="mdl-navigation__link" href="#UnusedResources"><i class="material-icons warning-icon">warning</i>Unused resources (22)</a>
       <a class="mdl-navigation__link" href="#MonochromeLauncherIcon"><i class="material-icons warning-icon">warning</i>Monochrome icon is not defined (2)</a>
     </nav>
   </div>
@@ -209,7 +210,7 @@ document.getElementById(id).style.display = 'none';
 <tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<td class="countColumn">2</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#DefaultLocale">DefaultLocale</a>: Implied default locale in case conversion</td></tr>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
@@ -227,9 +228,12 @@ document.getElementById(id).style.display = 'none';
 <a href="#NotifyDataSetChanged">NotifyDataSetChanged</a>: Invalidating All RecyclerView Data</td></tr>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<a href="#UseCompoundDrawables">UseCompoundDrawables</a>: Node can be replaced by a <code>TextView</code> with compound drawables</td></tr>
+<tr>
+<td class="countColumn">2</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#Overdraw">Overdraw</a>: Overdraw: Painting regions more than once</td></tr>
 <tr>
-<td class="countColumn">7</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<td class="countColumn">22</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#UnusedResources">UnusedResources</a>: Unused resources</td></tr>
 <tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Usability:Icons">Usability:Icons</a>
 </td></tr>
@@ -257,6 +261,16 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
+<span class="location"><a href="../../src/main/java/com/mrp/sml/ui/connection/ConnectionDeviceAdapter.java">../../src/main/java/com/mrp/sml/ui/connection/ConnectionDeviceAdapter.java</a>:71</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toUpperCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 68 </span>            titleText.setText(name);
+<span class="lineno"> 69 </span>            subtitleText.setText(device.getId());
+<span class="lineno"> 70 </span>            <span class="keyword">if</span> (name != <span class="keyword">null</span> &amp;&amp; !name.isEmpty()) {
+<span class="caretline"><span class="lineno"> 71 </span>                avatarText.setText(String.valueOf(name.charAt(<span class="number">0</span>)).<span class="warning">toUpperCase</span>());&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 72 </span>            } <span class="keyword">else</span> {
+<span class="lineno"> 73 </span>                avatarText.setText(<span class="string">"?"</span>);
+<span class="lineno"> 74 </span>            }
+</pre>
+
 <span class="location"><a href="../../src/main/java/com/mrp/sml/ui/transfer/TransferViewModel.java">../../src/main/java/com/mrp/sml/ui/transfer/TransferViewModel.java</a>:93</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>String.format(Locale, ...)</code> instead</span><br /><pre class="errorlines">
 <span class="lineno">  90 </span>    }
 <span class="lineno">  91 </span>
@@ -576,6 +590,54 @@ The <code>RecyclerView</code> adapter's <code>onNotifyDataSetChanged</code> meth
 Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="NotifyDataSetChangedCardLink" onclick="hideid('NotifyDataSetChangedCard');">
 Dismiss</button>            </div>
             </div>
+          </section><a name="UseCompoundDrawables"></a>
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="UseCompoundDrawablesCard" style="display: block;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Node can be replaced by a TextView with compound drawables</h2>
+  </div>
+              <div class="mdl-card__supporting-text">
+<div class="issue">
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/activity_main.xml">../../src/main/res/layout/activity_main.xml</a>:463</span>: <span class="message">This tag and its children can be replaced by one <code>&lt;TextView/></code> and a compound drawable</span><br /><pre class="errorlines">
+<span class="lineno"> 460 </span>                <span class="prefix">android:</span><span class="attribute">orientation</span>=<span class="value">"vertical"</span>
+<span class="lineno"> 461 </span>                <span class="prefix">android:</span><span class="attribute">padding</span>=<span class="value">"20dp"</span>>
+<span class="lineno"> 462 </span>
+<span class="caretline"><span class="lineno"> 463 </span>                <span class="tag">&lt;</span><span class="warning"><span class="tag">LinearLayout</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute">
+</span><span class="lineno"> 464 </span><span class="attribute">                    </span><span class="prefix">android:</span><span class="attribute">layout_width</span>=<span class="value">"match_parent"</span>
+<span class="lineno"> 465 </span>                    <span class="prefix">android:</span><span class="attribute">layout_height</span>=<span class="value">"wrap_content"</span>
+<span class="lineno"> 466 </span>                    <span class="prefix">android:</span><span class="attribute">gravity</span>=<span class="value">"center_vertical"</span></pre>
+
+</div>
+<div class="metadata"><div class="explanation" id="explanationUseCompoundDrawables" style="display: none;">
+A <code>LinearLayout</code> which contains an <code>ImageView</code> and a <code>TextView</code> can be more efficiently handled as a compound drawable (a single TextView, using the <code>drawableTop</code>, <code>drawableLeft</code>, <code>drawableRight</code> and/or <code>drawableBottom</code> attributes to draw one or more images adjacent to the text).<br/>
+<br/>
+If the two widgets are offset from each other with margins, this can be replaced with a <code>drawablePadding</code> attribute.<br/>
+<br/>
+There's a lint quickfix to perform this conversion in the Eclipse plugin.<br/>To suppress this error, use the issue id "UseCompoundDrawables" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+<br/></div>
+</div>
+</div>
+<div class="chips">
+<span class="mdl-chip">
+    <span class="mdl-chip__text">UseCompoundDrawables</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Performance</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Warning</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Priority 6/10</span>
+</span>
+</div>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationUseCompoundDrawablesLink" onclick="reveal('explanationUseCompoundDrawables');">
+Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="UseCompoundDrawablesCardLink" onclick="hideid('UseCompoundDrawablesCard');">
+Dismiss</button>            </div>
+            </div>
           </section><a name="Overdraw"></a>
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="OverdrawCard" style="display: block;">
             <div class="mdl-card mdl-cell mdl-cell--12-col">
@@ -585,14 +647,23 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../src/main/res/layout/activity_history.xml">../../src/main/res/layout/activity_history.xml</a>:8</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/surface_variant</code> with a theme that also paints a background (inferred theme is <code>@style/Theme.SML</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/activity_history.xml">../../src/main/res/layout/activity_history.xml</a>:7</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/background</code> with a theme that also paints a background (inferred theme is <code>@style/Theme.SML</code>)</span><br /><pre class="errorlines">
+<span class="lineno">  4 </span>    <span class="prefix">android:</span><span class="attribute">layout_width</span>=<span class="value">"match_parent"</span>
 <span class="lineno">  5 </span>    <span class="prefix">android:</span><span class="attribute">layout_height</span>=<span class="value">"match_parent"</span>
 <span class="lineno">  6 </span>    <span class="prefix">android:</span><span class="attribute">orientation</span>=<span class="value">"vertical"</span>
-<span class="lineno">  7 </span>    <span class="prefix">android:</span><span class="attribute">padding</span>=<span class="value">"16dp"</span>
-<span class="caretline"><span class="lineno">  8 </span>    <span class="warning"><span class="prefix">android:</span><span class="attribute">background</span>=<span class="value">"@color/surface_variant"</span></span>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno">  9 </span>
-<span class="lineno"> 10 </span>    <span class="tag">&lt;com.google.android.material.card.MaterialCardView</span><span class="attribute">
-</span><span class="lineno"> 11 </span><span class="attribute">        </span><span class="prefix">android:</span><span class="attribute">layout_width</span>=<span class="value">"match_parent"</span></pre>
+<span class="caretline"><span class="lineno">  7 </span>    <span class="warning"><span class="prefix">android:</span><span class="attribute">background</span>=<span class="value">"@color/background"</span></span>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  8 </span>
+<span class="lineno">  9 </span>    <span class="comment">&lt;!-- Header --></span>
+<span class="lineno"> 10 </span>    <span class="tag">&lt;LinearLayout</span></pre>
+
+<span class="location"><a href="../../src/main/res/layout/activity_main.xml">../../src/main/res/layout/activity_main.xml</a>:6</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/background</code> with a theme that also paints a background (inferred theme is <code>@style/Theme.SML</code>)</span><br /><pre class="errorlines">
+<span class="lineno">   3 </span>    <span class="prefix">xmlns:</span><span class="attribute">app</span>=<span class="value">"http://schemas.android.com/apk/res-auto"</span>
+<span class="lineno">   4 </span>    <span class="prefix">android:</span><span class="attribute">layout_width</span>=<span class="value">"match_parent"</span>
+<span class="lineno">   5 </span>    <span class="prefix">android:</span><span class="attribute">layout_height</span>=<span class="value">"match_parent"</span>
+<span class="caretline"><span class="lineno">   6 </span>    <span class="warning"><span class="prefix">android:</span><span class="attribute">background</span>=<span class="value">"@color/background"</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">   7 </span>    <span class="prefix">android:</span><span class="attribute">fillViewport</span>=<span class="value">"true"</span>>
+<span class="lineno">   8 </span>
+<span class="lineno">   9 </span>    <span class="tag">&lt;LinearLayout</span></pre>
 
 </div>
 <div class="metadata"><div class="explanation" id="explanationOverdraw" style="display: none;">
@@ -638,53 +709,188 @@ Dismiss</button>            </div>
 <span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:3</span>: <span class="message">The resource <code>R.color.seed</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">  1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
 <span class="lineno">  2 </span><span class="tag">&lt;resources></span>
-<span class="caretline"><span class="lineno">  3 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"seed"</span></span>>#FF1A73E8<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno">  4 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary"</span>>#FF1A73E8<span class="tag">&lt;/color></span>
-<span class="lineno">  5 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
-<span class="lineno">  6 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_container"</span>>#FFD3E3FD<span class="tag">&lt;/color></span></pre>
+<span class="caretline"><span class="lineno">  3 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"seed"</span></span>>#FF2563EB<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  4 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno">  5 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_dark"</span>>#FF1D4ED8<span class="tag">&lt;/color></span>
+<span class="lineno">  6 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_light"</span>>#FFDBE8FF<span class="tag">&lt;/color></span></pre>
 
-<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:31</span>: <span class="message">The resource <code>R.color.status_sent</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 28 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_failed"</span>>#FFD93025<span class="tag">&lt;/color></span>
-<span class="lineno"> 29 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9AA0A6<span class="tag">&lt;/color></span>
-<span class="lineno"> 30 </span>
-<span class="caretline"><span class="lineno"> 31 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_sent"</span></span>>#FF1A73E8<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF1E8E3E<span class="tag">&lt;/color></span>
-<span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF1E8E3E<span class="tag">&lt;/color></span>
-<span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFD93025<span class="tag">&lt;/color></span></pre>
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:5</span>: <span class="message">The resource <code>R.color.primary_dark</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  2 </span><span class="tag">&lt;resources></span>
+<span class="lineno">  3 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"seed"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno">  4 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno">  5 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"primary_dark"</span></span>>#FF1D4ED8<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  6 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_light"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="lineno">  7 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno">  8 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_container"</span>>#FFDBE8FF<span class="tag">&lt;/color></span></pre>
 
-<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:32</span>: <span class="message">The resource <code>R.color.status_received</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 29 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9AA0A6<span class="tag">&lt;/color></span>
-<span class="lineno"> 30 </span>
-<span class="lineno"> 31 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF1A73E8<span class="tag">&lt;/color></span>
-<span class="caretline"><span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_received"</span></span>>#FF1E8E3E<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF1E8E3E<span class="tag">&lt;/color></span>
-<span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFD93025<span class="tag">&lt;/color></span>
-<span class="lineno"> 35 </span><span class="tag">&lt;/resources></span></pre>
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:6</span>: <span class="message">The resource <code>R.color.primary_light</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  3 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"seed"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno">  4 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno">  5 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_dark"</span>>#FF1D4ED8<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno">  6 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"primary_light"</span></span>>#FFDBE8FF<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  7 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno">  8 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_container"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="lineno">  9 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary_container"</span>>#FF001D36<span class="tag">&lt;/color></span></pre>
 
-<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:33</span>: <span class="message">The resource <code>R.color.status_completed</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 30 </span>
-<span class="lineno"> 31 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF1A73E8<span class="tag">&lt;/color></span>
-<span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF1E8E3E<span class="tag">&lt;/color></span>
-<span class="caretline"><span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_completed"</span></span>>#FF1E8E3E<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFD93025<span class="tag">&lt;/color></span>
-<span class="lineno"> 35 </span><span class="tag">&lt;/resources></span>
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:11</span>: <span class="message">The resource <code>R.color.secondary_dark</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  8 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_container"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="lineno">  9 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary_container"</span>>#FF001D36<span class="tag">&lt;/color></span>
+<span class="lineno"> 10 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary"</span>>#FF06D6A0<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 11 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"secondary_dark"</span></span>>#FF05B88A<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 12 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary_light"</span>>#FFC8FCE8<span class="tag">&lt;/color></span>
+<span class="lineno"> 13 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_secondary"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno"> 14 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary_container"</span>>#FFE8F5E9<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:12</span>: <span class="message">The resource <code>R.color.secondary_light</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  9 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary_container"</span>>#FF001D36<span class="tag">&lt;/color></span>
+<span class="lineno"> 10 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary"</span>>#FF06D6A0<span class="tag">&lt;/color></span>
+<span class="lineno"> 11 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary_dark"</span>>#FF05B88A<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 12 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"secondary_light"</span></span>>#FFC8FCE8<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 13 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_secondary"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno"> 14 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary_container"</span>>#FFE8F5E9<span class="tag">&lt;/color></span>
+<span class="lineno"> 15 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_secondary_container"</span>>#FF1D1B20<span class="tag">&lt;/color></span></pre>
+
+<button class="mdl-button mdl-js-button mdl-button--primary" id="UnusedResourcesDivLink" onclick="reveal('UnusedResourcesDiv');" />+ 17 More Occurrences...</button>
+<div id="UnusedResourcesDiv" style="display: none">
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:29</span>: <span class="message">The resource <code>R.color.surface_container</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 26 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"outline"</span>>#FFE5E7EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 27 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"outline_variant"</span>>#FFD1D5DB<span class="tag">&lt;/color></span>
+<span class="lineno"> 28 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"background"</span>>#FFF8F9FA<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 29 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"surface_container"</span></span>>#FFFFFFFF<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 30 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"surface_container_low"</span>>#FFF8F9FA<span class="tag">&lt;/color></span>
+<span class="lineno"> 31 </span>
+<span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"white"</span>>#FFFFFFFF<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:30</span>: <span class="message">The resource <code>R.color.surface_container_low</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 27 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"outline_variant"</span>>#FFD1D5DB<span class="tag">&lt;/color></span>
+<span class="lineno"> 28 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"background"</span>>#FFF8F9FA<span class="tag">&lt;/color></span>
+<span class="lineno"> 29 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"surface_container"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 30 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"surface_container_low"</span></span>>#FFF8F9FA<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 31 </span>
+<span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"white"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"black"</span>>#FF000000<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:33</span>: <span class="message">The resource <code>R.color.black</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 30 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"surface_container_low"</span>>#FFF8F9FA<span class="tag">&lt;/color></span>
+<span class="lineno"> 31 </span>
+<span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"white"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"black"</span></span>>#FF000000<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"ic_launcher_background"</span>>#FFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno"> 35 </span>
+<span class="lineno"> 36 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connected"</span>>#FF059669<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:40</span>: <span class="message">The resource <code>R.color.state_connecting</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 37 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_discovering"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="lineno"> 38 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="lineno"> 39 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9CA3AF<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 40 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"state_connecting"</span></span>>#FF2563EB<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 41 </span>
+<span class="lineno"> 42 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 43 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF059669<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:42</span>: <span class="message">The resource <code>R.color.status_sent</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 39 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9CA3AF<span class="tag">&lt;/color></span>
+<span class="lineno"> 40 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connecting"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 41 </span>
+<span class="caretline"><span class="lineno"> 42 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_sent"</span></span>>#FF2563EB<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 43 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 44 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 45 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:43</span>: <span class="message">The resource <code>R.color.status_received</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 40 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connecting"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 41 </span>
+<span class="lineno"> 42 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 43 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_received"</span></span>>#FF059669<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 44 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 45 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="lineno"> 46 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_in_progress"</span>>#FFD97706<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:44</span>: <span class="message">The resource <code>R.color.status_completed</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 41 </span>
+<span class="lineno"> 42 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 43 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 44 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_completed"</span></span>>#FF059669<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 45 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="lineno"> 46 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_in_progress"</span>>#FFD97706<span class="tag">&lt;/color></span>
 </pre>
 
-<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:34</span>: <span class="message">The resource <code>R.color.status_failed</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 31 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF1A73E8<span class="tag">&lt;/color></span>
-<span class="lineno"> 32 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF1E8E3E<span class="tag">&lt;/color></span>
-<span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF1E8E3E<span class="tag">&lt;/color></span>
-<span class="caretline"><span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_failed"</span></span>>#FFD93025<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 35 </span><span class="tag">&lt;/resources></span>
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:45</span>: <span class="message">The resource <code>R.color.status_failed</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 42 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 43 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 44 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 45 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_failed"</span></span>>#FFDC2626<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 46 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_in_progress"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="lineno"> 47 </span>
+<span class="lineno"> 48 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_1"</span>>#FFDBE8FF<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:46</span>: <span class="message">The resource <code>R.color.status_in_progress</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 43 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_received"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 44 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_completed"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 45 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 46 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"status_in_progress"</span></span>>#FFD97706<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 47 </span>
+<span class="lineno"> 48 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_1"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="lineno"> 49 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_2"</span>>#FFC8FCE8<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:48</span>: <span class="message">The resource <code>R.color.avatar_bg_1</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 45 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="lineno"> 46 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_in_progress"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="lineno"> 47 </span>
+<span class="caretline"><span class="lineno"> 48 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"avatar_bg_1"</span></span>>#FFDBE8FF<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 49 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_2"</span>>#FFC8FCE8<span class="tag">&lt;/color></span>
+<span class="lineno"> 50 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_3"</span>>#FFFFF3E0<span class="tag">&lt;/color></span>
+<span class="lineno"> 51 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_4"</span>>#FFFCE8E6<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:49</span>: <span class="message">The resource <code>R.color.avatar_bg_2</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 46 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_in_progress"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="lineno"> 47 </span>
+<span class="lineno"> 48 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_1"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 49 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"avatar_bg_2"</span></span>>#FFC8FCE8<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 50 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_3"</span>>#FFFFF3E0<span class="tag">&lt;/color></span>
+<span class="lineno"> 51 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_4"</span>>#FFFCE8E6<span class="tag">&lt;/color></span>
 </pre>
 
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:3</span>: <span class="message">The resource <code>R.string.ready_status</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno">  1 </span><span class="tag">&lt;resources></span>
-<span class="lineno">  2 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"app_name"</span>>SML File Share<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno">  3 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"ready_status"</span></span>>Ready for P2P file transfer via WiFi Direct<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno">  4 </span>
-<span class="lineno">  5 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connection_section_title"</span>>Connection<span class="tag">&lt;/string></span>
-<span class="lineno">  6 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connection_idle"</span>>Connection: IDLE<span class="tag">&lt;/string></span></pre>
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:50</span>: <span class="message">The resource <code>R.color.avatar_bg_3</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 47 </span>
+<span class="lineno"> 48 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_1"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="lineno"> 49 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_2"</span>>#FFC8FCE8<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 50 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"avatar_bg_3"</span></span>>#FFFFF3E0<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 51 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_4"</span>>#FFFCE8E6<span class="tag">&lt;/color></span>
+<span class="lineno"> 52 </span>
+<span class="lineno"> 53 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"gradient_start"</span>>#FF2563EB<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:51</span>: <span class="message">The resource <code>R.color.avatar_bg_4</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 48 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_1"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
+<span class="lineno"> 49 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_2"</span>>#FFC8FCE8<span class="tag">&lt;/color></span>
+<span class="lineno"> 50 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"avatar_bg_3"</span>>#FFFFF3E0<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 51 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"avatar_bg_4"</span></span>>#FFFCE8E6<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 52 </span>
+<span class="lineno"> 53 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"gradient_start"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 54 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"gradient_end"</span>>#FF7C3AED<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:56</span>: <span class="message">The resource <code>R.color.card_shadow</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 53 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"gradient_start"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 54 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"gradient_end"</span>>#FF7C3AED<span class="tag">&lt;/color></span>
+<span class="lineno"> 55 </span>
+<span class="caretline"><span class="lineno"> 56 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"card_shadow"</span></span>>#1A000000<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 57 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"divider"</span>>#FFE5E7EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 58 </span><span class="tag">&lt;/resources></span>
+</pre>
+
+<span class="location"><a href="../../src/main/res/drawable/ic_device_phone.xml">../../src/main/res/drawable/ic_device_phone.xml</a>:2</span>: <span class="message">The resource <code>R.drawable.ic_device_phone</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="caretline"><span class="lineno">  2 </span><span class="warning"><span class="tag">&lt;vector</span><span class="attribute"> </span><span class="prefix">xmlns:</span><span class="attribute">android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  3 </span>    <span class="prefix">android:</span><span class="attribute">width</span>=<span class="value">"24dp"</span>
+<span class="lineno">  4 </span>    <span class="prefix">android:</span><span class="attribute">height</span>=<span class="value">"24dp"</span>
+<span class="lineno">  5 </span>    <span class="prefix">android:</span><span class="attribute">viewportWidth</span>=<span class="value">"24"</span></pre>
+
+<span class="location"><a href="../../src/main/res/drawable/ic_send.xml">../../src/main/res/drawable/ic_send.xml</a>:2</span>: <span class="message">The resource <code>R.drawable.ic_send</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="caretline"><span class="lineno">  2 </span><span class="warning"><span class="tag">&lt;vector</span><span class="attribute"> </span><span class="prefix">xmlns:</span><span class="attribute">android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  3 </span>    <span class="prefix">android:</span><span class="attribute">width</span>=<span class="value">"20dp"</span>
+<span class="lineno">  4 </span>    <span class="prefix">android:</span><span class="attribute">height</span>=<span class="value">"20dp"</span>
+<span class="lineno">  5 </span>    <span class="prefix">android:</span><span class="attribute">viewportWidth</span>=<span class="value">"24"</span></pre>
 
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:12</span>: <span class="message">The resource <code>R.string.tap_device_hint</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">  9 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"discover_devices"</span>>Discover Devices<span class="tag">&lt;/string></span>
@@ -695,6 +901,7 @@ Dismiss</button>            </div>
 <span class="lineno"> 14 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"transfer_section_title"</span>>Transfer<span class="tag">&lt;/string></span>
 <span class="lineno"> 15 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"transfer_idle"</span>>Transfer: IDLE<span class="tag">&lt;/string></span></pre>
 
+</div>
 </div>
 <div class="metadata"><div class="explanation" id="explanationUnusedResources" style="display: none;">
 Unused resources make applications larger and slow down builds.<br/>

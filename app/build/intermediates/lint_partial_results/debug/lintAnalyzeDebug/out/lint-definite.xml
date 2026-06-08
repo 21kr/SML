@@ -2,6 +2,20 @@
 <incidents format="6" by="lint 8.4.2" type="incidents">
 
     <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="463"
+            column="18"
+            startOffset="21591"
+            endLine="463"
+            endColumn="30"
+            endOffset="21603"/>
+    </incident>
+
+    <incident
         id="MonochromeLauncherIcon"
         severity="warning"
         message="The application adaptive icon is missing a monochrome tag">
@@ -41,6 +55,20 @@
             endLine="32"
             endColumn="31"
             endOffset="1042"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/ui/connection/ConnectionDeviceAdapter.java"
+            line="71"
+            column="67"
+            startOffset="2468"
+            endLine="71"
+            endColumn="78"
+            endOffset="2479"/>
     </incident>
 
     <incident
@@ -254,15 +282,29 @@
     <incident
         id="Overdraw"
         severity="warning"
-        message="Possible overdraw: Root element paints background `@color/surface_variant` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_history.xml"
-            line="8"
+            line="7"
             column="5"
-            startOffset="315"
-            endLine="8"
-            endColumn="48"
-            endOffset="358"/>
+            startOffset="288"
+            endLine="7"
+            endColumn="43"
+            endOffset="326"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="6"
+            column="5"
+            startOffset="251"
+            endLine="6"
+            endColumn="43"
+            endOffset="289"/>
     </incident>
 
 </incidents>

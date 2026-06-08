@@ -20,14 +20,19 @@ public final class ItemDiscoveredDeviceBinding implements ViewBinding {
   private final MaterialCardView rootView;
 
   @NonNull
+  public final TextView deviceAvatarText;
+
+  @NonNull
   public final TextView deviceIdText;
 
   @NonNull
   public final TextView deviceNameText;
 
   private ItemDiscoveredDeviceBinding(@NonNull MaterialCardView rootView,
-      @NonNull TextView deviceIdText, @NonNull TextView deviceNameText) {
+      @NonNull TextView deviceAvatarText, @NonNull TextView deviceIdText,
+      @NonNull TextView deviceNameText) {
     this.rootView = rootView;
+    this.deviceAvatarText = deviceAvatarText;
     this.deviceIdText = deviceIdText;
     this.deviceNameText = deviceNameText;
   }
@@ -59,6 +64,12 @@ public final class ItemDiscoveredDeviceBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.deviceAvatarText;
+      TextView deviceAvatarText = ViewBindings.findChildViewById(rootView, id);
+      if (deviceAvatarText == null) {
+        break missingId;
+      }
+
       id = R.id.deviceIdText;
       TextView deviceIdText = ViewBindings.findChildViewById(rootView, id);
       if (deviceIdText == null) {
@@ -71,8 +82,8 @@ public final class ItemDiscoveredDeviceBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemDiscoveredDeviceBinding((MaterialCardView) rootView, deviceIdText,
-          deviceNameText);
+      return new ItemDiscoveredDeviceBinding((MaterialCardView) rootView, deviceAvatarText,
+          deviceIdText, deviceNameText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -1,94 +1,166 @@
 [
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_connect.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_connect.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/layout_activity_main.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/activity_main.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/layout_item_discovered_device.xml.flat",
-        "source": "com.mrp.sml.app-main-37:/layout/item_discovered_device.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-ldpi_ic_launcher_round.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-ldpi/ic_launcher_round.png"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-hdpi_ic_launcher_foreground.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-hdpi/ic_launcher_foreground.png"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xhdpi_ic_launcher_foreground.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xhdpi/ic_launcher_foreground.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_discover.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_discover.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-ldpi_ic_launcher_round.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-ldpi/ic_launcher_round.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xhdpi/ic_launcher_foreground.png"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-ldpi_ic_launcher.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-ldpi/ic_launcher.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/layout_activity_history.xml.flat",
-        "source": "com.mrp.sml.app-main-37:/layout/activity_history.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_cancel.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_cancel.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_disconnect.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_disconnect.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_bg_status_chip.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/bg_status_chip.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xxxhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-ldpi_ic_launcher.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-ldpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_history.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_history.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/layout_item_history_record.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/item_history_record.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_device_phone.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_device_phone.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_bg_connected_device.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/bg_connected_device.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/layout_item_discovered_device.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/item_discovered_device.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_receive.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_receive.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_file_transfer.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_file_transfer.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_bg_avatar_circle.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/bg_avatar_circle.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_bg_header_gradient.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/bg_header_gradient.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_pick_file.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_pick_file.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_send_file.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_send_file.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
         "merged": "com.mrp.sml.app-release-36:/layout_activity_main.xml.flat",
         "source": "com.mrp.sml.app-main-37:/layout/activity_main.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xxxhdpi/ic_launcher_foreground.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_bg_permission_banner.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/bg_permission_banner.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-hdpi_ic_launcher_foreground.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-hdpi/ic_launcher_foreground.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_send.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_send.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xhdpi/ic_launcher.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-hdpi/ic_launcher.png"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/drawable_ic_resume.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/drawable/ic_resume.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-xxhdpi/ic_launcher_foreground.png"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/layout_activity_history.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/layout/activity_history.xml"
     },
     {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-hdpi/ic_launcher.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xhdpi/ic_launcher_round.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/layout_item_history_record.xml.flat",
-        "source": "com.mrp.sml.app-main-37:/layout/item_history_record.xml"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xxhdpi/ic_launcher_round.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-mdpi/ic_launcher_round.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-mdpi_ic_launcher_foreground.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-mdpi/ic_launcher_foreground.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-mdpi/ic_launcher.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-36:/mipmap-xxhdpi_ic_launcher_foreground.png.flat",
-        "source": "com.mrp.sml.app-main-37:/mipmap-xxhdpi/ic_launcher_foreground.png"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-36:/mipmap-mdpi_ic_launcher_foreground.png.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-37:/mipmap-mdpi/ic_launcher_foreground.png"
     }
 ]
