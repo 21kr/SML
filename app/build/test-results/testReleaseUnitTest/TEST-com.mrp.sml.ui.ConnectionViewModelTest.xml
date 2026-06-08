@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.mrp.sml.ui.ConnectionViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-08T15:02:53" hostname="codespaces-4f54e7" time="0.024">
-  <properties/>
-  <testcase name="discoverDevices_updatesConnectionAndCount" classname="com.mrp.sml.ui.ConnectionViewModelTest" time="0.024"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
