@@ -38,14 +38,30 @@ import com.mrp.sml.ui.viewmodel.DiscoveryViewModel;
 import com.mrp.sml.ui.viewmodel.DiscoveryViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.DiscoveryViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
 import com.mrp.sml.ui.viewmodel.DiscoveryViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.HistoryViewModel;
+import com.mrp.sml.ui.viewmodel.HistoryViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.HistoryViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.HistoryViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
 import com.mrp.sml.ui.viewmodel.HomeViewModel;
 import com.mrp.sml.ui.viewmodel.HomeViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.HomeViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
 import com.mrp.sml.ui.viewmodel.HomeViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.ReceiveViewModel;
+import com.mrp.sml.ui.viewmodel.ReceiveViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.ReceiveViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.ReceiveViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.SendViewModel;
+import com.mrp.sml.ui.viewmodel.SendViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.SendViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.SendViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
 import com.mrp.sml.ui.viewmodel.SettingsViewModel;
 import com.mrp.sml.ui.viewmodel.SettingsViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.SettingsViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
 import com.mrp.sml.ui.viewmodel.SettingsViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.TransferDetailViewModel;
+import com.mrp.sml.ui.viewmodel.TransferDetailViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.TransferDetailViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
+import com.mrp.sml.ui.viewmodel.TransferDetailViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
 import com.mrp.sml.ui.viewmodel.TransferViewModel;
 import com.mrp.sml.ui.viewmodel.TransferViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.TransferViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
@@ -415,7 +431,7 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, Boolean> getViewModelKeys() {
-      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(4).put(DiscoveryViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, DiscoveryViewModel_HiltModules.KeyModule.provide()).put(HomeViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, HomeViewModel_HiltModules.KeyModule.provide()).put(SettingsViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, SettingsViewModel_HiltModules.KeyModule.provide()).put(TransferViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, TransferViewModel_HiltModules.KeyModule.provide()).build());
+      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(8).put(DiscoveryViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, DiscoveryViewModel_HiltModules.KeyModule.provide()).put(HistoryViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, HistoryViewModel_HiltModules.KeyModule.provide()).put(HomeViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, HomeViewModel_HiltModules.KeyModule.provide()).put(ReceiveViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, ReceiveViewModel_HiltModules.KeyModule.provide()).put(SendViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, SendViewModel_HiltModules.KeyModule.provide()).put(SettingsViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, SettingsViewModel_HiltModules.KeyModule.provide()).put(TransferDetailViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, TransferDetailViewModel_HiltModules.KeyModule.provide()).put(TransferViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, TransferViewModel_HiltModules.KeyModule.provide()).build());
     }
 
     @Override
@@ -443,9 +459,17 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
 
     Provider<DiscoveryViewModel> discoveryViewModelProvider;
 
+    Provider<HistoryViewModel> historyViewModelProvider;
+
     Provider<HomeViewModel> homeViewModelProvider;
 
+    Provider<ReceiveViewModel> receiveViewModelProvider;
+
+    Provider<SendViewModel> sendViewModelProvider;
+
     Provider<SettingsViewModel> settingsViewModelProvider;
+
+    Provider<TransferDetailViewModel> transferDetailViewModelProvider;
 
     Provider<TransferViewModel> transferViewModelProvider;
 
@@ -462,14 +486,18 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
     private void initialize(final SavedStateHandle savedStateHandleParam,
         final ViewModelLifecycle viewModelLifecycleParam) {
       this.discoveryViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
-      this.homeViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.settingsViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
-      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
+      this.historyViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
+      this.homeViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.receiveViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
+      this.sendViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 4);
+      this.settingsViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 5);
+      this.transferDetailViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 6);
+      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 7);
     }
 
     @Override
     public Map<Class<?>, javax.inject.Provider<ViewModel>> getHiltViewModelMap() {
-      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(4).put(DiscoveryViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (discoveryViewModelProvider))).put(HomeViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (homeViewModelProvider))).put(SettingsViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (settingsViewModelProvider))).put(TransferViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (transferViewModelProvider))).build());
+      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(8).put(DiscoveryViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (discoveryViewModelProvider))).put(HistoryViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (historyViewModelProvider))).put(HomeViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (homeViewModelProvider))).put(ReceiveViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (receiveViewModelProvider))).put(SendViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (sendViewModelProvider))).put(SettingsViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (settingsViewModelProvider))).put(TransferDetailViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (transferDetailViewModelProvider))).put(TransferViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (transferViewModelProvider))).build());
     }
 
     @Override
@@ -501,13 +529,25 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
           case 0: // com.mrp.sml.ui.viewmodel.DiscoveryViewModel
           return (T) new DiscoveryViewModel(singletonCImpl.provideDeviceDiscoveryManagerProvider.get());
 
-          case 1: // com.mrp.sml.ui.viewmodel.HomeViewModel
-          return (T) new HomeViewModel(singletonCImpl.connectionRepositoryImplProvider.get());
+          case 1: // com.mrp.sml.ui.viewmodel.HistoryViewModel
+          return (T) new HistoryViewModel(singletonCImpl.transferRepositoryImplProvider.get());
 
-          case 2: // com.mrp.sml.ui.viewmodel.SettingsViewModel
+          case 2: // com.mrp.sml.ui.viewmodel.HomeViewModel
+          return (T) new HomeViewModel(singletonCImpl.connectionRepositoryImplProvider.get(), singletonCImpl.transferRepositoryImplProvider.get());
+
+          case 3: // com.mrp.sml.ui.viewmodel.ReceiveViewModel
+          return (T) new ReceiveViewModel(singletonCImpl.connectionRepositoryImplProvider.get());
+
+          case 4: // com.mrp.sml.ui.viewmodel.SendViewModel
+          return (T) new SendViewModel(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 5: // com.mrp.sml.ui.viewmodel.SettingsViewModel
           return (T) new SettingsViewModel(singletonCImpl.settingsManagerProvider.get());
 
-          case 3: // com.mrp.sml.ui.viewmodel.TransferViewModel
+          case 6: // com.mrp.sml.ui.viewmodel.TransferDetailViewModel
+          return (T) new TransferDetailViewModel(singletonCImpl.transferRepositoryImplProvider.get());
+
+          case 7: // com.mrp.sml.ui.viewmodel.TransferViewModel
           return (T) new TransferViewModel(singletonCImpl.transferRepositoryImplProvider.get(), singletonCImpl.provideFileSenderProvider.get(), singletonCImpl.provideFileReceiverProvider.get());
 
           default: throw new AssertionError(id);
@@ -622,13 +662,13 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
 
     Provider<DeviceDiscoveryManager> provideDeviceDiscoveryManagerProvider;
 
-    Provider<ConnectionRepositoryImpl> connectionRepositoryImplProvider;
-
-    Provider<SettingsManager> settingsManagerProvider;
-
     Provider<FileReceiver> provideFileReceiverProvider;
 
     Provider<TransferRepositoryImpl> transferRepositoryImplProvider;
+
+    Provider<ConnectionRepositoryImpl> connectionRepositoryImplProvider;
+
+    Provider<SettingsManager> settingsManagerProvider;
 
     SingletonCImpl(ApplicationContextModule applicationContextModuleParam) {
       this.applicationContextModule = applicationContextModuleParam;
@@ -659,10 +699,10 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
       this.provideWifiDirectManagerProvider = DoubleCheck.provider(new SwitchingProvider<WifiDirectManager>(singletonCImpl, 6));
       this.provideNearbyManagerProvider = DoubleCheck.provider(new SwitchingProvider<NearbyManager>(singletonCImpl, 7));
       this.provideDeviceDiscoveryManagerProvider = DoubleCheck.provider(new SwitchingProvider<DeviceDiscoveryManager>(singletonCImpl, 5));
-      this.connectionRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<ConnectionRepositoryImpl>(singletonCImpl, 8));
-      this.settingsManagerProvider = DoubleCheck.provider(new SwitchingProvider<SettingsManager>(singletonCImpl, 9));
-      this.provideFileReceiverProvider = DoubleCheck.provider(new SwitchingProvider<FileReceiver>(singletonCImpl, 11));
-      this.transferRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<TransferRepositoryImpl>(singletonCImpl, 10));
+      this.provideFileReceiverProvider = DoubleCheck.provider(new SwitchingProvider<FileReceiver>(singletonCImpl, 9));
+      this.transferRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<TransferRepositoryImpl>(singletonCImpl, 8));
+      this.connectionRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<ConnectionRepositoryImpl>(singletonCImpl, 10));
+      this.settingsManagerProvider = DoubleCheck.provider(new SwitchingProvider<SettingsManager>(singletonCImpl, 11));
     }
 
     @Override
@@ -739,17 +779,17 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
           case 7: // com.mrp.sml.data.remote.nearby.NearbyManager
           return (T) NetworkModule_ProvideNearbyManagerFactory.provideNearbyManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 8: // com.mrp.sml.data.repository.ConnectionRepositoryImpl
-          return (T) new ConnectionRepositoryImpl(singletonCImpl.provideDeviceDiscoveryManagerProvider.get(), singletonCImpl.provideWifiDirectManagerProvider.get());
-
-          case 9: // com.mrp.sml.data.local.preferences.SettingsManager
-          return (T) new SettingsManager(singletonCImpl.provideContextProvider.get());
-
-          case 10: // com.mrp.sml.data.repository.TransferRepositoryImpl
+          case 8: // com.mrp.sml.data.repository.TransferRepositoryImpl
           return (T) new TransferRepositoryImpl(singletonCImpl.transferDao(), singletonCImpl.provideFileSenderProvider.get(), singletonCImpl.provideFileReceiverProvider.get());
 
-          case 11: // com.mrp.sml.data.remote.sockets.FileReceiver
+          case 9: // com.mrp.sml.data.remote.sockets.FileReceiver
           return (T) NetworkModule_ProvideFileReceiverFactory.provideFileReceiver();
+
+          case 10: // com.mrp.sml.data.repository.ConnectionRepositoryImpl
+          return (T) new ConnectionRepositoryImpl(singletonCImpl.provideDeviceDiscoveryManagerProvider.get(), singletonCImpl.provideWifiDirectManagerProvider.get());
+
+          case 11: // com.mrp.sml.data.local.preferences.SettingsManager
+          return (T) new SettingsManager(singletonCImpl.provideContextProvider.get());
 
           default: throw new AssertionError(id);
         }

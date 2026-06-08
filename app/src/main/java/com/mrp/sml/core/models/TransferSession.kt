@@ -23,6 +23,7 @@ enum class TransferStatus {
     TRANSFERRING,
     PAUSED,
     RESUMING,
+    VERIFYING,
     COMPLETED,
     FAILED,
     CANCELLED

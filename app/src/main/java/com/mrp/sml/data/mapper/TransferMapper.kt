@@ -24,7 +24,9 @@ object TransferMapper {
             startedAt = session.startedAt,
             completedAt = session.completedAt,
             errorMessage = session.errorMessage,
-            sessionToken = session.id
+            sessionToken = session.id,
+            peerDeviceName = session.deviceName,
+            totalFiles = session.files.size
         )
     }
 
@@ -43,7 +45,9 @@ object TransferMapper {
             startedAt = entity.timestampEpochMillis,
             completedAt = entity.completedAtMillis,
             errorMessage = entity.errorMessage,
-            sessionToken = entity.sessionToken
+            sessionToken = entity.sessionToken,
+            peerDeviceName = entity.peerDeviceName,
+            totalFiles = entity.totalFiles
         )
     }
 
@@ -58,7 +62,9 @@ object TransferMapper {
             sessionToken = model.sessionToken,
             timestampEpochMillis = model.startedAt,
             completedAtMillis = model.completedAt,
-            errorMessage = model.errorMessage
+            errorMessage = model.errorMessage,
+            peerDeviceName = model.peerDeviceName,
+            totalFiles = model.totalFiles
         )
     }
 
@@ -72,7 +78,8 @@ object TransferMapper {
             TransferStatus.CANCELLED -> TransferModel.TransferStatus.CANCELLED
             TransferStatus.DISCOVERING,
             TransferStatus.CONNECTING,
-            TransferStatus.RESUMING -> TransferModel.TransferStatus.PENDING
+            TransferStatus.RESUMING,
+            TransferStatus.VERIFYING -> TransferModel.TransferStatus.PENDING
         }
     }
 }

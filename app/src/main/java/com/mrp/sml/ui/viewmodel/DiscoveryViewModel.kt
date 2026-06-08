@@ -7,28 +7,69 @@ import com.mrp.sml.core.models.Device
 import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+enum class PairingMode {
+    WIFI_DIRECT,
+    HOTSPOT_FALLBACK,
+    MANUAL_IP
+}
+
+enum class PairingRole {
+    SENDER,
+    RECEIVER
+}
+
+data class PairingUiState(
+    val mode: PairingRole = PairingRole.SENDER,
+    val connectionMethod: PairingMode = PairingMode.WIFI_DIRECT,
+    val qrPayload: String? = null,
+    val discoveredDevices: List<Device> = emptyList(),
+    val selectedDevice: Device? = null,
+    val connectionState: ConnectionState = ConnectionState.IDLE,
+    val isDiscovering: Boolean = false,
+    val errorMessage: String? = null,
+    val selectedFileSummary: String = ""
+)
 
 @HiltViewModel
 class DiscoveryViewModel @Inject constructor(
     private val discoveryManager: DeviceDiscoveryManager
 ) : ViewModel() {
 
-    val connectionState: StateFlow<ConnectionState> = discoveryManager.connectionState
+    private val _uiState = MutableStateFlow(PairingUiState())
+    val uiState: StateFlow<PairingUiState> = _uiState.asStateFlow()
 
-    val discoveredDevices: StateFlow<List<Device>> = discoveryManager.discoveredDevices
+    init {
+        viewModelScope.launch {
+            discoveryManager.connectionState.collect { state ->
+                _uiState.update { it.copy(connectionState = state) }
+            }
+        }
+        viewModelScope.launch {
+            discoveryManager.discoveredDevices.collect { devices ->
+                _uiState.update { state ->
+                    state.copy(discoveredDevices = devices)
+                }
+            }
+        }
+    }
 
-    private val _isDiscovering = MutableStateFlow(false)
-    val isDiscovering: StateFlow<Boolean> = _isDiscovering.asStateFlow()
+    fun setMode(mode: PairingRole) {
+        _uiState.update { it.copy(mode = mode) }
+    }
+
+    fun setSelectedFileSummary(summary: String) {
+        _uiState.update { it.copy(selectedFileSummary = summary) }
+    }
 
     fun startDiscovery() {
         viewModelScope.launch {
-            _isDiscovering.value = true
+            _uiState.update { it.copy(isDiscovering = true, errorMessage = null) }
             discoveryManager.startDiscovery()
         }
     }
@@ -36,14 +77,27 @@ class DiscoveryViewModel @Inject constructor(
     fun stopDiscovery() {
         viewModelScope.launch {
             discoveryManager.stopDiscovery()
-            _isDiscovering.value = false
+            _uiState.update { it.copy(isDiscovering = false) }
         }
     }
 
     fun connectToDevice(deviceId: String) {
         viewModelScope.launch {
+            _uiState.update { it.copy(errorMessage = null) }
             discoveryManager.connectToDevice(deviceId)
         }
+    }
+
+    fun setConnectionMethod(method: PairingMode) {
+        _uiState.update { it.copy(connectionMethod = method) }
+    }
+
+    fun generateQrCode(payload: String) {
+        _uiState.update { it.copy(qrPayload = payload) }
+    }
+
+    fun clearQrCode() {
+        _uiState.update { it.copy(qrPayload = null) }
     }
 
     override fun onCleared() {

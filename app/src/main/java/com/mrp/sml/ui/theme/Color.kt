@@ -21,6 +21,10 @@ val OnSecondaryContainer = Color(0xFF1D1B20)
 val Tertiary = Color(0xFFFB8C00)
 val TertiaryContainer = Color(0xFFFFF3E0)
 
+val Warning = Color(0xFFD97706)
+val WarningContainer = Color(0xFFFFF3E0)
+val OnWarningContainer = Color(0xFF3E2E00)
+
 val Error = Color(0xFFD93025)
 val OnError = Color(0xFFFFFFFF)
 val ErrorContainer = Color(0xFFFCE8E6)

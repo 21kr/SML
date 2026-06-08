@@ -2,52 +2,57 @@ package com.mrp.sml.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mrp.sml.core.models.ConnectionState
+import com.mrp.sml.domain.model.TransferModel
 import com.mrp.sml.domain.repository.ConnectionRepository
+import com.mrp.sml.domain.repository.TransferRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class HomeUiState(
+    val permissionStatus: Boolean = false,
+    val wifiStatus: String = "Not connected",
+    val deviceName: String = "",
+    val lastTransferSummary: String = ""
+)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val connectionRepository: ConnectionRepository
+    private val connectionRepository: ConnectionRepository,
+    private val transferRepository: TransferRepository
 ) : ViewModel() {
 
-    private val _connectionState = MutableStateFlow(ConnectionState.IDLE)
-    val connectionState: StateFlow<ConnectionState> = _connectionState.asStateFlow()
-
-    private val _isDiscovering = MutableStateFlow(false)
-    val isDiscovering: StateFlow<Boolean> = _isDiscovering.asStateFlow()
+    private val _uiState = MutableStateFlow(HomeUiState())
+    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            connectionRepository.observeConnectionState().collect { state ->
-                _connectionState.value = state
+            transferRepository.observeTransfers().collect { transfers ->
+                val last = transfers.sortedByDescending { it.completedAt ?: it.startedAt }.firstOrNull()
+                _uiState.update {
+                    it.copy(
+                        lastTransferSummary = if (last != null)
+                            "${if (last.direction == TransferModel.TransferDirection.SENT) "Sent" else "Received"} ${last.fileName}"
+                        else ""
+                    )
+                }
             }
         }
     }
 
-    fun startDiscovery() {
-        viewModelScope.launch {
-            _isDiscovering.value = true
-            connectionRepository.startDiscovery()
-        }
+    fun updateDeviceName(name: String) {
+        _uiState.update { it.copy(deviceName = name) }
     }
 
-    fun stopDiscovery() {
-        viewModelScope.launch {
-            connectionRepository.stopDiscovery()
-            _isDiscovering.value = false
-        }
+    fun updateWifiStatus(status: String) {
+        _uiState.update { it.copy(wifiStatus = status) }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.launch {
-            connectionRepository.stopDiscovery()
-        }
+    fun updatePermissionStatus(granted: Boolean) {
+        _uiState.update { it.copy(permissionStatus = granted) }
     }
 }

@@ -36,7 +36,7 @@ public final class TransferDao_Impl implements TransferDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `transfer_history` (`id`,`file_name`,`file_size_bytes`,`mime_type`,`direction`,`status`,`progress`,`session_token`,`timestamp_epoch_millis`,`completed_at_millis`,`error_message`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `transfer_history` (`id`,`file_name`,`file_size_bytes`,`mime_type`,`direction`,`status`,`progress`,`session_token`,`timestamp_epoch_millis`,`completed_at_millis`,`error_message`,`peer_device_name`,`total_files`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -81,6 +81,12 @@ public final class TransferDao_Impl implements TransferDao {
         } else {
           statement.bindText(11, entity.getErrorMessage());
         }
+        if (entity.getPeerDeviceName() == null) {
+          statement.bindNull(12);
+        } else {
+          statement.bindText(12, entity.getPeerDeviceName());
+        }
+        statement.bindLong(13, entity.getTotalFiles());
       }
     };
   }
@@ -111,6 +117,8 @@ public final class TransferDao_Impl implements TransferDao {
         final int _columnIndexOfTimestampEpochMillis = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "timestamp_epoch_millis");
         final int _columnIndexOfCompletedAtMillis = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "completed_at_millis");
         final int _columnIndexOfErrorMessage = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "error_message");
+        final int _columnIndexOfPeerDeviceName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "peer_device_name");
+        final int _columnIndexOfTotalFiles = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "total_files");
         final List<TransferEntity> _result = new ArrayList<TransferEntity>();
         while (_stmt.step()) {
           final TransferEntity _item;
@@ -164,7 +172,15 @@ public final class TransferDao_Impl implements TransferDao {
           } else {
             _tmpErrorMessage = _stmt.getText(_columnIndexOfErrorMessage);
           }
-          _item = new TransferEntity(_tmpId,_tmpFileName,_tmpFileSizeBytes,_tmpMimeType,_tmpDirection,_tmpStatus,_tmpProgress,_tmpSessionToken,_tmpTimestampEpochMillis,_tmpCompletedAtMillis,_tmpErrorMessage);
+          final String _tmpPeerDeviceName;
+          if (_stmt.isNull(_columnIndexOfPeerDeviceName)) {
+            _tmpPeerDeviceName = null;
+          } else {
+            _tmpPeerDeviceName = _stmt.getText(_columnIndexOfPeerDeviceName);
+          }
+          final int _tmpTotalFiles;
+          _tmpTotalFiles = (int) (_stmt.getLong(_columnIndexOfTotalFiles));
+          _item = new TransferEntity(_tmpId,_tmpFileName,_tmpFileSizeBytes,_tmpMimeType,_tmpDirection,_tmpStatus,_tmpProgress,_tmpSessionToken,_tmpTimestampEpochMillis,_tmpCompletedAtMillis,_tmpErrorMessage,_tmpPeerDeviceName,_tmpTotalFiles);
           _result.add(_item);
         }
         return _result;
@@ -194,6 +210,8 @@ public final class TransferDao_Impl implements TransferDao {
         final int _columnIndexOfTimestampEpochMillis = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "timestamp_epoch_millis");
         final int _columnIndexOfCompletedAtMillis = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "completed_at_millis");
         final int _columnIndexOfErrorMessage = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "error_message");
+        final int _columnIndexOfPeerDeviceName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "peer_device_name");
+        final int _columnIndexOfTotalFiles = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "total_files");
         final TransferEntity _result;
         if (_stmt.step()) {
           final long _tmpId;
@@ -246,7 +264,15 @@ public final class TransferDao_Impl implements TransferDao {
           } else {
             _tmpErrorMessage = _stmt.getText(_columnIndexOfErrorMessage);
           }
-          _result = new TransferEntity(_tmpId,_tmpFileName,_tmpFileSizeBytes,_tmpMimeType,_tmpDirection,_tmpStatus,_tmpProgress,_tmpSessionToken,_tmpTimestampEpochMillis,_tmpCompletedAtMillis,_tmpErrorMessage);
+          final String _tmpPeerDeviceName;
+          if (_stmt.isNull(_columnIndexOfPeerDeviceName)) {
+            _tmpPeerDeviceName = null;
+          } else {
+            _tmpPeerDeviceName = _stmt.getText(_columnIndexOfPeerDeviceName);
+          }
+          final int _tmpTotalFiles;
+          _tmpTotalFiles = (int) (_stmt.getLong(_columnIndexOfTotalFiles));
+          _result = new TransferEntity(_tmpId,_tmpFileName,_tmpFileSizeBytes,_tmpMimeType,_tmpDirection,_tmpStatus,_tmpProgress,_tmpSessionToken,_tmpTimestampEpochMillis,_tmpCompletedAtMillis,_tmpErrorMessage,_tmpPeerDeviceName,_tmpTotalFiles);
         } else {
           _result = null;
         }
@@ -281,6 +307,8 @@ public final class TransferDao_Impl implements TransferDao {
         final int _columnIndexOfTimestampEpochMillis = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "timestamp_epoch_millis");
         final int _columnIndexOfCompletedAtMillis = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "completed_at_millis");
         final int _columnIndexOfErrorMessage = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "error_message");
+        final int _columnIndexOfPeerDeviceName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "peer_device_name");
+        final int _columnIndexOfTotalFiles = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "total_files");
         final TransferEntity _result;
         if (_stmt.step()) {
           final long _tmpId;
@@ -333,7 +361,15 @@ public final class TransferDao_Impl implements TransferDao {
           } else {
             _tmpErrorMessage = _stmt.getText(_columnIndexOfErrorMessage);
           }
-          _result = new TransferEntity(_tmpId,_tmpFileName,_tmpFileSizeBytes,_tmpMimeType,_tmpDirection,_tmpStatus,_tmpProgress,_tmpSessionToken,_tmpTimestampEpochMillis,_tmpCompletedAtMillis,_tmpErrorMessage);
+          final String _tmpPeerDeviceName;
+          if (_stmt.isNull(_columnIndexOfPeerDeviceName)) {
+            _tmpPeerDeviceName = null;
+          } else {
+            _tmpPeerDeviceName = _stmt.getText(_columnIndexOfPeerDeviceName);
+          }
+          final int _tmpTotalFiles;
+          _tmpTotalFiles = (int) (_stmt.getLong(_columnIndexOfTotalFiles));
+          _result = new TransferEntity(_tmpId,_tmpFileName,_tmpFileSizeBytes,_tmpMimeType,_tmpDirection,_tmpStatus,_tmpProgress,_tmpSessionToken,_tmpTimestampEpochMillis,_tmpCompletedAtMillis,_tmpErrorMessage,_tmpPeerDeviceName,_tmpTotalFiles);
         } else {
           _result = null;
         }

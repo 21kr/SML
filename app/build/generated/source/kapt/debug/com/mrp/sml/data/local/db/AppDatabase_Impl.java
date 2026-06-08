@@ -36,15 +36,15 @@ public final class AppDatabase_Impl extends AppDatabase {
   @Override
   @NonNull
   protected RoomOpenDelegate createOpenDelegate() {
-    final RoomOpenDelegate _openDelegate = new RoomOpenDelegate(1, "0e2779b8f15d4eb97dc36a3ae66a91d1", "abdf9d85d6eb121ab70065b589d27b94") {
+    final RoomOpenDelegate _openDelegate = new RoomOpenDelegate(2, "0961d55d429d6d95d266b7ef76cc5325", "15f2cb763d9127686cbb3c955300e2d9") {
       @Override
       public void createAllTables(@NonNull final SQLiteConnection connection) {
-        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `transfer_history` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `file_name` TEXT NOT NULL, `file_size_bytes` INTEGER NOT NULL, `mime_type` TEXT NOT NULL, `direction` TEXT NOT NULL, `status` TEXT NOT NULL, `progress` REAL NOT NULL, `session_token` TEXT NOT NULL, `timestamp_epoch_millis` INTEGER NOT NULL, `completed_at_millis` INTEGER, `error_message` TEXT)");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `transfer_history` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `file_name` TEXT NOT NULL, `file_size_bytes` INTEGER NOT NULL, `mime_type` TEXT NOT NULL, `direction` TEXT NOT NULL, `status` TEXT NOT NULL, `progress` REAL NOT NULL, `session_token` TEXT NOT NULL, `timestamp_epoch_millis` INTEGER NOT NULL, `completed_at_millis` INTEGER, `error_message` TEXT, `peer_device_name` TEXT NOT NULL, `total_files` INTEGER NOT NULL)");
         SQLite.execSQL(connection, "CREATE INDEX IF NOT EXISTS `index_transfer_history_session_token` ON `transfer_history` (`session_token`)");
         SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `paired_devices` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `device_id` TEXT NOT NULL, `device_name` TEXT NOT NULL, `last_connected_at` INTEGER NOT NULL, `ip_address` TEXT NOT NULL)");
         SQLite.execSQL(connection, "CREATE UNIQUE INDEX IF NOT EXISTS `index_paired_devices_device_id` ON `paired_devices` (`device_id`)");
         SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        SQLite.execSQL(connection, "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0e2779b8f15d4eb97dc36a3ae66a91d1')");
+        SQLite.execSQL(connection, "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0961d55d429d6d95d266b7ef76cc5325')");
       }
 
       @Override
@@ -75,7 +75,7 @@ public final class AppDatabase_Impl extends AppDatabase {
       @NonNull
       public RoomOpenDelegate.ValidationResult onValidateSchema(
           @NonNull final SQLiteConnection connection) {
-        final Map<String, TableInfo.Column> _columnsTransferHistory = new HashMap<String, TableInfo.Column>(11);
+        final Map<String, TableInfo.Column> _columnsTransferHistory = new HashMap<String, TableInfo.Column>(13);
         _columnsTransferHistory.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTransferHistory.put("file_name", new TableInfo.Column("file_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTransferHistory.put("file_size_bytes", new TableInfo.Column("file_size_bytes", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -87,6 +87,8 @@ public final class AppDatabase_Impl extends AppDatabase {
         _columnsTransferHistory.put("timestamp_epoch_millis", new TableInfo.Column("timestamp_epoch_millis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTransferHistory.put("completed_at_millis", new TableInfo.Column("completed_at_millis", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTransferHistory.put("error_message", new TableInfo.Column("error_message", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTransferHistory.put("peer_device_name", new TableInfo.Column("peer_device_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTransferHistory.put("total_files", new TableInfo.Column("total_files", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final Set<TableInfo.ForeignKey> _foreignKeysTransferHistory = new HashSet<TableInfo.ForeignKey>(0);
         final Set<TableInfo.Index> _indicesTransferHistory = new HashSet<TableInfo.Index>(1);
         _indicesTransferHistory.add(new TableInfo.Index("index_transfer_history_session_token", false, Arrays.asList("session_token"), Arrays.asList("ASC")));

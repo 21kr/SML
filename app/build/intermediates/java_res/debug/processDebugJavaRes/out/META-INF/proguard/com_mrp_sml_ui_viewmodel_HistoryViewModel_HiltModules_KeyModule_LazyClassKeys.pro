@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.mrp.sml.ui.viewmodel.HistoryViewModel

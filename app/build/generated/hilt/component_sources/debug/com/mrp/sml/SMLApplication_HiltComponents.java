@@ -9,8 +9,12 @@ import com.mrp.sml.di.RepositoryModule;
 import com.mrp.sml.services.DiscoveryService_GeneratedInjector;
 import com.mrp.sml.services.TransferForegroundService_GeneratedInjector;
 import com.mrp.sml.ui.viewmodel.DiscoveryViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.HistoryViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.HomeViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.ReceiveViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.SendViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.SettingsViewModel_HiltModules;
+import com.mrp.sml.ui.viewmodel.TransferDetailViewModel_HiltModules;
 import com.mrp.sml.ui.viewmodel.TransferViewModel_HiltModules;
 import com.mrp.sml.workers.CleanupWorker_HiltModule;
 import com.mrp.sml.workers.RetryTransferWorker_HiltModule;
@@ -177,10 +181,14 @@ public final class SMLApplication_HiltComponents {
           DiscoveryViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
+          HistoryViewModel_HiltModules.KeyModule.class,
           HomeViewModel_HiltModules.KeyModule.class,
+          ReceiveViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
+          SendViewModel_HiltModules.KeyModule.class,
           SettingsViewModel_HiltModules.KeyModule.class,
+          TransferDetailViewModel_HiltModules.KeyModule.class,
           TransferViewModel_HiltModules.KeyModule.class
       }
   )
@@ -219,8 +227,12 @@ public final class SMLApplication_HiltComponents {
       modules = {
           DiscoveryViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
+          HistoryViewModel_HiltModules.BindsModule.class,
           HomeViewModel_HiltModules.BindsModule.class,
+          ReceiveViewModel_HiltModules.BindsModule.class,
+          SendViewModel_HiltModules.BindsModule.class,
           SettingsViewModel_HiltModules.BindsModule.class,
+          TransferDetailViewModel_HiltModules.BindsModule.class,
           TransferViewModel_HiltModules.BindsModule.class
       }
   )

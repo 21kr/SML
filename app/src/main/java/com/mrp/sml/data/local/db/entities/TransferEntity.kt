@@ -41,5 +41,11 @@ data class TransferEntity(
     val completedAtMillis: Long? = null,
 
     @ColumnInfo(name = "error_message")
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+
+    @ColumnInfo(name = "peer_device_name")
+    val peerDeviceName: String = "",
+
+    @ColumnInfo(name = "total_files")
+    val totalFiles: Int = 1
 )

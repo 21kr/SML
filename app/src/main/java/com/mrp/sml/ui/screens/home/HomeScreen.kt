@@ -14,12 +14,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -32,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mrp.sml.ui.theme.Background
 import com.mrp.sml.ui.theme.GradientEnd
@@ -39,9 +42,14 @@ import com.mrp.sml.ui.theme.GradientStart
 import com.mrp.sml.ui.theme.OnPrimary
 import com.mrp.sml.ui.theme.Primary
 import com.mrp.sml.ui.theme.Secondary
+import com.mrp.sml.ui.theme.StateConnected
+import com.mrp.sml.ui.theme.StateDisconnected
+import com.mrp.sml.ui.theme.StateFailed
+import com.mrp.sml.ui.viewmodel.HomeUiState
 
 @Composable
 fun HomeScreen(
+    uiState: HomeUiState = HomeUiState(),
     onSendClick: () -> Unit = {},
     onReceiveClick: () -> Unit = {},
     onHistoryClick: () -> Unit = {},
@@ -53,11 +61,10 @@ fun HomeScreen(
             .background(Background)
             .verticalScroll(rememberScrollState())
     ) {
-        // Header
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(200.dp)
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(GradientStart, GradientEnd)
@@ -76,37 +83,49 @@ fun HomeScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Share files directly with nearby devices",
+                    text = "Offline fast file sharing",
                     style = MaterialTheme.typography.bodyMedium,
                     color = OnPrimary.copy(alpha = 0.85f)
                 )
+                Spacer(modifier = Modifier.height(12.dp))
+                ConnectionStatusBadge(wifiStatus = uiState.wifiStatus)
+                if (uiState.deviceName.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = uiState.deviceName,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = OnPrimary.copy(alpha = 0.7f)
+                    )
+                }
             }
         }
 
-        // Action Cards
+        Spacer(modifier = Modifier.height(20.dp))
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 20.dp),
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ActionCard(
                 title = "Send Files",
-                icon = Icons.Default.InsertDriveFile,
+                icon = Icons.Default.Share,
                 backgroundColor = Primary,
                 modifier = Modifier.weight(1f),
                 onClick = onSendClick
             )
             ActionCard(
                 title = "Receive Files",
-                icon = Icons.Default.InsertDriveFile,
+                icon = Icons.Default.CheckCircle,
                 backgroundColor = Secondary,
                 modifier = Modifier.weight(1f),
                 onClick = onReceiveClick
             )
         }
 
-        // Bottom actions
+        Spacer(modifier = Modifier.height(8.dp))
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,6 +148,71 @@ fun HomeScreen(
                 onClick = onSettingsClick
             )
         }
+
+        if (uiState.lastTransferSummary.isNotBlank()) {
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "Last Transfer",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.Share,
+                        contentDescription = "Last transfer",
+                        tint = Primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = uiState.lastTransferSummary,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun ConnectionStatusBadge(wifiStatus: String) {
+    val (label, color) = when {
+        wifiStatus.contains("Connected", ignoreCase = true) -> wifiStatus to StateConnected
+        wifiStatus.contains("Disconnecting", ignoreCase = true) -> "Disconnecting" to StateDisconnected
+        wifiStatus.contains("Failed", ignoreCase = true) -> "Connection Error" to StateFailed
+        else -> "Not Connected" to StateDisconnected
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .size(8.dp)
+                .clip(CircleShape)
+                .background(color)
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = OnPrimary.copy(alpha = 0.85f)
+        )
     }
 }
 
@@ -158,7 +242,7 @@ private fun ActionCard(
         ) {
             Icon(
                 imageVector = icon,
-                contentDescription = null,
+                contentDescription = title,
                 tint = textColor,
                 modifier = Modifier.size(36.dp)
             )

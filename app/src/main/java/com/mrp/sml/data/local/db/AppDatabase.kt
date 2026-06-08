@@ -9,7 +9,7 @@ import com.mrp.sml.data.local.db.entities.TransferEntity
 
 @Database(
     entities = [TransferEntity::class, DeviceEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

@@ -124,8 +124,12 @@ class TransferRepositoryImpl @Inject constructor(
         fileReceiver.cancel()
     }
 
+    override fun pauseTransfer() {
+        fileSender.cancel()
+        fileReceiver.cancel()
+    }
+
     override fun resumeTransfer() {
-        // Resume last transfer from DB
         scope.launch {
             val last = transferDao.getTransferHistory().let { flow ->
                 var entity: TransferEntity? = null
@@ -138,11 +142,20 @@ class TransferRepositoryImpl @Inject constructor(
 
             last?.let {
                 if (it.direction == "SENT") {
-                    // Resume send - would need stored file paths
                 } else {
-                    // Resume receive
                 }
             }
+        }
+    }
+
+    override fun retryTransfer(sessionId: String) {
+        scope.launch {
+            val transfer = transferDao.getTransferById(sessionId.toLongOrNull() ?: return@launch)
+                ?: return@launch
+            transferDao.updateStatus(
+                id = transfer.id,
+                status = TransferModel.TransferStatus.PENDING.name
+            )
         }
     }
 }

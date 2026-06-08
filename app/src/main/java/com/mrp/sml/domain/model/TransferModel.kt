@@ -12,7 +12,9 @@ data class TransferModel(
     val startedAt: Long = System.currentTimeMillis(),
     val completedAt: Long? = null,
     val errorMessage: String? = null,
-    val sessionToken: String = ""
+    val sessionToken: String = "",
+    val peerDeviceName: String = "",
+    val totalFiles: Int = 1
 ) {
     enum class TransferDirection { SENT, RECEIVED }
 

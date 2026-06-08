@@ -25,5 +25,9 @@ interface TransferRepository {
 
     fun cancelTransfer()
 
+    fun pauseTransfer()
+
     fun resumeTransfer()
+
+    fun retryTransfer(sessionId: String)
 }
