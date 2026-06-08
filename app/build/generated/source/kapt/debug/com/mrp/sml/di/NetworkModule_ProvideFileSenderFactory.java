@@ -39,6 +39,6 @@ public final class NetworkModule_ProvideFileSenderFactory implements Factory<Fil
   }
 
   private static final class InstanceHolder {
-    private static final NetworkModule_ProvideFileSenderFactory INSTANCE = new NetworkModule_ProvideFileSenderFactory();
+    static final NetworkModule_ProvideFileSenderFactory INSTANCE = new NetworkModule_ProvideFileSenderFactory();
   }
 }

@@ -5,10 +5,10 @@ import com.mrp.sml.data.remote.sockets.FileReceiver;
 import com.mrp.sml.data.remote.sockets.FileSender;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -33,7 +33,7 @@ public final class TransferRepositoryImpl_Factory implements Factory<TransferRep
 
   private final Provider<FileReceiver> fileReceiverProvider;
 
-  public TransferRepositoryImpl_Factory(Provider<TransferDao> transferDaoProvider,
+  private TransferRepositoryImpl_Factory(Provider<TransferDao> transferDaoProvider,
       Provider<FileSender> fileSenderProvider, Provider<FileReceiver> fileReceiverProvider) {
     this.transferDaoProvider = transferDaoProvider;
     this.fileSenderProvider = fileSenderProvider;

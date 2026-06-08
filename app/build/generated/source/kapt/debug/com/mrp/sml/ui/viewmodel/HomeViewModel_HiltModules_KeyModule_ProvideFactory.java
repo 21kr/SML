@@ -37,6 +37,6 @@ public final class HomeViewModel_HiltModules_KeyModule_ProvideFactory implements
   }
 
   private static final class InstanceHolder {
-    private static final HomeViewModel_HiltModules_KeyModule_ProvideFactory INSTANCE = new HomeViewModel_HiltModules_KeyModule_ProvideFactory();
+    static final HomeViewModel_HiltModules_KeyModule_ProvideFactory INSTANCE = new HomeViewModel_HiltModules_KeyModule_ProvideFactory();
   }
 }

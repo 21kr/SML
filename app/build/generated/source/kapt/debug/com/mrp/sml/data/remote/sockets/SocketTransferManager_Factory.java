@@ -37,6 +37,6 @@ public final class SocketTransferManager_Factory implements Factory<SocketTransf
   }
 
   private static final class InstanceHolder {
-    private static final SocketTransferManager_Factory INSTANCE = new SocketTransferManager_Factory();
+    static final SocketTransferManager_Factory INSTANCE = new SocketTransferManager_Factory();
   }
 }

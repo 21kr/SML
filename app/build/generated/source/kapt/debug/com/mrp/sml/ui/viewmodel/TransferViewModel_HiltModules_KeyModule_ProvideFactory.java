@@ -37,6 +37,6 @@ public final class TransferViewModel_HiltModules_KeyModule_ProvideFactory implem
   }
 
   private static final class InstanceHolder {
-    private static final TransferViewModel_HiltModules_KeyModule_ProvideFactory INSTANCE = new TransferViewModel_HiltModules_KeyModule_ProvideFactory();
+    static final TransferViewModel_HiltModules_KeyModule_ProvideFactory INSTANCE = new TransferViewModel_HiltModules_KeyModule_ProvideFactory();
   }
 }

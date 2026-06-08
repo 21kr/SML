@@ -5,10 +5,10 @@ import com.mrp.sml.core.permissions.PermissionManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -29,7 +29,7 @@ import javax.inject.Provider;
 public final class AppModule_ProvidePermissionManagerFactory implements Factory<PermissionManager> {
   private final Provider<Context> contextProvider;
 
-  public AppModule_ProvidePermissionManagerFactory(Provider<Context> contextProvider) {
+  private AppModule_ProvidePermissionManagerFactory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

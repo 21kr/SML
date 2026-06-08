@@ -39,6 +39,6 @@ public final class DispatcherModule_ProvideMainDispatcherFactory implements Fact
   }
 
   private static final class InstanceHolder {
-    private static final DispatcherModule_ProvideMainDispatcherFactory INSTANCE = new DispatcherModule_ProvideMainDispatcherFactory();
+    static final DispatcherModule_ProvideMainDispatcherFactory INSTANCE = new DispatcherModule_ProvideMainDispatcherFactory();
   }
 }

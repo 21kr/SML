@@ -5,10 +5,10 @@ import com.mrp.sml.data.remote.nearby.NearbyManager;
 import com.mrp.sml.data.remote.wifi.WifiDirectManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -33,7 +33,7 @@ public final class DeviceDiscoveryManager_Factory implements Factory<DeviceDisco
 
   private final Provider<NearbyManager> nearbyManagerProvider;
 
-  public DeviceDiscoveryManager_Factory(Provider<Context> contextProvider,
+  private DeviceDiscoveryManager_Factory(Provider<Context> contextProvider,
       Provider<WifiDirectManager> wifiDirectManagerProvider,
       Provider<NearbyManager> nearbyManagerProvider) {
     this.contextProvider = contextProvider;

@@ -4,10 +4,10 @@ import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
 import com.mrp.sml.data.remote.wifi.WifiDirectManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -30,7 +30,7 @@ public final class ConnectionRepositoryImpl_Factory implements Factory<Connectio
 
   private final Provider<WifiDirectManager> wifiDirectManagerProvider;
 
-  public ConnectionRepositoryImpl_Factory(
+  private ConnectionRepositoryImpl_Factory(
       Provider<DeviceDiscoveryManager> deviceDiscoveryManagerProvider,
       Provider<WifiDirectManager> wifiDirectManagerProvider) {
     this.deviceDiscoveryManagerProvider = deviceDiscoveryManagerProvider;

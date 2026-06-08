@@ -39,6 +39,6 @@ public final class DispatcherModule_ProvideDefaultDispatcherFactory implements F
   }
 
   private static final class InstanceHolder {
-    private static final DispatcherModule_ProvideDefaultDispatcherFactory INSTANCE = new DispatcherModule_ProvideDefaultDispatcherFactory();
+    static final DispatcherModule_ProvideDefaultDispatcherFactory INSTANCE = new DispatcherModule_ProvideDefaultDispatcherFactory();
   }
 }

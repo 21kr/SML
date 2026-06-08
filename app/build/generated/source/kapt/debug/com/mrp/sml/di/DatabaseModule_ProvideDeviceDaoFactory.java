@@ -5,10 +5,10 @@ import com.mrp.sml.data.local.db.dao.DeviceDao;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -29,7 +29,7 @@ import javax.inject.Provider;
 public final class DatabaseModule_ProvideDeviceDaoFactory implements Factory<DeviceDao> {
   private final Provider<AppDatabase> databaseProvider;
 
-  public DatabaseModule_ProvideDeviceDaoFactory(Provider<AppDatabase> databaseProvider) {
+  private DatabaseModule_ProvideDeviceDaoFactory(Provider<AppDatabase> databaseProvider) {
     this.databaseProvider = databaseProvider;
   }
 

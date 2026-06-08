@@ -13,8 +13,10 @@ import javax.annotation.processing.Generated;
     originatingRoot = "com.mrp.sml.SMLApplication",
     originatingRootPackage = "com.mrp.sml",
     rootAnnotation = HiltAndroidApp.class,
+    rootComponentPackage = "dagger.hilt.components",
     rootSimpleNames = "SMLApplication",
-    originatingRootSimpleNames = "SMLApplication"
+    originatingRootSimpleNames = "SMLApplication",
+    rootComponentSimpleNames = "SingletonComponent"
 )
 @Generated("dagger.hilt.processor.internal.root.AggregatedRootGenerator")
 public class _com_mrp_sml_SMLApplication {

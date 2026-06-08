@@ -37,6 +37,6 @@ public final class DiscoveryViewModel_HiltModules_KeyModule_ProvideFactory imple
   }
 
   private static final class InstanceHolder {
-    private static final DiscoveryViewModel_HiltModules_KeyModule_ProvideFactory INSTANCE = new DiscoveryViewModel_HiltModules_KeyModule_ProvideFactory();
+    static final DiscoveryViewModel_HiltModules_KeyModule_ProvideFactory INSTANCE = new DiscoveryViewModel_HiltModules_KeyModule_ProvideFactory();
   }
 }

@@ -37,6 +37,6 @@ public final class FileReceiver_Factory implements Factory<FileReceiver> {
   }
 
   private static final class InstanceHolder {
-    private static final FileReceiver_Factory INSTANCE = new FileReceiver_Factory();
+    static final FileReceiver_Factory INSTANCE = new FileReceiver_Factory();
   }
 }

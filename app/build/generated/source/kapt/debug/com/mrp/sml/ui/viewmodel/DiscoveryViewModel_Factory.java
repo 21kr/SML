@@ -3,10 +3,10 @@ package com.mrp.sml.ui.viewmodel;
 import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class DiscoveryViewModel_Factory implements Factory<DiscoveryViewModel> {
   private final Provider<DeviceDiscoveryManager> discoveryManagerProvider;
 
-  public DiscoveryViewModel_Factory(Provider<DeviceDiscoveryManager> discoveryManagerProvider) {
+  private DiscoveryViewModel_Factory(Provider<DeviceDiscoveryManager> discoveryManagerProvider) {
     this.discoveryManagerProvider = discoveryManagerProvider;
   }
 

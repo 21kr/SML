@@ -4,9 +4,9 @@ import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
 import dagger.MembersInjector;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.InjectedFieldSignature;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @QualifierMetadata
 @DaggerGenerated
@@ -26,7 +26,7 @@ import javax.inject.Provider;
 public final class DiscoveryService_MembersInjector implements MembersInjector<DiscoveryService> {
   private final Provider<DeviceDiscoveryManager> discoveryManagerProvider;
 
-  public DiscoveryService_MembersInjector(
+  private DiscoveryService_MembersInjector(
       Provider<DeviceDiscoveryManager> discoveryManagerProvider) {
     this.discoveryManagerProvider = discoveryManagerProvider;
   }

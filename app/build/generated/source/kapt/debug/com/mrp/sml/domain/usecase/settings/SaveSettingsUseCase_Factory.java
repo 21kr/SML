@@ -37,6 +37,6 @@ public final class SaveSettingsUseCase_Factory implements Factory<SaveSettingsUs
   }
 
   private static final class InstanceHolder {
-    private static final SaveSettingsUseCase_Factory INSTANCE = new SaveSettingsUseCase_Factory();
+    static final SaveSettingsUseCase_Factory INSTANCE = new SaveSettingsUseCase_Factory();
   }
 }

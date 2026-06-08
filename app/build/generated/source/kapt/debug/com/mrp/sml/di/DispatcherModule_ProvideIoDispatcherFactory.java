@@ -39,6 +39,6 @@ public final class DispatcherModule_ProvideIoDispatcherFactory implements Factor
   }
 
   private static final class InstanceHolder {
-    private static final DispatcherModule_ProvideIoDispatcherFactory INSTANCE = new DispatcherModule_ProvideIoDispatcherFactory();
+    static final DispatcherModule_ProvideIoDispatcherFactory INSTANCE = new DispatcherModule_ProvideIoDispatcherFactory();
   }
 }

@@ -5,10 +5,10 @@ import com.mrp.sml.data.local.db.AppDatabase;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -29,7 +29,7 @@ import javax.inject.Provider;
 public final class DatabaseModule_ProvideDatabaseFactory implements Factory<AppDatabase> {
   private final Provider<Context> contextProvider;
 
-  public DatabaseModule_ProvideDatabaseFactory(Provider<Context> contextProvider) {
+  private DatabaseModule_ProvideDatabaseFactory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

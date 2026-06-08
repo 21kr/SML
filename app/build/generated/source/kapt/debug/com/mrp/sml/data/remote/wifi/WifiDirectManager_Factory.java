@@ -3,10 +3,10 @@ package com.mrp.sml.data.remote.wifi;
 import android.content.Context;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class WifiDirectManager_Factory implements Factory<WifiDirectManager> {
   private final Provider<Context> contextProvider;
 
-  public WifiDirectManager_Factory(Provider<Context> contextProvider) {
+  private WifiDirectManager_Factory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

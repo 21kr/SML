@@ -5,10 +5,10 @@ import com.mrp.sml.data.remote.sockets.FileSender;
 import com.mrp.sml.domain.repository.TransferRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -33,7 +33,7 @@ public final class TransferViewModel_Factory implements Factory<TransferViewMode
 
   private final Provider<FileReceiver> fileReceiverProvider;
 
-  public TransferViewModel_Factory(Provider<TransferRepository> transferRepositoryProvider,
+  private TransferViewModel_Factory(Provider<TransferRepository> transferRepositoryProvider,
       Provider<FileSender> fileSenderProvider, Provider<FileReceiver> fileReceiverProvider) {
     this.transferRepositoryProvider = transferRepositoryProvider;
     this.fileSenderProvider = fileSenderProvider;

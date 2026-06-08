@@ -39,6 +39,6 @@ public final class AppModule_ProvideWifiUtilsFactory implements Factory<WifiUtil
   }
 
   private static final class InstanceHolder {
-    private static final AppModule_ProvideWifiUtilsFactory INSTANCE = new AppModule_ProvideWifiUtilsFactory();
+    static final AppModule_ProvideWifiUtilsFactory INSTANCE = new AppModule_ProvideWifiUtilsFactory();
   }
 }

@@ -39,6 +39,6 @@ public final class NetworkModule_ProvideSocketTransferManagerFactory implements 
   }
 
   private static final class InstanceHolder {
-    private static final NetworkModule_ProvideSocketTransferManagerFactory INSTANCE = new NetworkModule_ProvideSocketTransferManagerFactory();
+    static final NetworkModule_ProvideSocketTransferManagerFactory INSTANCE = new NetworkModule_ProvideSocketTransferManagerFactory();
   }
 }

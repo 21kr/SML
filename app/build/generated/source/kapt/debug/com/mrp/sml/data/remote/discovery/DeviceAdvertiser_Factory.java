@@ -3,10 +3,10 @@ package com.mrp.sml.data.remote.discovery;
 import android.content.Context;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class DeviceAdvertiser_Factory implements Factory<DeviceAdvertiser> {
   private final Provider<Context> contextProvider;
 
-  public DeviceAdvertiser_Factory(Provider<Context> contextProvider) {
+  private DeviceAdvertiser_Factory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

@@ -3,10 +3,10 @@ package com.mrp.sml.data.remote.nearby;
 import android.content.Context;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class NearbyManager_Factory implements Factory<NearbyManager> {
   private final Provider<Context> contextProvider;
 
-  public NearbyManager_Factory(Provider<Context> contextProvider) {
+  private NearbyManager_Factory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

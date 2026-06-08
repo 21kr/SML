@@ -4,10 +4,10 @@ import android.content.Context;
 import androidx.work.WorkerParameters;
 import com.mrp.sml.data.local.db.dao.TransferDao;
 import dagger.internal.DaggerGenerated;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -28,7 +28,7 @@ import javax.inject.Provider;
 public final class CleanupWorker_Factory {
   private final Provider<TransferDao> transferDaoProvider;
 
-  public CleanupWorker_Factory(Provider<TransferDao> transferDaoProvider) {
+  private CleanupWorker_Factory(Provider<TransferDao> transferDaoProvider) {
     this.transferDaoProvider = transferDaoProvider;
   }
 

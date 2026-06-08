@@ -5,10 +5,10 @@ import androidx.work.WorkerParameters;
 import com.mrp.sml.data.local.db.dao.TransferDao;
 import com.mrp.sml.data.remote.sockets.FileSender;
 import dagger.internal.DaggerGenerated;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -31,7 +31,7 @@ public final class RetryTransferWorker_Factory {
 
   private final Provider<FileSender> fileSenderProvider;
 
-  public RetryTransferWorker_Factory(Provider<TransferDao> transferDaoProvider,
+  private RetryTransferWorker_Factory(Provider<TransferDao> transferDaoProvider,
       Provider<FileSender> fileSenderProvider) {
     this.transferDaoProvider = transferDaoProvider;
     this.fileSenderProvider = fileSenderProvider;

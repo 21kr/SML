@@ -87,8 +87,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
 
     // HILT
-    implementation("com.google.dagger:hilt-android:2.53.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.53.1")
+    implementation("com.google.dagger:hilt-android:2.57")
+    kapt("com.google.dagger:hilt-android-compiler:2.57")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.hilt:hilt-work:1.2.0")
     kapt("androidx.hilt:hilt-compiler:1.2.0")

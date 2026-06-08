@@ -5,10 +5,10 @@ import com.mrp.sml.data.remote.discovery.DeviceAdvertiser;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata("dagger.hilt.android.qualifiers.ApplicationContext")
@@ -29,7 +29,7 @@ import javax.inject.Provider;
 public final class NetworkModule_ProvideDeviceAdvertiserFactory implements Factory<DeviceAdvertiser> {
   private final Provider<Context> contextProvider;
 
-  public NetworkModule_ProvideDeviceAdvertiserFactory(Provider<Context> contextProvider) {
+  private NetworkModule_ProvideDeviceAdvertiserFactory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

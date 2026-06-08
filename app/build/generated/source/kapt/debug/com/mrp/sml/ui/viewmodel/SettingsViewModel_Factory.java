@@ -3,10 +3,10 @@ package com.mrp.sml.ui.viewmodel;
 import com.mrp.sml.data.local.preferences.SettingsManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class SettingsViewModel_Factory implements Factory<SettingsViewModel> {
   private final Provider<SettingsManager> settingsManagerProvider;
 
-  public SettingsViewModel_Factory(Provider<SettingsManager> settingsManagerProvider) {
+  private SettingsViewModel_Factory(Provider<SettingsManager> settingsManagerProvider) {
     this.settingsManagerProvider = settingsManagerProvider;
   }
 

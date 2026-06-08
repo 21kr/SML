@@ -3,10 +3,10 @@ package com.mrp.sml.data.local.preferences;
 import android.content.Context;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class SettingsManager_Factory implements Factory<SettingsManager> {
   private final Provider<Context> contextProvider;
 
-  public SettingsManager_Factory(Provider<Context> contextProvider) {
+  private SettingsManager_Factory(Provider<Context> contextProvider) {
     this.contextProvider = contextProvider;
   }
 

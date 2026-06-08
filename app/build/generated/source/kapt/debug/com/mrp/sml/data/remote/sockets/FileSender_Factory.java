@@ -37,6 +37,6 @@ public final class FileSender_Factory implements Factory<FileSender> {
   }
 
   private static final class InstanceHolder {
-    private static final FileSender_Factory INSTANCE = new FileSender_Factory();
+    static final FileSender_Factory INSTANCE = new FileSender_Factory();
   }
 }

@@ -13,13 +13,9 @@ import com.mrp.sml.core.constants.AppConstants
 import com.mrp.sml.core.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TransferForegroundService : Service() {
-
-    @Inject
-    lateinit var notificationUtils: NotificationUtils
 
     private var wakeLock: PowerManager.WakeLock? = null
 

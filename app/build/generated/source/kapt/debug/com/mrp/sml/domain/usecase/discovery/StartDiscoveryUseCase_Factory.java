@@ -3,10 +3,10 @@ package com.mrp.sml.domain.usecase.discovery;
 import com.mrp.sml.domain.repository.ConnectionRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class StartDiscoveryUseCase_Factory implements Factory<StartDiscoveryUseCase> {
   private final Provider<ConnectionRepository> connectionRepositoryProvider;
 
-  public StartDiscoveryUseCase_Factory(
+  private StartDiscoveryUseCase_Factory(
       Provider<ConnectionRepository> connectionRepositoryProvider) {
     this.connectionRepositoryProvider = connectionRepositoryProvider;
   }

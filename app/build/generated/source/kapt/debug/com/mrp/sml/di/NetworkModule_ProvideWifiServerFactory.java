@@ -39,6 +39,6 @@ public final class NetworkModule_ProvideWifiServerFactory implements Factory<Wif
   }
 
   private static final class InstanceHolder {
-    private static final NetworkModule_ProvideWifiServerFactory INSTANCE = new NetworkModule_ProvideWifiServerFactory();
+    static final NetworkModule_ProvideWifiServerFactory INSTANCE = new NetworkModule_ProvideWifiServerFactory();
   }
 }

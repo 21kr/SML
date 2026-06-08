@@ -4,10 +4,10 @@ import com.mrp.sml.data.local.db.dao.DeviceDao;
 import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -30,7 +30,7 @@ public final class DeviceRepositoryImpl_Factory implements Factory<DeviceReposit
 
   private final Provider<DeviceDao> deviceDaoProvider;
 
-  public DeviceRepositoryImpl_Factory(
+  private DeviceRepositoryImpl_Factory(
       Provider<DeviceDiscoveryManager> deviceDiscoveryManagerProvider,
       Provider<DeviceDao> deviceDaoProvider) {
     this.deviceDiscoveryManagerProvider = deviceDiscoveryManagerProvider;

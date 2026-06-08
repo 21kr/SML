@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.MacAddress
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pGroup
 import android.net.wifi.p2p.WifiP2pManager
+import android.os.Build
 import com.mrp.sml.core.models.ConnectionState
 import com.mrp.sml.core.models.Device
 import com.mrp.sml.core.models.DeviceType
@@ -99,10 +101,16 @@ class WifiDirectManager @Inject constructor(
         }
 
         _connectionState.value = ConnectionState.CONNECTING
-        val config = WifiP2pConfig.Builder()
-            .setDeviceAddress(deviceAddress)
-            .setGroupOwnerIntent(15)
-            .build()
+        val config = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            WifiP2pConfig.Builder()
+                .setDeviceAddress(MacAddress.fromString(deviceAddress))
+                .build()
+        } else {
+            WifiP2pConfig().apply {
+                this.deviceAddress = deviceAddress
+            }
+        }
+        config.groupOwnerIntent = 15
         mgr.connect(ch, config, object : WifiP2pManager.ActionListener {
             override fun onSuccess() {
                 Timber.i("Connection request sent to $deviceAddress")

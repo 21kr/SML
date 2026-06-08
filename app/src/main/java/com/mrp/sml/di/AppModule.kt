@@ -1,7 +1,6 @@
 package com.mrp.sml.di
 
 import android.content.Context
-import com.mrp.sml.SMLApplication
 import com.mrp.sml.core.permissions.PermissionManager
 import com.mrp.sml.core.utils.WifiUtils
 import dagger.Module
@@ -16,7 +15,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideContext(application: SMLApplication): Context = application.applicationContext
+    fun provideContext(application: android.app.Application): Context = application.applicationContext
 
     @Provides
     @Singleton

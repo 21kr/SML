@@ -4,9 +4,9 @@ import androidx.hilt.work.HiltWorkerFactory;
 import dagger.MembersInjector;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.InjectedFieldSignature;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @QualifierMetadata
 @DaggerGenerated
@@ -26,7 +26,7 @@ import javax.inject.Provider;
 public final class SMLApplication_MembersInjector implements MembersInjector<SMLApplication> {
   private final Provider<HiltWorkerFactory> workerFactoryProvider;
 
-  public SMLApplication_MembersInjector(Provider<HiltWorkerFactory> workerFactoryProvider) {
+  private SMLApplication_MembersInjector(Provider<HiltWorkerFactory> workerFactoryProvider) {
     this.workerFactoryProvider = workerFactoryProvider;
   }
 

@@ -3,10 +3,10 @@ package com.mrp.sml.domain.usecase.transfer;
 import com.mrp.sml.domain.repository.TransferRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -27,7 +27,7 @@ import javax.inject.Provider;
 public final class CancelTransferUseCase_Factory implements Factory<CancelTransferUseCase> {
   private final Provider<TransferRepository> transferRepositoryProvider;
 
-  public CancelTransferUseCase_Factory(Provider<TransferRepository> transferRepositoryProvider) {
+  private CancelTransferUseCase_Factory(Provider<TransferRepository> transferRepositoryProvider) {
     this.transferRepositoryProvider = transferRepositoryProvider;
   }
 

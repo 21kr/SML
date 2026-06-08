@@ -37,6 +37,6 @@ public final class WifiServer_Factory implements Factory<WifiServer> {
   }
 
   private static final class InstanceHolder {
-    private static final WifiServer_Factory INSTANCE = new WifiServer_Factory();
+    static final WifiServer_Factory INSTANCE = new WifiServer_Factory();
   }
 }

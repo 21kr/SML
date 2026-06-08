@@ -7,10 +7,10 @@ import com.mrp.sml.data.remote.wifi.WifiDirectManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata("dagger.hilt.android.qualifiers.ApplicationContext")
@@ -35,7 +35,7 @@ public final class NetworkModule_ProvideDeviceDiscoveryManagerFactory implements
 
   private final Provider<NearbyManager> nearbyManagerProvider;
 
-  public NetworkModule_ProvideDeviceDiscoveryManagerFactory(Provider<Context> contextProvider,
+  private NetworkModule_ProvideDeviceDiscoveryManagerFactory(Provider<Context> contextProvider,
       Provider<WifiDirectManager> wifiDirectManagerProvider,
       Provider<NearbyManager> nearbyManagerProvider) {
     this.contextProvider = contextProvider;
