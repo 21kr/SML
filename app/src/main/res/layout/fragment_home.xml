@@ -277,13 +277,15 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ===== Transfer Quick Section ===== -->
+        <!-- ===== Receiver Status Section (shown when in receive mode) ===== -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/receiverStatusCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="24dp"
+            android:visibility="gone"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp"
@@ -292,126 +294,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Section Header -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:importantForAccessibility="no"
-                        app:srcCompat="@drawable/ic_file_transfer"
-                        app:tint="@color/secondary" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="1"
-                        android:text="@string/quick_transfer"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                        android:textColor="@color/on_surface"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="16dp"
-                    android:background="@color/divider" />
-
-                <Button
-                    android:id="@+id/pickFileButton"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Widget.Material3.Button.TonalButton"
-                    app:icon="@drawable/ic_pick_file"
-                    app:iconGravity="textStart"
-                    android:text="@string/pick_file" />
+                    android:importantForAccessibility="no"
+                    app:srcCompat="@drawable/ic_receive_big" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="@string/file_path_hint"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/filePathInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="@string/destination_address_hint"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/destinationAddressInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textUri" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="@string/session_token_hint"
-                    app:endIconMode="password_toggle"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/sessionTokenInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/sendButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="16dp"
-                    style="@style/Widget.Material3.Button"
-                    app:icon="@drawable/ic_send_file"
-                    app:iconGravity="textStart"
-                    android:text="@string/send_file" />
-
-                <Button
-                    android:id="@+id/prepareReceiverButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    style="@style/Widget.Material3.Button"
-                    app:icon="@drawable/ic_receive"
-                    app:iconGravity="textStart"
-                    android:text="@string/prepare_receiver" />
+                    android:text="@string/receiver_waiting_title"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="@color/on_surface"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/receiverAddressText"
@@ -419,10 +319,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/primary_container"
+                    android:gravity="center"
                     android:padding="12dp"
                     android:text="@string/receiver_address_unavailable"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="@color/on_primary_container" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/on_primary_container"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/stopReceiverButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    app:icon="@drawable/ic_disconnect"
+                    app:iconGravity="textStart"
+                    android:text="@string/stop_receiving" />
 
             </LinearLayout>
 

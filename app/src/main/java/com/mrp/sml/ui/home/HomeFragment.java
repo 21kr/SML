@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.Enumeration;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -93,7 +94,12 @@ public class HomeFragment extends Fragment {
 
     private void setupListeners() {
         binding.sendCard.setOnClickListener(v -> {
-            filePickerLauncher.launch(new String[]{"*/*"});
+            String state = connectionViewModel.getConnectionStateText().getValue();
+            if (state != null && state.contains("CONNECTED")) {
+                filePickerLauncher.launch(new String[]{"*/*"});
+            } else {
+                Toast.makeText(getContext(), R.string.connect_first_toast, Toast.LENGTH_SHORT).show();
+            }
         });
 
         binding.receiveCard.setOnClickListener(v -> {
@@ -105,14 +111,14 @@ public class HomeFragment extends Fragment {
                 connectionViewModel.connectToDevice(binding.deviceIdInput.getText().toString()));
         binding.disconnectButton.setOnClickListener(v -> connectionViewModel.disconnect());
 
-        binding.pickFileButton.setOnClickListener(v -> filePickerLauncher.launch(new String[]{"*/*"}));
+        binding.stopReceiverButton.setOnClickListener(v -> stopReceiverMode());
+    }
 
-        binding.sendButton.setOnClickListener(v ->
-                transferViewModel.sendFile(
-                        binding.filePathInput.getText().toString(),
-                        binding.destinationAddressInput.getText().toString(),
-                        binding.sessionTokenInput.getText().toString()));
-        binding.prepareReceiverButton.setOnClickListener(v -> prepareReceiverMode());
+    private void stopReceiverMode() {
+        transferViewModel.cancelTransfer();
+        binding.receiverStatusCard.setVisibility(View.GONE);
+        binding.receiverAddressText.setText(getString(R.string.receiver_address_unavailable));
+        Toast.makeText(getContext(), R.string.receiver_stopped_toast, Toast.LENGTH_SHORT).show();
     }
 
     private void updateConnectionStateBackground(String stateText) {
@@ -149,8 +155,11 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getContext(), R.string.file_pick_failed, Toast.LENGTH_LONG).show();
             return;
         }
-        binding.filePathInput.setText(cachedPath);
-        Toast.makeText(getContext(), R.string.file_pick_success, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.sending_file_toast, Toast.LENGTH_SHORT).show();
+        transferViewModel.sendFile(
+                cachedPath,
+                binding.deviceIdInput.getText().toString(),
+                "");
     }
 
     private String copyUriToCache(Uri uri) {
@@ -183,10 +192,10 @@ public class HomeFragment extends Fragment {
         }
 
         binding.receiverAddressText.setText(getString(R.string.receiver_address_label, localAddress));
-        binding.destinationAddressInput.setText(localAddress);
+        binding.receiverStatusCard.setVisibility(View.VISIBLE);
         transferViewModel.receiveFiles(
                 requireContext().getFilesDir().getAbsolutePath(),
-                binding.sessionTokenInput.getText().toString());
+                "");
         Toast.makeText(getContext(), R.string.receiver_ready_toast, Toast.LENGTH_SHORT).show();
     }
 

@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -35,22 +34,17 @@ public final class FragmentTransferBinding implements ViewBinding {
   public final TextView transferProgressText;
 
   @NonNull
-  public final RecyclerView transferRecyclerView;
-
-  @NonNull
   public final TextView transferStatusText;
 
   private FragmentTransferBinding(@NonNull LinearLayout rootView,
       @NonNull Button cancelTransferButton, @NonNull Button resumeTransferButton,
       @NonNull LinearProgressIndicator transferProgressIndicator,
-      @NonNull TextView transferProgressText, @NonNull RecyclerView transferRecyclerView,
-      @NonNull TextView transferStatusText) {
+      @NonNull TextView transferProgressText, @NonNull TextView transferStatusText) {
     this.rootView = rootView;
     this.cancelTransferButton = cancelTransferButton;
     this.resumeTransferButton = resumeTransferButton;
     this.transferProgressIndicator = transferProgressIndicator;
     this.transferProgressText = transferProgressText;
-    this.transferRecyclerView = transferRecyclerView;
     this.transferStatusText = transferStatusText;
   }
 
@@ -105,12 +99,6 @@ public final class FragmentTransferBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.transferRecyclerView;
-      RecyclerView transferRecyclerView = ViewBindings.findChildViewById(rootView, id);
-      if (transferRecyclerView == null) {
-        break missingId;
-      }
-
       id = R.id.transferStatusText;
       TextView transferStatusText = ViewBindings.findChildViewById(rootView, id);
       if (transferStatusText == null) {
@@ -119,7 +107,7 @@ public final class FragmentTransferBinding implements ViewBinding {
 
       return new FragmentTransferBinding((LinearLayout) rootView, cancelTransferButton,
           resumeTransferButton, transferProgressIndicator, transferProgressText,
-          transferRecyclerView, transferStatusText);
+          transferStatusText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

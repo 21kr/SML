@@ -24,10 +24,13 @@ import com.mrp.sml.domain.usecase.ObserveTransferHistoryUseCase;
 import com.mrp.sml.ui.connection.ConnectionViewModel;
 import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules_KeyModule_ProvideFactory;
 import com.mrp.sml.ui.history.HistoryActivity;
+import com.mrp.sml.ui.history.HistoryFragment;
 import com.mrp.sml.ui.history.HistoryListViewModel;
 import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules_KeyModule_ProvideFactory;
 import com.mrp.sml.ui.history.HistoryViewModel;
 import com.mrp.sml.ui.history.HistoryViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.mrp.sml.ui.home.HomeFragment;
+import com.mrp.sml.ui.transfer.TransferFragment;
 import com.mrp.sml.ui.transfer.TransferViewModel;
 import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules_KeyModule_ProvideFactory;
 import dagger.hilt.android.ActivityRetainedLifecycle;
@@ -341,6 +344,18 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     }
 
     @Override
+    public void injectHistoryFragment(HistoryFragment arg0) {
+    }
+
+    @Override
+    public void injectHomeFragment(HomeFragment arg0) {
+    }
+
+    @Override
+    public void injectTransferFragment(TransferFragment arg0) {
+    }
+
+    @Override
     public DefaultViewModelFactories.InternalFactoryFactory getHiltInternalFactoryFactory() {
       return activityCImpl.getHiltInternalFactoryFactory();
     }
@@ -612,7 +627,7 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     }
 
     @Override
-    public void injectSmlApplication(SmlApplication arg0) {
+    public void injectSmlApplication(SmlApplication smlApplication) {
     }
 
     @Override

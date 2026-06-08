@@ -23,12 +23,9 @@ import com.mrp.sml.domain.usecase.FileTransferUseCase;
 import com.mrp.sml.domain.usecase.ObserveTransferHistoryUseCase;
 import com.mrp.sml.ui.connection.ConnectionViewModel;
 import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules_KeyModule_ProvideFactory;
-import com.mrp.sml.ui.history.HistoryActivity;
 import com.mrp.sml.ui.history.HistoryFragment;
 import com.mrp.sml.ui.history.HistoryListViewModel;
 import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules_KeyModule_ProvideFactory;
-import com.mrp.sml.ui.history.HistoryViewModel;
-import com.mrp.sml.ui.history.HistoryViewModel_HiltModules_KeyModule_ProvideFactory;
 import com.mrp.sml.ui.home.HomeFragment;
 import com.mrp.sml.ui.transfer.TransferFragment;
 import com.mrp.sml.ui.transfer.TransferViewModel;
@@ -405,17 +402,13 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     }
 
     @Override
-    public void injectHistoryActivity(HistoryActivity arg0) {
-    }
-
-    @Override
     public DefaultViewModelFactories.InternalFactoryFactory getHiltInternalFactoryFactory() {
       return DefaultViewModelFactories_InternalFactoryFactory_Factory.newInstance(getViewModelKeys(), new ViewModelCBuilder(singletonCImpl, activityRetainedCImpl));
     }
 
     @Override
     public Set<String> getViewModelKeys() {
-      return SetBuilder.<String>newSetBuilder(4).add(ConnectionViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryListViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(TransferViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
+      return SetBuilder.<String>newSetBuilder(3).add(ConnectionViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryListViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(TransferViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
     }
 
     @Override
@@ -444,8 +437,6 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     private Provider<ConnectionViewModel> connectionViewModelProvider;
 
     private Provider<HistoryListViewModel> historyListViewModelProvider;
-
-    private Provider<HistoryViewModel> historyViewModelProvider;
 
     private Provider<TransferViewModel> transferViewModelProvider;
 
@@ -476,13 +467,12 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
         final ViewModelLifecycle viewModelLifecycleParam) {
       this.connectionViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
       this.historyListViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.historyViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
-      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
+      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
     }
 
     @Override
     public Map<String, Provider<ViewModel>> getHiltViewModelMap() {
-      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(4).put("com.mrp.sml.ui.connection.ConnectionViewModel", ((Provider) connectionViewModelProvider)).put("com.mrp.sml.ui.history.HistoryListViewModel", ((Provider) historyListViewModelProvider)).put("com.mrp.sml.ui.history.HistoryViewModel", ((Provider) historyViewModelProvider)).put("com.mrp.sml.ui.transfer.TransferViewModel", ((Provider) transferViewModelProvider)).build();
+      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(3).put("com.mrp.sml.ui.connection.ConnectionViewModel", ((Provider) connectionViewModelProvider)).put("com.mrp.sml.ui.history.HistoryListViewModel", ((Provider) historyListViewModelProvider)).put("com.mrp.sml.ui.transfer.TransferViewModel", ((Provider) transferViewModelProvider)).build();
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -512,10 +502,7 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
           case 1: // com.mrp.sml.ui.history.HistoryListViewModel 
           return (T) new HistoryListViewModel(viewModelCImpl.observeTransferHistoryUseCase());
 
-          case 2: // com.mrp.sml.ui.history.HistoryViewModel 
-          return (T) new HistoryViewModel(viewModelCImpl.observeTransferHistoryUseCase());
-
-          case 3: // com.mrp.sml.ui.transfer.TransferViewModel 
+          case 2: // com.mrp.sml.ui.transfer.TransferViewModel 
           return (T) new TransferViewModel(viewModelCImpl.fileTransferUseCase());
 
           default: throw new AssertionError(id);

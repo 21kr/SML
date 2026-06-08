@@ -30,9 +30,6 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView connectionStateText;
 
   @NonNull
-  public final TextInputEditText destinationAddressInput;
-
-  @NonNull
   public final TextInputEditText deviceIdInput;
 
   @NonNull
@@ -48,16 +45,7 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView discoveredDevicesText;
 
   @NonNull
-  public final TextInputEditText filePathInput;
-
-  @NonNull
   public final TextView permissionStatusText;
-
-  @NonNull
-  public final Button pickFileButton;
-
-  @NonNull
-  public final Button prepareReceiverButton;
 
   @NonNull
   public final MaterialCardView receiveCard;
@@ -66,41 +54,35 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView receiverAddressText;
 
   @NonNull
-  public final Button sendButton;
+  public final MaterialCardView receiverStatusCard;
 
   @NonNull
   public final MaterialCardView sendCard;
 
   @NonNull
-  public final TextInputEditText sessionTokenInput;
+  public final Button stopReceiverButton;
 
   private FragmentHomeBinding(@NonNull ScrollView rootView, @NonNull Button connectButton,
-      @NonNull TextView connectionStateText, @NonNull TextInputEditText destinationAddressInput,
-      @NonNull TextInputEditText deviceIdInput, @NonNull Button disconnectButton,
-      @NonNull Button discoverButton, @NonNull RecyclerView discoveredDevicesList,
-      @NonNull TextView discoveredDevicesText, @NonNull TextInputEditText filePathInput,
-      @NonNull TextView permissionStatusText, @NonNull Button pickFileButton,
-      @NonNull Button prepareReceiverButton, @NonNull MaterialCardView receiveCard,
-      @NonNull TextView receiverAddressText, @NonNull Button sendButton,
-      @NonNull MaterialCardView sendCard, @NonNull TextInputEditText sessionTokenInput) {
+      @NonNull TextView connectionStateText, @NonNull TextInputEditText deviceIdInput,
+      @NonNull Button disconnectButton, @NonNull Button discoverButton,
+      @NonNull RecyclerView discoveredDevicesList, @NonNull TextView discoveredDevicesText,
+      @NonNull TextView permissionStatusText, @NonNull MaterialCardView receiveCard,
+      @NonNull TextView receiverAddressText, @NonNull MaterialCardView receiverStatusCard,
+      @NonNull MaterialCardView sendCard, @NonNull Button stopReceiverButton) {
     this.rootView = rootView;
     this.connectButton = connectButton;
     this.connectionStateText = connectionStateText;
-    this.destinationAddressInput = destinationAddressInput;
     this.deviceIdInput = deviceIdInput;
     this.disconnectButton = disconnectButton;
     this.discoverButton = discoverButton;
     this.discoveredDevicesList = discoveredDevicesList;
     this.discoveredDevicesText = discoveredDevicesText;
-    this.filePathInput = filePathInput;
     this.permissionStatusText = permissionStatusText;
-    this.pickFileButton = pickFileButton;
-    this.prepareReceiverButton = prepareReceiverButton;
     this.receiveCard = receiveCard;
     this.receiverAddressText = receiverAddressText;
-    this.sendButton = sendButton;
+    this.receiverStatusCard = receiverStatusCard;
     this.sendCard = sendCard;
-    this.sessionTokenInput = sessionTokenInput;
+    this.stopReceiverButton = stopReceiverButton;
   }
 
   @Override
@@ -142,12 +124,6 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.destinationAddressInput;
-      TextInputEditText destinationAddressInput = ViewBindings.findChildViewById(rootView, id);
-      if (destinationAddressInput == null) {
-        break missingId;
-      }
-
       id = R.id.deviceIdInput;
       TextInputEditText deviceIdInput = ViewBindings.findChildViewById(rootView, id);
       if (deviceIdInput == null) {
@@ -178,27 +154,9 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.filePathInput;
-      TextInputEditText filePathInput = ViewBindings.findChildViewById(rootView, id);
-      if (filePathInput == null) {
-        break missingId;
-      }
-
       id = R.id.permissionStatusText;
       TextView permissionStatusText = ViewBindings.findChildViewById(rootView, id);
       if (permissionStatusText == null) {
-        break missingId;
-      }
-
-      id = R.id.pickFileButton;
-      Button pickFileButton = ViewBindings.findChildViewById(rootView, id);
-      if (pickFileButton == null) {
-        break missingId;
-      }
-
-      id = R.id.prepareReceiverButton;
-      Button prepareReceiverButton = ViewBindings.findChildViewById(rootView, id);
-      if (prepareReceiverButton == null) {
         break missingId;
       }
 
@@ -214,9 +172,9 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.sendButton;
-      Button sendButton = ViewBindings.findChildViewById(rootView, id);
-      if (sendButton == null) {
+      id = R.id.receiverStatusCard;
+      MaterialCardView receiverStatusCard = ViewBindings.findChildViewById(rootView, id);
+      if (receiverStatusCard == null) {
         break missingId;
       }
 
@@ -226,17 +184,16 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.sessionTokenInput;
-      TextInputEditText sessionTokenInput = ViewBindings.findChildViewById(rootView, id);
-      if (sessionTokenInput == null) {
+      id = R.id.stopReceiverButton;
+      Button stopReceiverButton = ViewBindings.findChildViewById(rootView, id);
+      if (stopReceiverButton == null) {
         break missingId;
       }
 
       return new FragmentHomeBinding((ScrollView) rootView, connectButton, connectionStateText,
-          destinationAddressInput, deviceIdInput, disconnectButton, discoverButton,
-          discoveredDevicesList, discoveredDevicesText, filePathInput, permissionStatusText,
-          pickFileButton, prepareReceiverButton, receiveCard, receiverAddressText, sendButton,
-          sendCard, sessionTokenInput);
+          deviceIdInput, disconnectButton, discoverButton, discoveredDevicesList,
+          discoveredDevicesText, permissionStatusText, receiveCard, receiverAddressText,
+          receiverStatusCard, sendCard, stopReceiverButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

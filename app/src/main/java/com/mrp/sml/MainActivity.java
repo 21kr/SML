@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.mrp.sml.databinding.ActivityMainBinding;
 import com.mrp.sml.ui.connection.ConnectionViewModel;
 import com.mrp.sml.ui.history.HistoryFragment;
-import com.mrp.sml.ui.history.HistoryViewModel;
 import com.mrp.sml.ui.home.HomeFragment;
 import com.mrp.sml.ui.transfer.TransferFragment;
 import com.mrp.sml.ui.transfer.TransferViewModel;
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ConnectionViewModel connectionViewModel;
     private TransferViewModel transferViewModel;
-    private HistoryViewModel historyViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         connectionViewModel = new ViewModelProvider(this).get(ConnectionViewModel.class);
         transferViewModel = new ViewModelProvider(this).get(TransferViewModel.class);
-        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         setupBottomNavigation(savedInstanceState);
         ensureRuntimePermissions();

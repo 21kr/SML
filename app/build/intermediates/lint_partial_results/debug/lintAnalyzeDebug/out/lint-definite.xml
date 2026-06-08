@@ -2,20 +2,6 @@
 <incidents format="6" by="lint 8.4.2" type="incidents">
 
     <incident
-        id="UseCompoundDrawables"
-        severity="warning"
-        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
-        <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_home.xml"
-            line="299"
-            column="18"
-            startOffset="13088"
-            endLine="299"
-            endColumn="30"
-            endOffset="13100"/>
-    </incident>
-
-    <incident
         id="MonochromeLauncherIcon"
         severity="warning"
         message="The application adaptive icon is missing a monochrome tag">
@@ -277,20 +263,6 @@
             endLine="58"
             endColumn="75"
             endOffset="1728"/>
-    </incident>
-
-    <incident
-        id="Overdraw"
-        severity="warning"
-        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
-        <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_history.xml"
-            line="7"
-            column="5"
-            startOffset="288"
-            endLine="7"
-            endColumn="43"
-            endOffset="326"/>
     </incident>
 
     <incident

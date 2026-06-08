@@ -3,10 +3,8 @@ package com.mrp.sml;
 import com.mrp.sml.core.di.CoreModule;
 import com.mrp.sml.data.di.DataModule;
 import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules;
-import com.mrp.sml.ui.history.HistoryActivity_GeneratedInjector;
 import com.mrp.sml.ui.history.HistoryFragment_GeneratedInjector;
 import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules;
-import com.mrp.sml.ui.history.HistoryViewModel_HiltModules;
 import com.mrp.sml.ui.home.HomeFragment_GeneratedInjector;
 import com.mrp.sml.ui.transfer.TransferFragment_GeneratedInjector;
 import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules;
@@ -164,7 +162,6 @@ public final class SmlApplication_HiltComponents {
           ConnectionViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HistoryListViewModel_HiltModules.KeyModule.class,
-          HistoryViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
           TransferViewModel_HiltModules.KeyModule.class
@@ -190,7 +187,6 @@ public final class SmlApplication_HiltComponents {
   )
   @ActivityScoped
   public abstract static class ActivityC implements MainActivity_GeneratedInjector,
-      HistoryActivity_GeneratedInjector,
       ActivityComponent,
       DefaultViewModelFactories.ActivityEntryPoint,
       HiltWrapper_HiltViewModelFactory_ActivityCreatorEntryPoint,
@@ -207,7 +203,6 @@ public final class SmlApplication_HiltComponents {
           ConnectionViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           HistoryListViewModel_HiltModules.BindsModule.class,
-          HistoryViewModel_HiltModules.BindsModule.class,
           TransferViewModel_HiltModules.BindsModule.class
       }
   )

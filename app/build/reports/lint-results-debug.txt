@@ -106,24 +106,6 @@
    all existing items and structure may no longer be valid. `LayoutManager`s
    will be forced to fully rebind and relayout all visible views.
 
-/workspaces/SML/app/src/main/res/layout/fragment_home.xml:299: Warning: This tag and its children can be replaced by one <TextView/> and a compound drawable [UseCompoundDrawables]
-                <LinearLayout
-                 ~~~~~~~~~~~~
-
-   Explanation for issues of type "UseCompoundDrawables":
-   A LinearLayout which contains an ImageView and a TextView can be more
-   efficiently handled as a compound drawable (a single TextView, using the
-   drawableTop, drawableLeft, drawableRight and/or drawableBottom attributes
-   to draw one or more images adjacent to the text).
-
-   If the two widgets are offset from each other with margins, this can be
-   replaced with a drawablePadding attribute.
-
-   There's a lint quickfix to perform this conversion in the Eclipse plugin.
-
-/workspaces/SML/app/src/main/res/layout/activity_history.xml:7: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
-    android:background="@color/background">
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /workspaces/SML/app/src/main/res/layout/activity_main.xml:7: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
     android:background="@color/background">
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,34 +203,37 @@
 /workspaces/SML/app/src/main/res/drawable/ic_device_phone.xml:2: Warning: The resource R.drawable.ic_device_phone appears to be unused [UnusedResources]
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
 ^
+/workspaces/SML/app/src/main/res/drawable/ic_file_transfer.xml:2: Warning: The resource R.drawable.ic_file_transfer appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspaces/SML/app/src/main/res/drawable/ic_pick_file.xml:2: Warning: The resource R.drawable.ic_pick_file appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspaces/SML/app/src/main/res/drawable/ic_receive.xml:2: Warning: The resource R.drawable.ic_receive appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
 /workspaces/SML/app/src/main/res/drawable/ic_send.xml:2: Warning: The resource R.drawable.ic_send appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspaces/SML/app/src/main/res/drawable/ic_send_file.xml:2: Warning: The resource R.drawable.ic_send_file appears to be unused [UnusedResources]
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
 ^
 /workspaces/SML/app/src/main/res/values/strings.xml:11: Warning: The resource R.string.connection_section_title appears to be unused [UnusedResources]
     <string name="connection_section_title">Connection</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:19: Warning: The resource R.string.tap_device_hint appears to be unused [UnusedResources]
-    <string name="tap_device_hint">Tap a device to connect</string>
-            ~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:22: Warning: The resource R.string.transfer_section_title appears to be unused [UnusedResources]
-    <string name="transfer_section_title">Transfer</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:34: Warning: The resource R.string.output_directory_hint appears to be unused [UnusedResources]
-    <string name="output_directory_hint">Output directory path</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:42: Warning: The resource R.string.empty_devices appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:31: Warning: The resource R.string.file_pick_success appears to be unused [UnusedResources]
+    <string name="file_pick_success">File selected successfully.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:33: Warning: The resource R.string.empty_devices appears to be unused [UnusedResources]
     <string name="empty_devices">No devices found yet</string>
             ~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:46: Warning: The resource R.string.history_initial appears to be unused [UnusedResources]
-    <string name="history_initial">No transfers yet</string>
-            ~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:49: Warning: The resource R.string.open_history_screen appears to be unused [UnusedResources]
-    <string name="open_history_screen">View All History</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:53: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:43: Warning: The resource R.string.history_section_title appears to be unused [UnusedResources]
+    <string name="history_section_title">History</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:49: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
     <string name="permissions_granted">All permissions granted.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:54: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:50: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
     <string name="permissions_denied">Permissions denied. Please grant in Settings.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -285,4 +270,4 @@
    application iconwill not show if your monochrome attribute is not also
    specified in android:roundIcon.
 
-0 errors, 55 warnings
+0 errors, 54 warnings
