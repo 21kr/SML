@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeDebugResources-34:/values-nb/values-nb.xml",
+            "outputFile": "com.mrp.sml.app-mergeDebugResources-35:/values-nb/values-nb.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/9df819d970f0bada00dc6830f74a542b/transformed/core-1.13.1/res/values-nb/values-nb.xml",

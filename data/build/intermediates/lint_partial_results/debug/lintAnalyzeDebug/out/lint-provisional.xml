@@ -15,8 +15,8 @@
                 priority="0">
                 <range
                     file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java"
-                    startOffset="8166"
-                    endOffset="8172"/>
+                    startOffset="13153"
+                    endOffset="13159"/>
             </fix-replace>
             <fix-replace
                 description="Add RECEIVER_EXPORTED"
@@ -27,18 +27,18 @@
                 priority="0">
                 <range
                     file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java"
-                    startOffset="8166"
-                    endOffset="8172"/>
+                    startOffset="13153"
+                    endOffset="13159"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:data*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java"
-            line="248"
+            line="374"
             column="17"
-            startOffset="8131"
-            endLine="248"
+            startOffset="13118"
+            endLine="374"
             endColumn="59"
-            endOffset="8173"/>
+            endOffset="13160"/>
         <map>
             <entry
                 name="hasUnprotected"

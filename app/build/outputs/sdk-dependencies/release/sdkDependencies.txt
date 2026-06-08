@@ -925,6 +925,45 @@ library {
   repo_index {
   }
 }
+library {
+  maven_library {
+    groupId: "com.google.zxing"
+    artifactId: "core"
+    version: "3.5.3"
+  }
+  digests {
+    sha256: "\215\200d\301co\332\357q\211\335\220U\307\325\231P\250\224\n\022\362)9VDn\303\301\t\375\202"
+  }
+  repo_index {
+    value: 1
+  }
+}
+library {
+  maven_library {
+    groupId: "com.journeyapps"
+    artifactId: "zxing-android-embedded"
+    version: "4.3.0"
+  }
+  digests {
+    sha256: "J\2603S\022|4\345\\\273\200\373\311\243@1\336\313\317\261\354^\217\231\031D\322\324\224b\0323"
+  }
+  repo_index {
+    value: 1
+  }
+}
+library {
+  maven_library {
+    groupId: "com.google.code.gson"
+    artifactId: "gson"
+    version: "2.10.1"
+  }
+  digests {
+    sha256: "BA\301Jw\'\303O\356\246P~\310\0011\212=J\220\360p\344RV\201\a\237\271N\344\305\223"
+  }
+  repo_index {
+    value: 1
+  }
+}
 library_dependencies {
   library_dep_index: 1
 }
@@ -1451,6 +1490,10 @@ library_dependencies {
   library_dep_index: 14
   library_dep_index: 68
 }
+library_dependencies {
+  library_index: 78
+  library_dep_index: 77
+}
 module_dependencies {
   module_name: "base"
   dependency_index: 0
@@ -1461,6 +1504,9 @@ module_dependencies {
   dependency_index: 19
   dependency_index: 31
   dependency_index: 73
+  dependency_index: 77
+  dependency_index: 78
+  dependency_index: 79
   dependency_index: 6
   dependency_index: 8
   dependency_index: 48

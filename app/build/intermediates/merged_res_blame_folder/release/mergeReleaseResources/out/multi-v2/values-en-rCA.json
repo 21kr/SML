@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeReleaseResources-34:/values-en-rCA/values-en-rCA.xml",
+            "outputFile": "com.mrp.sml.app-mergeReleaseResources-35:/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/9df819d970f0bada00dc6830f74a542b/transformed/core-1.13.1/res/values-en-rCA/values-en-rCA.xml",

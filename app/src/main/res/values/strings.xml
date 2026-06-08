@@ -53,4 +53,25 @@
     <string name="permissions_dialog_message">SML needs permissions for device discovery and file transfers. You can retry or open Settings.</string>
     <string name="open_settings">Open Settings</string>
     <string name="retry_permissions">Retry</string>
+
+    <!-- Transfer Success -->
+    <string name="success_icon">✓</string>
+    <string name="transfer_complete">Transfer Complete</string>
+
+    <!-- Pairing Screen -->
+    <string name="pairing_title_send">Sending Files</string>
+    <string name="pairing_subtitle_send">Share the QR code with the receiver</string>
+    <string name="pairing_title_receive">Receiving Files</string>
+    <string name="pairing_subtitle_receive">Scan QR or discover nearby devices</string>
+    <string name="pairing_qr_instructions">Scan this QR code with the receiver app</string>
+    <string name="pairing_waiting_receiver">Waiting for receiver to connect…</string>
+    <string name="pairing_selected_files">Selected Files</string>
+    <string name="pairing_scan_qr">Scan QR Code</string>
+    <string name="pairing_scan_qr_subtitle">Point camera at sender\'s QR code to pair</string>
+    <string name="pairing_scan_prompt">Align QR code within the frame</string>
+    <string name="pairing_discover_title">Discover Nearby Devices</string>
+    <string name="pairing_discover_status">Searching for nearby devices…</string>
+    <string name="file_selected">File selected</string>
+    <string name="cancel">Cancel</string>
+    <string name="or">OR</string>
 </resources>

@@ -6,6 +6,8 @@ import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules;
 import com.mrp.sml.ui.history.HistoryFragment_GeneratedInjector;
 import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules;
 import com.mrp.sml.ui.home.HomeFragment_GeneratedInjector;
+import com.mrp.sml.ui.pairing.PairingFragment_GeneratedInjector;
+import com.mrp.sml.ui.pairing.PairingViewModel_HiltModules;
 import com.mrp.sml.ui.transfer.TransferFragment_GeneratedInjector;
 import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules;
 import dagger.Binds;
@@ -162,6 +164,7 @@ public final class SmlApplication_HiltComponents {
           ConnectionViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HistoryListViewModel_HiltModules.KeyModule.class,
+          PairingViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
           TransferViewModel_HiltModules.KeyModule.class
@@ -203,6 +206,7 @@ public final class SmlApplication_HiltComponents {
           ConnectionViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           HistoryListViewModel_HiltModules.BindsModule.class,
+          PairingViewModel_HiltModules.BindsModule.class,
           TransferViewModel_HiltModules.BindsModule.class
       }
   )
@@ -230,6 +234,7 @@ public final class SmlApplication_HiltComponents {
   @FragmentScoped
   public abstract static class FragmentC implements HistoryFragment_GeneratedInjector,
       HomeFragment_GeneratedInjector,
+      PairingFragment_GeneratedInjector,
       TransferFragment_GeneratedInjector,
       FragmentComponent,
       DefaultViewModelFactories.FragmentEntryPoint,

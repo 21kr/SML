@@ -1,5 +1,6 @@
 package com.mrp.sml.domain.usecase;
 
+import com.mrp.sml.domain.model.FileMetadata;
 import com.mrp.sml.domain.repository.FileTransferRepository;
 import com.mrp.sml.domain.repository.TransferProgress;
 import com.mrp.sml.domain.repository.TransferStatusUpdate;
@@ -38,6 +39,22 @@ public class FileTransferUseCase {
 
     public void resumeLastTransfer() {
         repository.resumeLastTransfer();
+    }
+
+    public void sendMetadata(List<String> sourcePaths, String destinationAddress, String sessionToken) {
+        repository.sendMetadata(sourcePaths, destinationAddress, sessionToken);
+    }
+
+    public FileMetadata receiveMetadata(String sessionToken) {
+        return repository.receiveMetadata(sessionToken);
+    }
+
+    public void acceptTransfer(String sessionToken) {
+        repository.acceptTransfer(sessionToken);
+    }
+
+    public void rejectTransfer(String sessionToken) {
+        repository.rejectTransfer(sessionToken);
     }
 
     public void observeTransferStatus(FileTransferRepository.TransferStatusListener listener) {

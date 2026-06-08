@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeReleaseResources-34:/values-iw/values-iw.xml",
+            "outputFile": "com.mrp.sml.app-mergeReleaseResources-35:/values-iw/values-iw.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/9df819d970f0bada00dc6830f74a542b/transformed/core-1.13.1/res/values-iw/values-iw.xml",
@@ -35,6 +35,23 @@
                         "startOffsets": "361,466,566,674,758,860,976,1055,1133,1224,1318,1412,1506,1606,1699,1794,1887,1978,2070,2151,2256,2359,2457,2562,2664,2766,2920,9266",
                         "endColumns": "104,99,107,83,101,115,78,77,90,93,93,93,99,92,94,92,90,91,80,104,102,97,104,101,101,153,96,81",
                         "endOffsets": "461,561,669,753,855,971,1050,1128,1219,1313,1407,1501,1601,1694,1789,1882,1973,2065,2146,2251,2354,2452,2557,2659,2761,2915,3012,9343"
+                    }
+                },
+                {
+                    "source": "/home/codespace/.gradle/caches/transforms-4/de0d9a75a590b5a496b7f8c6aed4ef4e/transformed/jetified-zxing-android-embedded-4.3.0/res/values-iw/values-iw.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,111,161,296",
+                        "endColumns": "55,49,134,89",
+                        "endOffsets": "106,156,291,381"
+                    },
+                    "to": {
+                        "startLines": "118,119,120,121",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "9682,9738,9788,9923",
+                        "endColumns": "55,49,134,89",
+                        "endOffsets": "9733,9783,9918,10008"
                     }
                 },
                 {

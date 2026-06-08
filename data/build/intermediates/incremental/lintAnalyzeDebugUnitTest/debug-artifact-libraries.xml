@@ -1,9 +1,9 @@
 <libraries>
   <library
       name=":@@:data::debug"
-      jars="/home/codespace/.gradle/caches/transforms-4/a4ab72fc32285d5c3ea7374cc139d873/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/a4ab72fc32285d5c3ea7374cc139d873/transformed/out/jars/libs/R.jar"
+      jars="/home/codespace/.gradle/caches/transforms-4/1556e6ff731b7603e177c35ef714f659/transformed/out/jars/classes.jar:/home/codespace/.gradle/caches/transforms-4/1556e6ff731b7603e177c35ef714f659/transformed/out/jars/libs/R.jar"
       resolved="SML:data:unspecified"
-      folder="/home/codespace/.gradle/caches/transforms-4/a4ab72fc32285d5c3ea7374cc139d873/transformed/out"
+      folder="/home/codespace/.gradle/caches/transforms-4/1556e6ff731b7603e177c35ef714f659/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

@@ -8,11 +8,20 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import com.mrp.sml.data.BuildConfig;
 import com.mrp.sml.core.common.DispatchersProvider;
+import com.mrp.sml.domain.model.DeviceInfo;
 import com.mrp.sml.domain.repository.ConnectionState;
 import com.mrp.sml.domain.repository.DeviceConnectionRepository;
 import com.mrp.sml.domain.repository.DiscoveredDevice;
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.inject.Inject;
@@ -21,7 +30,10 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultDeviceConnectionRepository implements DeviceConnectionRepository {
 
+    private static final int HANDSHAKE_PORT = 8989;
+
     private final Context context;
+    private final DispatchersProvider dispatchersProvider;
 
     private final CopyOnWriteArrayList<ConnectionStateListener> stateListeners = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<DiscoveredDevicesListener> deviceListeners = new CopyOnWriteArrayList<>();
@@ -33,6 +45,9 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
 
     private volatile ConnectionState currentState = ConnectionState.IDLE;
     private volatile boolean receiverRegistered;
+    private volatile DeviceInfo myDeviceInfo;
+    private volatile DeviceInfo connectedDeviceInfo;
+    private volatile String groupOwnerAddress;
 
     @Inject
     public DefaultDeviceConnectionRepository(
@@ -40,6 +55,14 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             DispatchersProvider dispatchersProvider
     ) {
         this.context = context;
+        this.dispatchersProvider = dispatchersProvider;
+
+        myDeviceInfo = new DeviceInfo(
+                android.os.Build.MODEL,
+                android.os.Build.DEVICE + "_" + System.currentTimeMillis(),
+                "1.0"
+        );
+
         wifiP2pManager = context.getSystemService(WifiP2pManager.class);
         channel = wifiP2pManager == null ? null : wifiP2pManager.initialize(context, context.getMainLooper(), null);
 
@@ -60,7 +83,6 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
                 requestConnectionInfo();
             }
         });
-
     }
 
     @Override
@@ -161,6 +183,9 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
 
     @Override
     public void disconnect() {
+        connectedDeviceInfo = null;
+        groupOwnerAddress = null;
+
         if (wifiP2pManager == null || channel == null) {
             currentState = ConnectionState.DISCONNECTED;
             notifyState();
@@ -185,6 +210,82 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
             currentState = ConnectionState.FAILED;
             notifyState();
         }
+    }
+
+    @Override
+    public void performHandshake(String deviceAddress) {
+        dispatchersProvider.ioExecutor().execute(() -> {
+            try {
+                currentState = ConnectionState.PAIRING;
+                notifyState();
+
+                Socket socket = new Socket(deviceAddress, HANDSHAKE_PORT);
+                socket.setSoTimeout(10000);
+                try (DataInputStream input = new DataInputStream(socket.getInputStream());
+                     DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+
+                    output.writeUTF("HELLO");
+                    output.writeUTF(myDeviceInfo.toJson());
+
+                    String response = input.readUTF();
+                    if ("HELLO_ACK".equals(response)) {
+                        String remoteInfo = input.readUTF();
+                        connectedDeviceInfo = DeviceInfo.fromJson(remoteInfo);
+                        currentState = ConnectionState.PAIRED;
+                        notifyState();
+                    } else {
+                        currentState = ConnectionState.FAILED;
+                        notifyState();
+                    }
+                }
+            } catch (Exception e) {
+                currentState = ConnectionState.FAILED;
+                notifyState();
+            }
+        });
+    }
+
+    @Override
+    public void setDeviceInfo(DeviceInfo deviceInfo) {
+        this.myDeviceInfo = deviceInfo;
+    }
+
+    @Override
+    public DeviceInfo getConnectedDeviceInfo() {
+        return connectedDeviceInfo;
+    }
+
+    public String getGroupOwnerAddress() {
+        if (groupOwnerAddress != null) return groupOwnerAddress;
+        groupOwnerAddress = resolveLocalIpv4Address();
+        return groupOwnerAddress;
+    }
+
+    public void startHandshakeServer() {
+        dispatchersProvider.ioExecutor().execute(() -> {
+            try (ServerSocket serverSocket = new ServerSocket(HANDSHAKE_PORT)) {
+                serverSocket.setReuseAddress(true);
+                Socket socket = serverSocket.accept();
+                socket.setSoTimeout(10000);
+                try (DataInputStream input = new DataInputStream(socket.getInputStream());
+                     DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+
+                    String hello = input.readUTF();
+                    if (!"HELLO".equals(hello)) {
+                        return;
+                    }
+                    String remoteInfo = input.readUTF();
+                    connectedDeviceInfo = DeviceInfo.fromJson(remoteInfo);
+
+                    output.writeUTF("HELLO_ACK");
+                    output.writeUTF(myDeviceInfo.toJson());
+
+                    currentState = ConnectionState.PAIRED;
+                    notifyState();
+                }
+            } catch (Exception ignored) {
+            }
+        });
     }
 
     private void requestPeers() {
@@ -213,13 +314,40 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
 
         try {
             wifiP2pManager.requestConnectionInfo(channel, info -> {
-                currentState = info.groupFormed ? ConnectionState.CONNECTED : ConnectionState.DISCONNECTED;
+                boolean connected = info.groupFormed;
+                currentState = connected ? ConnectionState.CONNECTED : ConnectionState.DISCONNECTED;
+                if (connected && info.isGroupOwner) {
+                    groupOwnerAddress = info.groupOwnerAddress.getHostAddress();
+                } else if (connected) {
+                    groupOwnerAddress = resolveLocalIpv4Address();
+                }
                 notifyState();
             });
         } catch (SecurityException securityException) {
             currentState = ConnectionState.FAILED;
             notifyState();
         }
+    }
+
+    private String resolveLocalIpv4Address() {
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces != null && interfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = interfaces.nextElement();
+                if (!networkInterface.isUp() || networkInterface.isLoopback()) continue;
+                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    InetAddress address = addresses.nextElement();
+                    if (address instanceof java.net.Inet4Address
+                            && !address.isLoopbackAddress()
+                            && !address.isLinkLocalAddress()) {
+                        return address.getHostAddress();
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
     private void fallbackMockPeers() {
@@ -236,9 +364,7 @@ public class DefaultDeviceConnectionRepository implements DeviceConnectionReposi
     }
 
     private void ensureReceiverRegistered() {
-        if (receiverRegistered) {
-            return;
-        }
+        if (receiverRegistered) return;
 
         IntentFilter filter = buildIntentFilter();
         try {

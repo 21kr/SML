@@ -1,4 +1,4 @@
-/workspaces/SML/data/src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java:415: Warning: Implicitly using the default locale is a common source of bugs: Use toLowerCase(Locale) instead. For strings meant to be internal use Locale.ROOT, otherwise Locale.getDefault(). [DefaultLocale]
+/workspaces/SML/data/src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java:709: Warning: Implicitly using the default locale is a common source of bugs: Use toLowerCase(Locale) instead. For strings meant to be internal use Locale.ROOT, otherwise Locale.getDefault(). [DefaultLocale]
         String message = exception.getMessage().toLowerCase();
                                                 ~~~~~~~~~~~
 
@@ -17,7 +17,7 @@
 
    https://developer.android.com/reference/java/util/Locale.html#default_locale
 
-/workspaces/SML/data/src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java:248: Warning: receiver is missing RECEIVER_EXPORTED or RECEIVER_NOT_EXPORTED flag for unprotected broadcasts registered for an IntentFilter that cannot be inspected by lint [UnspecifiedRegisterReceiverFlag]
+/workspaces/SML/data/src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java:374: Warning: receiver is missing RECEIVER_EXPORTED or RECEIVER_NOT_EXPORTED flag for unprotected broadcasts registered for an IntentFilter that cannot be inspected by lint [UnspecifiedRegisterReceiverFlag]
                 context.registerReceiver(receiver, filter);
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

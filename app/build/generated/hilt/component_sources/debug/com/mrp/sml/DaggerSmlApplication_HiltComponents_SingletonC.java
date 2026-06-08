@@ -27,6 +27,9 @@ import com.mrp.sml.ui.history.HistoryFragment;
 import com.mrp.sml.ui.history.HistoryListViewModel;
 import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules_KeyModule_ProvideFactory;
 import com.mrp.sml.ui.home.HomeFragment;
+import com.mrp.sml.ui.pairing.PairingFragment;
+import com.mrp.sml.ui.pairing.PairingViewModel;
+import com.mrp.sml.ui.pairing.PairingViewModel_HiltModules_KeyModule_ProvideFactory;
 import com.mrp.sml.ui.transfer.TransferFragment;
 import com.mrp.sml.ui.transfer.TransferViewModel;
 import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules_KeyModule_ProvideFactory;
@@ -349,6 +352,10 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     }
 
     @Override
+    public void injectPairingFragment(PairingFragment arg0) {
+    }
+
+    @Override
     public void injectTransferFragment(TransferFragment arg0) {
     }
 
@@ -408,7 +415,7 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
 
     @Override
     public Set<String> getViewModelKeys() {
-      return SetBuilder.<String>newSetBuilder(3).add(ConnectionViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryListViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(TransferViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
+      return SetBuilder.<String>newSetBuilder(4).add(ConnectionViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(HistoryListViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(PairingViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(TransferViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
     }
 
     @Override
@@ -437,6 +444,8 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
     private Provider<ConnectionViewModel> connectionViewModelProvider;
 
     private Provider<HistoryListViewModel> historyListViewModelProvider;
+
+    private Provider<PairingViewModel> pairingViewModelProvider;
 
     private Provider<TransferViewModel> transferViewModelProvider;
 
@@ -467,12 +476,13 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
         final ViewModelLifecycle viewModelLifecycleParam) {
       this.connectionViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
       this.historyListViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.pairingViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.transferViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
     }
 
     @Override
     public Map<String, Provider<ViewModel>> getHiltViewModelMap() {
-      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(3).put("com.mrp.sml.ui.connection.ConnectionViewModel", ((Provider) connectionViewModelProvider)).put("com.mrp.sml.ui.history.HistoryListViewModel", ((Provider) historyListViewModelProvider)).put("com.mrp.sml.ui.transfer.TransferViewModel", ((Provider) transferViewModelProvider)).build();
+      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(4).put("com.mrp.sml.ui.connection.ConnectionViewModel", ((Provider) connectionViewModelProvider)).put("com.mrp.sml.ui.history.HistoryListViewModel", ((Provider) historyListViewModelProvider)).put("com.mrp.sml.ui.pairing.PairingViewModel", ((Provider) pairingViewModelProvider)).put("com.mrp.sml.ui.transfer.TransferViewModel", ((Provider) transferViewModelProvider)).build();
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -502,7 +512,10 @@ public final class DaggerSmlApplication_HiltComponents_SingletonC {
           case 1: // com.mrp.sml.ui.history.HistoryListViewModel 
           return (T) new HistoryListViewModel(viewModelCImpl.observeTransferHistoryUseCase());
 
-          case 2: // com.mrp.sml.ui.transfer.TransferViewModel 
+          case 2: // com.mrp.sml.ui.pairing.PairingViewModel 
+          return (T) new PairingViewModel(viewModelCImpl.connectionUseCase());
+
+          case 3: // com.mrp.sml.ui.transfer.TransferViewModel 
           return (T) new TransferViewModel(viewModelCImpl.fileTransferUseCase());
 
           default: throw new AssertionError(id);

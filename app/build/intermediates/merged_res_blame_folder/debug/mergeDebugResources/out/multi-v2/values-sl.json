@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeDebugResources-34:/values-sl/values-sl.xml",
+            "outputFile": "com.mrp.sml.app-mergeDebugResources-35:/values-sl/values-sl.xml",
             "map": [
+                {
+                    "source": "/home/codespace/.gradle/caches/transforms-4/de0d9a75a590b5a496b7f8c6aed4ef4e/transformed/jetified-zxing-android-embedded-4.3.0/res/values-sl/values-sl.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,114,165,318",
+                        "endColumns": "58,50,152,99",
+                        "endOffsets": "109,160,313,413"
+                    },
+                    "to": {
+                        "startLines": "119,120,121,122",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "10136,10195,10246,10399",
+                        "endColumns": "58,50,152,99",
+                        "endOffsets": "10190,10241,10394,10494"
+                    }
+                },
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/7c896f73462d967434cf7bc219299bdb/transformed/appcompat-1.7.0/res/values-sl/values-sl.xml",
                     "from": {

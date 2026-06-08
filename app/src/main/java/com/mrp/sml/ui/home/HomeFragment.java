@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,6 +27,7 @@ import com.mrp.sml.R;
 import com.mrp.sml.databinding.FragmentHomeBinding;
 import com.mrp.sml.ui.connection.ConnectionDeviceAdapter;
 import com.mrp.sml.ui.connection.ConnectionViewModel;
+import com.mrp.sml.ui.pairing.PairingFragment;
 import com.mrp.sml.ui.transfer.TransferViewModel;
 
 import java.io.File;
@@ -35,6 +37,7 @@ import java.io.InputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
@@ -94,18 +97,11 @@ public class HomeFragment extends Fragment {
 
     private void setupListeners() {
         binding.sendCard.setOnClickListener(v -> {
-            String state = connectionViewModel.getConnectionStateText().getValue();
-            if (state != null && state.contains("CONNECTED")) {
-                filePickerLauncher.launch(new String[]{"*/*"});
-            } else {
-                connectionViewModel.discoverDevices();
-                Toast.makeText(getContext(), R.string.searching_devices_toast, Toast.LENGTH_SHORT).show();
-            }
+            filePickerLauncher.launch(new String[]{"*/*"});
         });
 
         binding.receiveCard.setOnClickListener(v -> {
-            connectionViewModel.discoverDevices();
-            prepareReceiverMode();
+            navigateToPairingReceive();
         });
 
         binding.discoverButton.setOnClickListener(v -> connectionViewModel.discoverDevices());
@@ -157,11 +153,28 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getContext(), R.string.file_pick_failed, Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(getContext(), R.string.sending_file_toast, Toast.LENGTH_SHORT).show();
-        transferViewModel.sendFile(
-                cachedPath,
-                binding.deviceIdInput.getText().toString(),
-                "");
+        Toast.makeText(getContext(), R.string.file_selected, Toast.LENGTH_SHORT).show();
+
+        ArrayList<String> filePaths = new ArrayList<>();
+        filePaths.add(cachedPath);
+        navigateToPairingSend(filePaths);
+    }
+
+    private void navigateToPairingSend(ArrayList<String> filePaths) {
+        String localIp = resolveLocalIpv4Address();
+        Bundle args = new Bundle();
+        args.putInt(PairingFragment.ARG_MODE, PairingFragment.MODE_SEND);
+        args.putStringArrayList(PairingFragment.ARG_FILE_PATHS, filePaths);
+        args.putString(PairingFragment.ARG_LOCAL_IP, localIp == null ? "" : localIp);
+
+        PairingFragment fragment = new PairingFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private String copyUriToCache(Uri uri) {
@@ -185,20 +198,18 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void prepareReceiverMode() {
-        String localAddress = resolveLocalIpv4Address();
-        if (localAddress == null) {
-            binding.receiverAddressText.setText(getString(R.string.receiver_address_unavailable));
-            Toast.makeText(getContext(), R.string.receiver_address_unavailable, Toast.LENGTH_LONG).show();
-            return;
-        }
+    private void navigateToPairingReceive() {
+        Bundle args = new Bundle();
+        args.putInt(PairingFragment.ARG_MODE, PairingFragment.MODE_RECEIVE);
 
-        binding.receiverAddressText.setText(getString(R.string.receiver_address_label, localAddress));
-        binding.receiverStatusCard.setVisibility(View.VISIBLE);
-        transferViewModel.receiveFiles(
-                requireContext().getFilesDir().getAbsolutePath(),
-                "");
-        Toast.makeText(getContext(), R.string.receiver_ready_toast, Toast.LENGTH_SHORT).show();
+        PairingFragment fragment = new PairingFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Nullable

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeReleaseResources-34:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.mrp.sml.app-mergeReleaseResources-35:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/res/values-night-v8/values-night-v8.xml",

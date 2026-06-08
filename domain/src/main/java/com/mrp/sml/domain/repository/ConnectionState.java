@@ -4,6 +4,8 @@ public enum ConnectionState {
     IDLE,
     DISCOVERING,
     CONNECTED,
+    PAIRING,
+    PAIRED,
     FAILED,
     DISCONNECTED
 }

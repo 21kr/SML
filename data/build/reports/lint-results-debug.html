@@ -179,7 +179,7 @@ document.getElementById(id).style.display = 'none';
     <div class="mdl-layout__header-row">
       <span class="mdl-layout-title">Lint Report: 4 warnings</span>
       <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Mon Jun 08 11:02:03 UTC 2026 by AGP (8.4.2)</nav>
+      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Mon Jun 08 13:20:48 UTC 2026 by AGP (8.4.2)</nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
@@ -233,14 +233,14 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java">../../src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java</a>:415</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
-<span class="lineno"> 412 </span>            <span class="keyword">return</span> <span class="string">"Unknown network or file error."</span>;
-<span class="lineno"> 413 </span>        }
-<span class="lineno"> 414 </span>
-<span class="caretline"><span class="lineno"> 415 </span>        String message = exception.getMessage().<span class="warning">toLowerCase</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 416 </span>        <span class="keyword">if</span> (message.contains(<span class="string">"timed out"</span>)) {
-<span class="lineno"> 417 </span>            <span class="keyword">return</span> <span class="string">"Connection timed out."</span>;
-<span class="lineno"> 418 </span>        }
+<span class="location"><a href="../../src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java">../../src/main/java/com/mrp/sml/data/repository/DefaultFileTransferRepository.java</a>:709</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 706 </span>
+<span class="lineno"> 707 </span>  <span class="keyword">private</span> String friendlyError(IOException exception) {
+<span class="lineno"> 708 </span>      <span class="keyword">if</span> (exception == <span class="keyword">null</span> || exception.getMessage() == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="string">"Unknown network or file error."</span>;
+<span class="caretline"><span class="lineno"> 709 </span>      String message = exception.getMessage().<span class="warning">toLowerCase</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 710 </span>      <span class="keyword">if</span> (message.contains(<span class="string">"timed out"</span>)) <span class="keyword">return</span> <span class="string">"Connection timed out."</span>;
+<span class="lineno"> 711 </span>      <span class="keyword">if</span> (message.contains(<span class="string">"refused"</span>)) <span class="keyword">return</span> <span class="string">"Target device refused connection."</span>;
+<span class="lineno"> 712 </span>      <span class="keyword">if</span> (message.contains(<span class="string">"not exist"</span>) || message.contains(<span class="string">"not readable"</span>)) <span class="keyword">return</span> <span class="string">"Selected file is unavailable."</span>;
 </pre>
 
 </div>
@@ -282,14 +282,14 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java">../../src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java</a>:248</span>: <span class="message"><code>receiver</code> is missing <code>RECEIVER_EXPORTED</code> or <code>RECEIVER_NOT_EXPORTED</code> flag for unprotected broadcasts registered for an IntentFilter that cannot be inspected by lint</span><br /><pre class="errorlines">
-<span class="lineno"> 245 </span>            <span class="keyword">if</span> (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-<span class="lineno"> 246 </span>                context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
-<span class="lineno"> 247 </span>            } <span class="keyword">else</span> {
-<span class="caretline"><span class="lineno"> 248 </span>                <span class="warning">context.registerReceiver(receiver, filter)</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 249 </span>            }
-<span class="lineno"> 250 </span>            receiverRegistered = <span class="keyword">true</span>;
-<span class="lineno"> 251 </span>        } <span class="keyword">catch</span> (RuntimeException runtimeException) {
+<span class="location"><a href="../../src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java">../../src/main/java/com/mrp/sml/data/repository/DefaultDeviceConnectionRepository.java</a>:374</span>: <span class="message"><code>receiver</code> is missing <code>RECEIVER_EXPORTED</code> or <code>RECEIVER_NOT_EXPORTED</code> flag for unprotected broadcasts registered for an IntentFilter that cannot be inspected by lint</span><br /><pre class="errorlines">
+<span class="lineno"> 371 </span>            <span class="keyword">if</span> (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+<span class="lineno"> 372 </span>                context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+<span class="lineno"> 373 </span>            } <span class="keyword">else</span> {
+<span class="caretline"><span class="lineno"> 374 </span>                <span class="warning">context.registerReceiver(receiver, filter)</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 375 </span>            }
+<span class="lineno"> 376 </span>            receiverRegistered = <span class="keyword">true</span>;
+<span class="lineno"> 377 </span>        } <span class="keyword">catch</span> (RuntimeException runtimeException) {
 </pre>
 
 </div>

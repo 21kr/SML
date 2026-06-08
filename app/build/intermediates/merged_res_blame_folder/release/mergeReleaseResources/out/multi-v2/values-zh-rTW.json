@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeReleaseResources-34:/values-zh-rTW/values-zh-rTW.xml",
+            "outputFile": "com.mrp.sml.app-mergeReleaseResources-35:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
+                {
+                    "source": "/home/codespace/.gradle/caches/transforms-4/de0d9a75a590b5a496b7f8c6aed4ef4e/transformed/jetified-zxing-android-embedded-4.3.0/res/values-zh-rTW/values-zh-rTW.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,104,151,244",
+                        "endColumns": "48,46,92,69",
+                        "endOffsets": "99,146,239,309"
+                    },
+                    "to": {
+                        "startLines": "117,118,119,120",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "8956,9005,9052,9145",
+                        "endColumns": "48,46,92,69",
+                        "endOffsets": "9000,9047,9140,9210"
+                    }
+                },
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/res/values-zh-rTW/values-zh-rTW.xml",
                     "from": {

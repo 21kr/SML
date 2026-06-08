@@ -1,5 +1,6 @@
 package com.mrp.sml.domain.usecase;
 
+import com.mrp.sml.domain.model.DeviceInfo;
 import com.mrp.sml.domain.repository.ConnectionState;
 import com.mrp.sml.domain.repository.DeviceConnectionRepository;
 import com.mrp.sml.domain.repository.DiscoveredDevice;
@@ -48,5 +49,17 @@ public class ConnectionUseCase {
 
     public void disconnect() {
         repository.disconnect();
+    }
+
+    public void performHandshake(String deviceAddress) {
+        repository.performHandshake(deviceAddress);
+    }
+
+    public void setDeviceInfo(DeviceInfo deviceInfo) {
+        repository.setDeviceInfo(deviceInfo);
+    }
+
+    public DeviceInfo getConnectedDeviceInfo() {
+        return repository.getConnectedDeviceInfo();
     }
 }

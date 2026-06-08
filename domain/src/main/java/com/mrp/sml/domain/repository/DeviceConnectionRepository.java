@@ -1,5 +1,6 @@
 package com.mrp.sml.domain.repository;
 
+import com.mrp.sml.domain.model.DeviceInfo;
 import java.util.List;
 
 public interface DeviceConnectionRepository {
@@ -14,6 +15,10 @@ public interface DeviceConnectionRepository {
     void discoverDevices();
     void connectToDevice(String deviceId);
     void disconnect();
+
+    void performHandshake(String deviceAddress);
+    void setDeviceInfo(DeviceInfo deviceInfo);
+    DeviceInfo getConnectedDeviceInfo();
 
     interface ConnectionStateListener {
         void onConnectionStateChanged(ConnectionState state);

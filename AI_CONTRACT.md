@@ -16,7 +16,8 @@ Codex MUST always follow:
 2. BUILD.md
 3. CONSTRAINTS.md
 4. DECISIONS.md
-5. TODO.md
+5. FLOW.md
+6. TODO.md
 
 If conflicts occur, follow this priority order.
 

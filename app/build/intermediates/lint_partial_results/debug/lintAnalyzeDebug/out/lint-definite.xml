@@ -2,6 +2,90 @@
 <incidents format="6" by="lint 8.4.2" type="incidents">
 
     <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_pairing.xml"
+            line="93"
+            column="25"
+            startOffset="4062"
+            endLine="93"
+            endColumn="41"
+            endOffset="4078"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_pairing.xml"
+            line="137"
+            column="25"
+            startOffset="6057"
+            endLine="137"
+            endColumn="41"
+            endOffset="6073"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_transfer.xml"
+            line="72"
+            column="25"
+            startOffset="2980"
+            endLine="72"
+            endColumn="41"
+            endOffset="2996"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;- MB/s&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_transfer.xml"
+            line="105"
+            column="29"
+            startOffset="4632"
+            endLine="105"
+            endColumn="50"
+            endOffset="4653"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;ETA: -&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_transfer.xml"
+            line="115"
+            column="29"
+            startOffset="5167"
+            endLine="115"
+            endColumn="50"
+            endOffset="5188"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;-&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_transfer.xml"
+            line="210"
+            column="21"
+            startOffset="9577"
+            endLine="210"
+            endColumn="37"
+            endOffset="9593"/>
+    </incident>
+
+    <incident
         id="MonochromeLauncherIcon"
         severity="warning"
         message="The application adaptive icon is missing a monochrome tag">
@@ -77,12 +161,26 @@
         message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/ui/transfer/TransferViewModel.java"
-            line="93"
-            column="23"
-            startOffset="3597"
-            endLine="97"
-            endColumn="10"
-            endOffset="3786"/>
+            line="132"
+            column="31"
+            startOffset="5041"
+            endLine="132"
+            endColumn="96"
+            endOffset="5106"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/ui/transfer/TransferViewModel.java"
+            line="137"
+            column="29"
+            startOffset="5241"
+            endLine="137"
+            endColumn="66"
+            endOffset="5278"/>
     </incident>
 
     <incident
@@ -237,12 +335,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle"
-            line="57"
+            line="61"
             column="31"
-            startOffset="1622"
-            endLine="57"
+            startOffset="1792"
+            endLine="61"
             endColumn="62"
-            endOffset="1653"/>
+            endOffset="1823"/>
     </incident>
 
     <incident
@@ -257,12 +355,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle"
-            line="58"
+            line="62"
             column="31"
-            startOffset="1684"
-            endLine="58"
+            startOffset="1854"
+            endLine="62"
             endColumn="75"
-            endOffset="1728"/>
+            endOffset="1898"/>
     </incident>
 
     <incident
@@ -312,13 +410,27 @@
         severity="warning"
         message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
         <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_pairing.xml"
+            line="6"
+            column="5"
+            startOffset="251"
+            endLine="6"
+            endColumn="43"
+            endOffset="289"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_transfer.xml"
             line="6"
             column="5"
-            startOffset="253"
+            startOffset="251"
             endLine="6"
             endColumn="43"
-            endOffset="291"/>
+            endOffset="289"/>
     </incident>
 
 </incidents>

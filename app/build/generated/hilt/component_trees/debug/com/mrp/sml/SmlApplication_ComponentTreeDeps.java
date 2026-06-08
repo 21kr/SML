@@ -27,6 +27,9 @@ import hilt_aggregated_deps._com_mrp_sml_ui_history_HistoryFragment_GeneratedInj
 import hilt_aggregated_deps._com_mrp_sml_ui_history_HistoryListViewModel_HiltModules_BindsModule;
 import hilt_aggregated_deps._com_mrp_sml_ui_history_HistoryListViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._com_mrp_sml_ui_home_HomeFragment_GeneratedInjector;
+import hilt_aggregated_deps._com_mrp_sml_ui_pairing_PairingFragment_GeneratedInjector;
+import hilt_aggregated_deps._com_mrp_sml_ui_pairing_PairingViewModel_HiltModules_BindsModule;
+import hilt_aggregated_deps._com_mrp_sml_ui_pairing_PairingViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._com_mrp_sml_ui_transfer_TransferFragment_GeneratedInjector;
 import hilt_aggregated_deps._com_mrp_sml_ui_transfer_TransferViewModel_HiltModules_BindsModule;
 import hilt_aggregated_deps._com_mrp_sml_ui_transfer_TransferViewModel_HiltModules_KeyModule;
@@ -79,6 +82,9 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _com_mrp_sml_ui_history_HistoryListViewModel_HiltModules_BindsModule.class,
         _com_mrp_sml_ui_history_HistoryListViewModel_HiltModules_KeyModule.class,
         _com_mrp_sml_ui_home_HomeFragment_GeneratedInjector.class,
+        _com_mrp_sml_ui_pairing_PairingFragment_GeneratedInjector.class,
+        _com_mrp_sml_ui_pairing_PairingViewModel_HiltModules_BindsModule.class,
+        _com_mrp_sml_ui_pairing_PairingViewModel_HiltModules_KeyModule.class,
         _com_mrp_sml_ui_transfer_TransferFragment_GeneratedInjector.class,
         _com_mrp_sml_ui_transfer_TransferViewModel_HiltModules_BindsModule.class,
         _com_mrp_sml_ui_transfer_TransferViewModel_HiltModules_KeyModule.class,

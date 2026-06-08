@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeDebugResources-34:/values-v23/values-v23.xml",
+            "outputFile": "com.mrp.sml.app-mergeDebugResources-35:/values-v23/values-v23.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-4/bd10f7fd7cd35a83e9b4237b3958318c/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",

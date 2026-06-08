@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.mrp.sml.R;
 import java.lang.NullPointerException;
@@ -19,13 +21,34 @@ import java.lang.String;
 
 public final class FragmentTransferBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ScrollView rootView;
+
+  @NonNull
+  public final LinearLayout activeTransferSection;
 
   @NonNull
   public final Button cancelTransferButton;
 
   @NonNull
+  public final TextView etaText;
+
+  @NonNull
+  public final TextView fileNameText;
+
+  @NonNull
+  public final TextView idleStatusText;
+
+  @NonNull
   public final Button resumeTransferButton;
+
+  @NonNull
+  public final TextView speedText;
+
+  @NonNull
+  public final MaterialCardView successCard;
+
+  @NonNull
+  public final TextView successSummaryText;
 
   @NonNull
   public final LinearProgressIndicator transferProgressIndicator;
@@ -36,13 +59,23 @@ public final class FragmentTransferBinding implements ViewBinding {
   @NonNull
   public final TextView transferStatusText;
 
-  private FragmentTransferBinding(@NonNull LinearLayout rootView,
-      @NonNull Button cancelTransferButton, @NonNull Button resumeTransferButton,
+  private FragmentTransferBinding(@NonNull ScrollView rootView,
+      @NonNull LinearLayout activeTransferSection, @NonNull Button cancelTransferButton,
+      @NonNull TextView etaText, @NonNull TextView fileNameText, @NonNull TextView idleStatusText,
+      @NonNull Button resumeTransferButton, @NonNull TextView speedText,
+      @NonNull MaterialCardView successCard, @NonNull TextView successSummaryText,
       @NonNull LinearProgressIndicator transferProgressIndicator,
       @NonNull TextView transferProgressText, @NonNull TextView transferStatusText) {
     this.rootView = rootView;
+    this.activeTransferSection = activeTransferSection;
     this.cancelTransferButton = cancelTransferButton;
+    this.etaText = etaText;
+    this.fileNameText = fileNameText;
+    this.idleStatusText = idleStatusText;
     this.resumeTransferButton = resumeTransferButton;
+    this.speedText = speedText;
+    this.successCard = successCard;
+    this.successSummaryText = successSummaryText;
     this.transferProgressIndicator = transferProgressIndicator;
     this.transferProgressText = transferProgressText;
     this.transferStatusText = transferStatusText;
@@ -50,7 +83,7 @@ public final class FragmentTransferBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -75,15 +108,57 @@ public final class FragmentTransferBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.activeTransferSection;
+      LinearLayout activeTransferSection = ViewBindings.findChildViewById(rootView, id);
+      if (activeTransferSection == null) {
+        break missingId;
+      }
+
       id = R.id.cancelTransferButton;
       Button cancelTransferButton = ViewBindings.findChildViewById(rootView, id);
       if (cancelTransferButton == null) {
         break missingId;
       }
 
+      id = R.id.etaText;
+      TextView etaText = ViewBindings.findChildViewById(rootView, id);
+      if (etaText == null) {
+        break missingId;
+      }
+
+      id = R.id.fileNameText;
+      TextView fileNameText = ViewBindings.findChildViewById(rootView, id);
+      if (fileNameText == null) {
+        break missingId;
+      }
+
+      id = R.id.idleStatusText;
+      TextView idleStatusText = ViewBindings.findChildViewById(rootView, id);
+      if (idleStatusText == null) {
+        break missingId;
+      }
+
       id = R.id.resumeTransferButton;
       Button resumeTransferButton = ViewBindings.findChildViewById(rootView, id);
       if (resumeTransferButton == null) {
+        break missingId;
+      }
+
+      id = R.id.speedText;
+      TextView speedText = ViewBindings.findChildViewById(rootView, id);
+      if (speedText == null) {
+        break missingId;
+      }
+
+      id = R.id.successCard;
+      MaterialCardView successCard = ViewBindings.findChildViewById(rootView, id);
+      if (successCard == null) {
+        break missingId;
+      }
+
+      id = R.id.successSummaryText;
+      TextView successSummaryText = ViewBindings.findChildViewById(rootView, id);
+      if (successSummaryText == null) {
         break missingId;
       }
 
@@ -105,9 +180,10 @@ public final class FragmentTransferBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentTransferBinding((LinearLayout) rootView, cancelTransferButton,
-          resumeTransferButton, transferProgressIndicator, transferProgressText,
-          transferStatusText);
+      return new FragmentTransferBinding((ScrollView) rootView, activeTransferSection,
+          cancelTransferButton, etaText, fileNameText, idleStatusText, resumeTransferButton,
+          speedText, successCard, successSummaryText, transferProgressIndicator,
+          transferProgressText, transferStatusText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

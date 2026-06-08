@@ -18,7 +18,7 @@ public class TransferViewModelTest {
         TransferViewModel viewModel =
                 new TransferViewModel(new FileTransferUseCase(new ViewModelTestDoubles.FakeFileTransferRepository()));
 
-        viewModel.sendFile("", "192.168.49.1");
+        viewModel.sendFile("", "192.168.49.1", "");
 
         assertTrue(viewModel.getTransferStatusText().getValue().contains("file path is required"));
     }

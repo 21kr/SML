@@ -1,5 +1,7 @@
 package com.mrp.sml.ui;
 
+import com.mrp.sml.domain.model.DeviceInfo;
+import com.mrp.sml.domain.model.FileMetadata;
 import com.mrp.sml.domain.model.TransferDirection;
 import com.mrp.sml.domain.model.TransferRecord;
 import com.mrp.sml.domain.model.TransferStatus;
@@ -24,6 +26,7 @@ final class ViewModelTestDoubles {
         private ConnectionState state = ConnectionState.IDLE;
         private ConnectionStateListener stateListener;
         private DiscoveredDevicesListener devicesListener;
+        private DeviceInfo connectedDeviceInfo;
 
         @Override
         public ConnectionState getCurrentConnectionState() {
@@ -76,9 +79,28 @@ final class ViewModelTestDoubles {
         @Override
         public void disconnect() {
             state = ConnectionState.DISCONNECTED;
+            connectedDeviceInfo = null;
             if (stateListener != null) {
                 stateListener.onConnectionStateChanged(state);
             }
+        }
+
+        @Override
+        public void performHandshake(String deviceAddress) {
+            state = ConnectionState.PAIRED;
+            connectedDeviceInfo = new DeviceInfo("RemoteDevice", "remote-id", "1.0");
+            if (stateListener != null) {
+                stateListener.onConnectionStateChanged(state);
+            }
+        }
+
+        @Override
+        public void setDeviceInfo(DeviceInfo deviceInfo) {
+        }
+
+        @Override
+        public DeviceInfo getConnectedDeviceInfo() {
+            return connectedDeviceInfo;
         }
     }
 
@@ -109,21 +131,6 @@ final class ViewModelTestDoubles {
         }
 
         @Override
-        public void sendFile(String sourcePath, String destinationAddress) {
-            sendFile(sourcePath, destinationAddress, "");
-        }
-
-        @Override
-        public void sendFiles(List<String> sourcePaths, String destinationAddress) {
-            sendFiles(sourcePaths, destinationAddress, "");
-        }
-
-        @Override
-        public void sendFile(String sourcePath, String destinationAddress, String sessionToken) {
-            sendFiles(Collections.singletonList(sourcePath), destinationAddress, sessionToken);
-        }
-
-        @Override
         public void sendFiles(List<String> sourcePaths, String destinationAddress, String sessionToken) {
             if (statusListener != null) {
                 statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.SENDING, "Sending"));
@@ -134,21 +141,6 @@ final class ViewModelTestDoubles {
             if (statusListener != null) {
                 statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.COMPLETED, "Done"));
             }
-        }
-
-        @Override
-        public void receiveFile(String destinationPath) {
-            receiveFile(destinationPath, "");
-        }
-
-        @Override
-        public void receiveFiles(String destinationDirectoryPath) {
-            receiveFiles(destinationDirectoryPath, "");
-        }
-
-        @Override
-        public void receiveFile(String destinationPath, String sessionToken) {
-            receiveFiles(destinationPath, sessionToken);
         }
 
         @Override
@@ -170,6 +162,32 @@ final class ViewModelTestDoubles {
             if (statusListener != null) {
                 statusListener.onStatusUpdated(new TransferStatusUpdate(TransferExecutionStatus.RETRYING, "Resumed"));
             }
+        }
+
+        @Override
+        public void sendMetadata(List<String> sourcePaths, String destinationAddress, String sessionToken) {
+        }
+
+        @Override
+        public FileMetadata receiveMetadata(String sessionToken) {
+            return null;
+        }
+
+        @Override
+        public void acceptTransfer(String sessionToken) {
+        }
+
+        @Override
+        public void rejectTransfer(String sessionToken) {
+        }
+
+        @Override
+        public void sendChunk(String filePath, String destinationAddress, int chunkIndex, int chunkSize, String sessionToken) {
+        }
+
+        @Override
+        public boolean receiveChunkAck(String sessionToken, int chunkIndex) {
+            return false;
         }
     }
 

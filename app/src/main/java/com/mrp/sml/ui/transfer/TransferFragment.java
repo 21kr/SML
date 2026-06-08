@@ -42,10 +42,35 @@ public class TransferFragment extends Fragment {
         transferViewModel.getTransferStatusText().observe(getViewLifecycleOwner(),
                 text -> {
                     binding.transferStatusText.setText(text);
-                    updateTransferProgressIndicator(text);
+                    updateVisibility(text);
                 });
+
         transferViewModel.getTransferProgressText().observe(getViewLifecycleOwner(),
                 text -> binding.transferProgressText.setText(text));
+
+        transferViewModel.getCurrentFileName().observe(getViewLifecycleOwner(),
+                name -> binding.fileNameText.setText(name));
+
+        transferViewModel.getProgressValue().observe(getViewLifecycleOwner(),
+                value -> {
+                    binding.transferProgressIndicator.setProgressCompat(
+                            (int) (value * 100), true);
+                });
+
+        transferViewModel.getSpeedText().observe(getViewLifecycleOwner(),
+                text -> binding.speedText.setText(text));
+
+        transferViewModel.getEtaText().observe(getViewLifecycleOwner(),
+                text -> binding.etaText.setText(text));
+
+        transferViewModel.getIsComplete().observe(getViewLifecycleOwner(),
+                complete -> {
+                    binding.successCard.setVisibility(complete ? View.VISIBLE : View.GONE);
+                    binding.activeTransferSection.setVisibility(complete ? View.GONE : View.VISIBLE);
+                });
+
+        transferViewModel.getSuccessSummary().observe(getViewLifecycleOwner(),
+                summary -> binding.successSummaryText.setText(summary));
     }
 
     private void setupListeners() {
@@ -53,12 +78,18 @@ public class TransferFragment extends Fragment {
         binding.resumeTransferButton.setOnClickListener(v -> transferViewModel.resumeTransfer());
     }
 
-    private void updateTransferProgressIndicator(String statusText) {
-        boolean active = statusText.contains("SENDING")
-                || statusText.contains("RECEIVING")
-                || statusText.contains("RETRYING");
-        binding.transferProgressIndicator.setVisibility(active ? View.VISIBLE : View.GONE);
-        boolean indeterminate = statusText.contains("RETRYING") || statusText.contains("IDLE");
+    private void updateVisibility(String statusText) {
+        boolean active = statusText != null
+                && (statusText.contains("SENDING")
+                    || statusText.contains("RECEIVING")
+                    || statusText.contains("RETRYING")
+                    || statusText.contains("IDLE"));
+
+        binding.activeTransferSection.setVisibility(active ? View.VISIBLE : View.GONE);
+        binding.idleStatusText.setVisibility(active ? View.GONE : View.VISIBLE);
+
+        boolean indeterminate = statusText != null
+                && (statusText.contains("RETRYING") || statusText.contains("IDLE"));
         binding.transferProgressIndicator.setIndeterminate(indeterminate);
     }
 

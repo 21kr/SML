@@ -50,6 +50,7 @@
     <color name="tertiary_container">#FFFFF3E0</color>
     <color name="white">#FFFFFFFF</color>
     <string name="app_name">SML File Share</string>
+    <string name="cancel">Cancel</string>
     <string name="cancel_transfer">Cancel</string>
     <string name="connect_device">Connect</string>
     <string name="connect_first_toast">Connect to a device first</string>
@@ -62,11 +63,25 @@
     <string name="empty_devices">No devices found yet</string>
     <string name="file_pick_failed">Unable to read selected file.</string>
     <string name="file_pick_success">File selected successfully.</string>
+    <string name="file_selected">File selected</string>
     <string name="history_icon_default">F</string>
     <string name="history_section_title">History</string>
     <string name="history_subtitle">Your transfer records</string>
     <string name="nearby_devices">Nearby Devices</string>
     <string name="open_settings">Open Settings</string>
+    <string name="or">OR</string>
+    <string name="pairing_discover_status">Searching for nearby devices…</string>
+    <string name="pairing_discover_title">Discover Nearby Devices</string>
+    <string name="pairing_qr_instructions">Scan this QR code with the receiver app</string>
+    <string name="pairing_scan_prompt">Align QR code within the frame</string>
+    <string name="pairing_scan_qr">Scan QR Code</string>
+    <string name="pairing_scan_qr_subtitle">Point camera at sender\'s QR code to pair</string>
+    <string name="pairing_selected_files">Selected Files</string>
+    <string name="pairing_subtitle_receive">Scan QR or discover nearby devices</string>
+    <string name="pairing_subtitle_send">Share the QR code with the receiver</string>
+    <string name="pairing_title_receive">Receiving Files</string>
+    <string name="pairing_title_send">Sending Files</string>
+    <string name="pairing_waiting_receiver">Waiting for receiver to connect…</string>
     <string name="permissions_denied">Permissions denied. Please grant in Settings.</string>
     <string name="permissions_dialog_message">SML needs permissions for device discovery and file transfers. You can retry or open Settings.</string>
     <string name="permissions_dialog_title">Permissions needed</string>
@@ -86,9 +101,11 @@
     <string name="send_file">Send Files</string>
     <string name="sending_file_toast">Sending file…</string>
     <string name="stop_receiving">Stop Receiving</string>
+    <string name="success_icon">✓</string>
     <string name="tab_history">History</string>
     <string name="tab_home">Home</string>
     <string name="tab_transfer">Transfer</string>
+    <string name="transfer_complete">Transfer Complete</string>
     <string name="transfer_idle">No active transfers</string>
     <string name="transfer_subtitle">Monitor your file transfers</string>
     <style name="Theme.SML" parent="Theme.Material3.Light.NoActionBar">
