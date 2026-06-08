@@ -144,6 +144,7 @@ string receiver_stopped_toast
 string receiver_waiting_title
 string resume_transfer
 string retry_permissions
+string searching_devices_toast
 string send_file
 string sending_file_toast
 string stop_receiving

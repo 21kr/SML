@@ -221,19 +221,22 @@
 /workspaces/SML/app/src/main/res/values/strings.xml:11: Warning: The resource R.string.connection_section_title appears to be unused [UnusedResources]
     <string name="connection_section_title">Connection</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:31: Warning: The resource R.string.file_pick_success appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:19: Warning: The resource R.string.connect_first_toast appears to be unused [UnusedResources]
+    <string name="connect_first_toast">Connect to a device first</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:32: Warning: The resource R.string.file_pick_success appears to be unused [UnusedResources]
     <string name="file_pick_success">File selected successfully.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:33: Warning: The resource R.string.empty_devices appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:34: Warning: The resource R.string.empty_devices appears to be unused [UnusedResources]
     <string name="empty_devices">No devices found yet</string>
             ~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:43: Warning: The resource R.string.history_section_title appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:44: Warning: The resource R.string.history_section_title appears to be unused [UnusedResources]
     <string name="history_section_title">History</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:49: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:50: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
     <string name="permissions_granted">All permissions granted.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:50: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:51: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
     <string name="permissions_denied">Permissions denied. Please grant in Settings.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -270,4 +273,4 @@
    application iconwill not show if your monochrome attribute is not also
    specified in android:roundIcon.
 
-0 errors, 54 warnings
+0 errors, 55 warnings

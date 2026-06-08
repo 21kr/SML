@@ -17,6 +17,7 @@
     <string name="connect_device">Connect</string>
     <string name="disconnect_device">Disconnect</string>
     <string name="connect_first_toast">Connect to a device first</string>
+    <string name="searching_devices_toast">Searching for nearby devices…</string>
     <string name="sending_file_toast">Sending file…</string>
 
     <!-- Transfer -->

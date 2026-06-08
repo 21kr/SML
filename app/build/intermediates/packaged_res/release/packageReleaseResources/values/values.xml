@@ -82,6 +82,7 @@
     <string name="receiver_waiting_title">Waiting for sender…</string>
     <string name="resume_transfer">Resume</string>
     <string name="retry_permissions">Retry</string>
+    <string name="searching_devices_toast">Searching for nearby devices…</string>
     <string name="send_file">Send Files</string>
     <string name="sending_file_toast">Sending file…</string>
     <string name="stop_receiving">Stop Receiving</string>

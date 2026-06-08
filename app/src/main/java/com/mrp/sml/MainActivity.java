@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (hasRequiredPermissions()) {
-            connectionViewModel.discoverDevices();
-        }
     }
 
     @Override
@@ -161,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (allGranted) {
-            connectionViewModel.discoverDevices();
+            // Discovery will start when user taps Send or Receive
         } else {
             showPermissionRecoveryDialog();
         }

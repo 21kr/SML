@@ -98,11 +98,13 @@ public class HomeFragment extends Fragment {
             if (state != null && state.contains("CONNECTED")) {
                 filePickerLauncher.launch(new String[]{"*/*"});
             } else {
-                Toast.makeText(getContext(), R.string.connect_first_toast, Toast.LENGTH_SHORT).show();
+                connectionViewModel.discoverDevices();
+                Toast.makeText(getContext(), R.string.searching_devices_toast, Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.receiveCard.setOnClickListener(v -> {
+            connectionViewModel.discoverDevices();
             prepareReceiverMode();
         });
 
