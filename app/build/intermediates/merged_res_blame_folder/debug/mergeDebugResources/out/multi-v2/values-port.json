@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.mrp.sml.app-mergeDebugResources-83:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/home/codespace/.gradle/caches/8.9/transforms/61e30a50aa4f9bb7d8dc0d315a47eac0/transformed/appcompat-1.6.1/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

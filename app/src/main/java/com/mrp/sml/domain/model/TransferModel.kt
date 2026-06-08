@@ -13,10 +13,10 @@ data class TransferModel(
     val completedAt: Long? = null,
     val errorMessage: String? = null,
     val sessionToken: String = ""
-)
+) {
+    enum class TransferDirection { SENT, RECEIVED }
 
-enum class TransferDirection { SENT, RECEIVED }
-
-enum class TransferStatus {
-    PENDING, TRANSFERRING, PAUSED, COMPLETED, FAILED, CANCELLED
+    enum class TransferStatus {
+        PENDING, TRANSFERRING, PAUSED, COMPLETED, FAILED, CANCELLED
+    }
 }

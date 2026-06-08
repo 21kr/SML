@@ -1,0 +1,4 @@
+-keep,allowobfuscation,allowshrinking class com.mrp.sml.ui.viewmodel.DiscoveryViewModel
+-keep,allowobfuscation,allowshrinking class com.mrp.sml.ui.viewmodel.DiscoveryViewModel
+-keep,allowobfuscation,allowshrinking class com.mrp.sml.ui.viewmodel.SettingsViewModel
+-keep,allowobfuscation,allowshrinking class com.mrp.sml.ui.viewmodel.SettingsViewModel
