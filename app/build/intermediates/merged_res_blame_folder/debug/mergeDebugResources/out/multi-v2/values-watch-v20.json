@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeDebugResources-35:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.mrp.sml.app-mergeDebugResources-83:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/7c896f73462d967434cf7bc219299bdb/transformed/appcompat-1.7.0/res/values-watch-v20/values-watch-v20.xml",
+                    "source": "/home/codespace/.gradle/caches/8.9/transforms/61e30a50aa4f9bb7d8dc0d315a47eac0/transformed/appcompat-1.6.1/res/values-watch-v20/values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",
@@ -12,6 +12,24 @@
                         "endLines": "4,7,10",
                         "endColumns": "12,12,12",
                         "endOffsets": "209,380,553"
+                    },
+                    "to": {
+                        "startLines": "10,13,16",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "634,793,964",
+                        "endLines": "12,15,18",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "788,959,1132"
+                    }
+                },
+                {
+                    "source": "/home/codespace/.gradle/caches/8.9/transforms/b6007d4a6ee807abe4629aaad6310a6e/transformed/jetified-core-splashscreen-1.0.1/res/values-watch-v20/values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,129,205,280,357,428,496,566",
+                        "endColumns": "73,75,74,76,70,67,69,67",
+                        "endOffsets": "124,200,275,352,423,491,561,629"
                     }
                 }
             ]

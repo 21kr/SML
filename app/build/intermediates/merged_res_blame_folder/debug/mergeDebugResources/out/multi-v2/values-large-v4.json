@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.mrp.sml.app-mergeDebugResources-35:/values-large-v4/values-large-v4.xml",
+            "outputFile": "com.mrp.sml.app-mergeDebugResources-83:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/res/values-large-v4/values-large-v4.xml",
+                    "source": "/home/codespace/.gradle/caches/8.9/transforms/29a6c29003969d56980ada8572245c3c/transformed/material-1.12.0/res/values-large-v4/values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/codespace/.gradle/caches/transforms-4/7c896f73462d967434cf7bc219299bdb/transformed/appcompat-1.7.0/res/values-large-v4/values-large-v4.xml",
+                    "source": "/home/codespace/.gradle/caches/8.9/transforms/61e30a50aa4f9bb7d8dc0d315a47eac0/transformed/appcompat-1.6.1/res/values-large-v4/values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

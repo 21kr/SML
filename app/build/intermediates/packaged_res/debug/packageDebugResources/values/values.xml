@@ -55,6 +55,7 @@
     <string name="discover_devices">Discover</string>
     <string name="file_pick_failed">Unable to read selected file.</string>
     <string name="file_selected">File selected</string>
+    <string name="files_selected_count">%d file(s) selected</string>
     <string name="history_icon_default">F</string>
     <string name="history_section_title">History</string>
     <string name="history_subtitle">Your transfer records</string>
@@ -71,12 +72,15 @@
     <string name="pairing_subtitle_send">Share the QR code with the receiver</string>
     <string name="pairing_title_receive">Receiving Files</string>
     <string name="pairing_title_send">Sending Files</string>
+    <string name="pairing_waiting_connection">Waiting for device connection to start transfer…</string>
     <string name="pairing_waiting_receiver">Waiting for receiver to connect…</string>
     <string name="permissions_denied">Permissions denied. Please grant in Settings.</string>
     <string name="permissions_dialog_message">SML needs permissions for device discovery and file transfers. You can retry or open Settings.</string>
     <string name="permissions_dialog_title">Permissions needed</string>
     <string name="permissions_granted">All permissions granted.</string>
     <string name="permissions_required">Permissions required for device discovery and transfers.</string>
+    <string name="pick_files">Pick Files</string>
+    <string name="pick_files_desc">Select multiple files to share</string>
     <string name="progress_initial">Ready to transfer</string>
     <string name="ready_status">Share files directly with nearby devices</string>
     <string name="receive_files">Receive Files</string>
@@ -90,7 +94,7 @@
     <string name="transfer_complete">Transfer Complete</string>
     <string name="transfer_idle">No active transfers</string>
     <string name="transfer_subtitle">Monitor your file transfers</string>
-    <style name="Theme.SML" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.SML" parent="Theme.Material3.DayNight.NoActionBar">
     <item name="colorPrimary">@color/primary</item>
     <item name="colorOnPrimary">@color/on_primary</item>
     <item name="colorPrimaryContainer">@color/primary_container</item>

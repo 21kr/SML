@@ -54,4 +54,10 @@
     <string name="file_selected">File selected</string>
     <string name="cancel">Cancel</string>
     <string name="or">OR</string>
+
+    <!-- Pick Files -->
+    <string name="pick_files">Pick Files</string>
+    <string name="pick_files_desc">Select multiple files to share</string>
+    <string name="files_selected_count">%d file(s) selected</string>
+    <string name="pairing_waiting_connection">Waiting for device connection to start transfer…</string>
 </resources>
