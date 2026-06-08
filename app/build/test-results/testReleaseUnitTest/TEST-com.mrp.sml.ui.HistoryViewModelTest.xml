@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.mrp.sml.ui.HistoryViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-08T11:02:35" hostname="codespaces-4f54e7" time="0.011">
+  <properties/>
+  <testcase name="whenHistoryChanges_summaryIncludesLatestFileName" classname="com.mrp.sml.ui.HistoryViewModelTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

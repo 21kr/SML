@@ -7,9 +7,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.graphics.drawable.GradientDrawable;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -92,19 +94,53 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupObservers() {
         connectionViewModel.getConnectionStateText().observe(this,
-                text -> binding.connectionStateText.setText(text));
+                text -> {
+                    binding.connectionStateText.setText(text);
+                    updateConnectionStateBackground(text);
+                });
         connectionViewModel.getDiscoveredDevicesText().observe(this,
                 text -> binding.discoveredDevicesText.setText(text));
         connectionViewModel.getDiscoveredDevices().observe(this,
                 devices -> connectionDeviceAdapter.submitList(devices));
 
         transferViewModel.getTransferStatusText().observe(this,
-                text -> binding.transferStatusText.setText(text));
+                text -> {
+                    binding.transferStatusText.setText(text);
+                    updateTransferProgressIndicator(text);
+                });
         transferViewModel.getTransferProgressText().observe(this,
                 text -> binding.transferProgressText.setText(text));
 
         historyViewModel.getHistorySummaryText().observe(this,
                 text -> binding.historySummaryText.setText(text));
+    }
+
+    private void updateConnectionStateBackground(String stateText) {
+        @ColorInt int bgColor;
+        if (stateText.contains("CONNECTED")) {
+            bgColor = ContextCompat.getColor(this, R.color.state_connected);
+        } else if (stateText.contains("DISCOVERING")) {
+            bgColor = ContextCompat.getColor(this, R.color.state_discovering);
+        } else if (stateText.contains("FAILED")) {
+            bgColor = ContextCompat.getColor(this, R.color.state_failed);
+        } else {
+            bgColor = ContextCompat.getColor(this, R.color.state_disconnected);
+        }
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setCornerRadius(8f);
+        drawable.setColor(bgColor);
+        binding.connectionStateText.setBackground(drawable);
+        binding.connectionStateText.setTextColor(ContextCompat.getColor(this, R.color.white));
+    }
+
+    private void updateTransferProgressIndicator(String statusText) {
+        boolean active = statusText.contains("SENDING")
+                || statusText.contains("RECEIVING")
+                || statusText.contains("RETRYING");
+        binding.transferProgressIndicator.setVisibility(active ? android.view.View.VISIBLE : android.view.View.GONE);
+        boolean indeterminate = statusText.contains("RETRYING") || statusText.contains("IDLE");
+        binding.transferProgressIndicator.setIndeterminate(indeterminate);
     }
 
     private void setupListeners() {
@@ -206,11 +242,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (pendingPermissions.isEmpty()) {
+            binding.permissionStatusText.setVisibility(android.view.View.GONE);
             binding.permissionStatusText.setText(getString(R.string.permissions_granted));
             return;
         }
 
         binding.permissionStatusText.setText(getString(R.string.permissions_required));
+        binding.permissionStatusText.setVisibility(android.view.View.VISIBLE);
         ActivityCompat.requestPermissions(
                 this,
                 pendingPermissions.toArray(new String[0]),
@@ -244,10 +282,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (allGranted) {
+            binding.permissionStatusText.setVisibility(android.view.View.GONE);
             binding.permissionStatusText.setText(getString(R.string.permissions_granted));
             Toast.makeText(this, R.string.permissions_granted, Toast.LENGTH_SHORT).show();
             connectionViewModel.discoverDevices();
         } else {
+            binding.permissionStatusText.setVisibility(android.view.View.VISIBLE);
             binding.permissionStatusText.setText(getString(R.string.permissions_denied));
             showPermissionRecoveryDialog();
         }

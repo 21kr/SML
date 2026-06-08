@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.mrp.sml.domain.model.TransferRecord;
 import com.mrp.sml.domain.repository.TransferHistoryRepository;
+import com.mrp.sml.domain.usecase.ObserveTransferHistoryUseCase;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import java.util.List;
 import javax.inject.Inject;
@@ -12,16 +13,16 @@ import javax.inject.Inject;
 @HiltViewModel
 public class HistoryViewModel extends ViewModel {
 
-    private final TransferHistoryRepository transferHistoryRepository;
+    private final ObserveTransferHistoryUseCase observeTransferHistoryUseCase;
 
     private final MutableLiveData<String> historySummaryText = new MutableLiveData<>("History: 0 records");
 
     private final TransferHistoryRepository.TransferHistoryListener historyListener = this::onHistoryChanged;
 
     @Inject
-    public HistoryViewModel(TransferHistoryRepository transferHistoryRepository) {
-        this.transferHistoryRepository = transferHistoryRepository;
-        this.transferHistoryRepository.observeTransferHistory(historyListener);
+    public HistoryViewModel(ObserveTransferHistoryUseCase observeTransferHistoryUseCase) {
+        this.observeTransferHistoryUseCase = observeTransferHistoryUseCase;
+        this.observeTransferHistoryUseCase.observe(historyListener);
     }
 
     public LiveData<String> getHistorySummaryText() {
@@ -41,7 +42,7 @@ public class HistoryViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        transferHistoryRepository.removeTransferHistoryObserver(historyListener);
+        observeTransferHistoryUseCase.removeObserver(historyListener);
         super.onCleared();
     }
 }

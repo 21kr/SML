@@ -15,8 +15,8 @@ This file is the **SOURCE OF TRUTH** for:
 ## SDK Configuration (FINAL)
 
 * minSdk = 24
-* targetSdk = 35
-* compileSdk = 35
+* targetSdk = 36
+* compileSdk = 36
 
 These values MUST NOT be changed.
 

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.4.2" type="partial_results">
+    <map id="UnusedResources">
+        <location id="R.color.seed"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="3"
+            column="12"
+            startOffset="62"
+            endLine="3"
+            endColumn="23"
+            endOffset="73"/>
+        <location id="R.color.status_sent"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="31"
+            column="12"
+            startOffset="1315"
+            endLine="31"
+            endColumn="30"
+            endOffset="1333"/>
+        <location id="R.color.status_received"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="32"
+            column="12"
+            startOffset="1363"
+            endLine="32"
+            endColumn="34"
+            endOffset="1385"/>
+        <location id="R.color.status_completed"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="33"
+            column="12"
+            startOffset="1415"
+            endLine="33"
+            endColumn="35"
+            endOffset="1438"/>
+        <location id="R.string.tap_device_hint"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="12"
+            column="13"
+            startOffset="619"
+            endLine="12"
+            endColumn="35"
+            endOffset="641"/>
+        <entry
+            name="model"
+            string="color[surface_variant(U),outline_variant(U),primary(U),error_container(U),on_error_container(U),state_disconnected(U),white(U),on_surface_variant(U),on_secondary_container(U),secondary_container(U),on_surface(U),outline(U),primary_container(U),on_primary_container(U),ic_launcher_background(U),seed(D),on_primary(U),secondary(U),on_secondary(U),error(U),on_error(U),surface(U),state_connected(U),state_discovering(U),state_failed(U),status_sent(D),status_received(D),status_completed(D),status_failed(D)],id[historyRecyclerView(U),permissionStatusText(U),connectionStateText(U),discoveredDevicesText(U),discoveredDevicesList(U),deviceIdInput(U),discoverButton(U),connectButton(U),disconnectButton(U),transferStatusText(U),transferProgressText(U),transferProgressIndicator(U),transferGuideText(D),prepareReceiverButton(U),receiverAddressText(U),pickFileButton(U),filePathInput(U),destinationAddressInput(U),sessionTokenInput(U),outputDirectoryInput(U),sendButton(U),receiveButton(U),cancelTransferButton(U),resumeTransferButton(U),historySummaryText(U),openHistoryButton(U),deviceNameText(U),deviceIdText(U),historyTitleText(U),historySubtitleText(U)],layout[activity_history(U),activity_main(U),item_discovered_device(U),item_history_record(U)],mipmap[ic_launcher(U),ic_launcher_round(U),ic_launcher_foreground(U)],string[app_name(U),history_section_title(U),permissions_required(U),connection_section_title(U),connection_idle(U),discovered_devices_initial(U),device_id_hint(U),discover_devices(U),connect_device(U),disconnect_device(U),transfer_section_title(U),transfer_idle(U),progress_initial(U),transfer_quick_guide(U),prepare_receiver(U),receiver_address_unavailable(U),pick_file(U),file_path_hint(U),destination_address_hint(U),session_token_hint(U),output_directory_hint(U),send_file(U),receive_files(U),cancel_transfer(U),resume_transfer(U),history_initial(U),open_history_screen(U),ready_status(D),tap_device_hint(D),receiver_address_label(U),receiver_ready_toast(U),file_pick_success(U),file_pick_failed(U),permissions_granted(U),permissions_denied(U),permissions_dialog_title(U),permissions_dialog_message(U),open_settings(U),retry_permissions(U)],style[Theme_SML(U),TextAppearance_Material3_HeadlineSmall(R),TextAppearance_Material3_HeadlineMedium(R),TextAppearance_Material3_BodyMedium(R),TextAppearance_Material3_TitleMedium(R),TextAppearance_Material3_LabelMedium(R),Widget_Material3_TextInputLayout_OutlinedBox(R),Widget_Material3_Button(R),TextAppearance_Material3_BodySmall(R),TextAppearance_Material3_BodyLarge(R),Theme_Material3_Light_NoActionBar(R)];3b^0^1^43^6a^2,3c^42^6b^2^3^44^6c^4^1^45^6d^5^46^6^47^6e^7^48^6f^49^8^9^70^4a^4b^a^b^4c^4d^4e^0^4f^71^50^c^51^d^52^53^54^55^56^57^58^59^5a^43^5b^5c,3d^c^72^a^71^7,3e^1^72^a^71^7,3f^e^41,40^e^41,69^73^2^10^c^d^11^12^9^8^13^14^3^4^15^a^0^7^b^1;;;"/>
+        <location id="R.color.status_failed"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="34"
+            column="12"
+            startOffset="1468"
+            endLine="34"
+            endColumn="32"
+            endOffset="1488"/>
+        <location id="R.string.ready_status"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="3"
+            column="13"
+            startOffset="76"
+            endLine="3"
+            endColumn="32"
+            endOffset="95"/>
+    </map>
+    <map id="UnsafeImplicitIntentLaunch">
+            <map id="actionsSent">
+                    <map id="android.settings.APPLICATION_DETAILS_SETTINGS (used to start an activity)">
+                        <location id="0"
+                            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/mrp/sml/MainActivity.java"
+                            line="307"
+                            column="25"
+                            startOffset="13302"
+                            endLine="307"
+                            endColumn="81"
+                            endOffset="13358"/>
+                    </map>
+            </map>
+    </map>
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="com.mrp.sml.MainActivity"
+                    boolean="true"/>
+            </map>
+    </map>
+
+</incidents>

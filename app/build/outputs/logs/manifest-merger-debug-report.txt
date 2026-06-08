@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-37:12
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
 MERGED from [androidx.databinding:viewbinding:8.4.2] /home/codespace/.gradle/caches/transforms-4/e7be0a5d42dd8f62d4061790321b5080/transformed/jetified-viewbinding-8.4.2/AndroidManifest.xml:2:1-7:12
 MERGED from [:data] /workspaces/SML/data/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:core] /workspaces/SML/core/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
@@ -65,46 +65,58 @@ MERGED from [com.google.dagger:dagger-lint-aar:2.48] /home/codespace/.gradle/cac
 	xmlns:android
 		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:11-69
 uses-feature#android.hardware.wifi.direct
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:3:5-90
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:4:5-6:36
 	android:required
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:3:63-87
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:6:9-33
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:3:19-62
-uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:5:5-76
-	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:5:22-73
-uses-permission#android.permission.CHANGE_WIFI_STATE
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:6:5-76
-	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:6:22-73
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:5:9-52
 uses-permission#android.permission.INTERNET
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:7:5-67
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:9:5-67
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:7:22-64
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:9:22-64
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:10:5-76
+	android:name
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:10:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:11:5-76
+	android:name
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:11:22-73
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:8:1-75
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:14:5-79
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:8:18-72
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:14:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:9:5-81
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:15:5-81
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:9:22-78
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:15:22-78
+uses-permission#android.permission.READ_MEDIA_IMAGES
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:18:5-76
+	android:name
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:18:22-73
+uses-permission#android.permission.READ_MEDIA_VIDEO
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:19:5-75
+	android:name
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:19:22-72
+uses-permission#android.permission.READ_MEDIA_AUDIO
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:20:5-75
+	android:name
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:20:22-72
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:10:5-107
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:23:5-25:38
 	android:maxSdkVersion
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:10:78-104
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:25:9-35
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:10:22-77
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:24:9-64
 uses-permission#android.permission.NEARBY_WIFI_DEVICES
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:11:5-13:58
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:28:5-30:58
 	android:usesPermissionFlags
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:13:9-55
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:30:9-55
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:12:9-62
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:29:9-62
 application
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:15:5-35:19
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:15:5-35:19
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:5-56:19
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:5-56:19
 MERGED from [com.google.android.material:material:1.12.0] /home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /home/codespace/.gradle/caches/transforms-4/b33a20b43bbac5e9ef05e6046ecdfdac/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
@@ -128,41 +140,41 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/codespace/.gradle/cac
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /home/codespace/.gradle/caches/transforms-4/9df819d970f0bada00dc6830f74a542b/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:21:9-35
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:38:9-35
 	android:label
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:18:9-41
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:35:9-41
 	android:roundIcon
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:20:9-54
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:37:9-54
 	android:icon
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:19:9-43
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:36:9-43
 	android:allowBackup
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:17:9-35
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:34:9-35
 	android:theme
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:22:9-41
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:39:9-41
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:16:9-39
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:33:9-39
 activity#com.mrp.sml.MainActivity
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:23:9-30:20
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:41:9-50:20
 	android:exported
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:25:13-36
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:43:13-36
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:24:13-41
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:42:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:26:13-29:29
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:45:13-48:29
 action#android.intent.action.MAIN
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:27:17-69
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:46:17-69
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:27:25-66
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:46:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:28:17-77
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:47:17-77
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:28:27-74
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:47:27-74
 activity#com.mrp.sml.ui.history.HistoryActivity
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:9-34:40
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:52:9-54:40
 	android:exported
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:34:13-37
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:54:13-37
 	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:33:13-55
+		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:53:13-55
 uses-sdk
 INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml

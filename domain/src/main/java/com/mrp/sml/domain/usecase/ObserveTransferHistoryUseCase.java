@@ -11,7 +11,11 @@ public class ObserveTransferHistoryUseCase {
         this.transferHistoryRepository = transferHistoryRepository;
     }
 
-    public void execute(TransferHistoryRepository.TransferHistoryListener listener) {
+    public void observe(TransferHistoryRepository.TransferHistoryListener listener) {
         transferHistoryRepository.observeTransferHistory(listener);
+    }
+
+    public void removeObserver(TransferHistoryRepository.TransferHistoryListener listener) {
+        transferHistoryRepository.removeTransferHistoryObserver(listener);
     }
 }

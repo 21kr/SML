@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.mrp.sml.domain.repository.FileTransferRepository;
 import com.mrp.sml.domain.repository.TransferProgress;
 import com.mrp.sml.domain.repository.TransferStatusUpdate;
+import com.mrp.sml.domain.usecase.FileTransferUseCase;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import java.util.Collections;
 import javax.inject.Inject;
@@ -13,7 +14,7 @@ import javax.inject.Inject;
 @HiltViewModel
 public class TransferViewModel extends ViewModel {
 
-    private final FileTransferRepository fileTransferRepository;
+    private final FileTransferUseCase fileTransferUseCase;
 
     private final MutableLiveData<String> transferStatusText = new MutableLiveData<>("Transfer: IDLE");
     private final MutableLiveData<String> transferProgressText = new MutableLiveData<>("Progress: 0.00% (0.00 MB/s)");
@@ -22,10 +23,10 @@ public class TransferViewModel extends ViewModel {
     private final FileTransferRepository.TransferProgressListener progressListener = this::onProgressUpdated;
 
     @Inject
-    public TransferViewModel(FileTransferRepository fileTransferRepository) {
-        this.fileTransferRepository = fileTransferRepository;
-        this.fileTransferRepository.observeTransferStatus(statusListener);
-        this.fileTransferRepository.observeTransferProgress(progressListener);
+    public TransferViewModel(FileTransferUseCase fileTransferUseCase) {
+        this.fileTransferUseCase = fileTransferUseCase;
+        this.fileTransferUseCase.observeTransferStatus(statusListener);
+        this.fileTransferUseCase.observeTransferProgress(progressListener);
     }
 
     public LiveData<String> getTransferStatusText() {
@@ -49,11 +50,15 @@ public class TransferViewModel extends ViewModel {
             transferStatusText.postValue("Transfer: FAILED - destination address is required");
             return;
         }
-        fileTransferRepository.sendFiles(
-                Collections.singletonList(path.trim()),
-                destinationAddress.trim(),
-                sessionToken == null ? "" : sessionToken.trim()
-        );
+        try {
+            fileTransferUseCase.sendFiles(
+                    Collections.singletonList(path.trim()),
+                    destinationAddress.trim(),
+                    sessionToken == null ? "" : sessionToken.trim()
+            );
+        } catch (IllegalArgumentException e) {
+            transferStatusText.postValue("Transfer: FAILED - " + e.getMessage());
+        }
     }
 
     public void receiveFiles(String outputDirectoryPath) {
@@ -61,23 +66,19 @@ public class TransferViewModel extends ViewModel {
     }
 
     public void receiveFiles(String outputDirectoryPath, String sessionToken) {
-        if (outputDirectoryPath == null || outputDirectoryPath.trim().isEmpty()) {
-            transferStatusText.postValue("Transfer: FAILED - output directory is required");
-            return;
+        try {
+            fileTransferUseCase.receiveFiles(outputDirectoryPath, sessionToken);
+        } catch (IllegalArgumentException e) {
+            transferStatusText.postValue("Transfer: FAILED - " + e.getMessage());
         }
-        fileTransferRepository.receiveFiles(
-                outputDirectoryPath.trim(),
-                sessionToken == null ? "" : sessionToken.trim()
-        );
     }
 
-
     public void cancelTransfer() {
-        fileTransferRepository.cancelTransfer();
+        fileTransferUseCase.cancelTransfer();
     }
 
     public void resumeTransfer() {
-        fileTransferRepository.resumeLastTransfer();
+        fileTransferUseCase.resumeLastTransfer();
     }
 
     private void onStatusUpdated(TransferStatusUpdate statusUpdate) {
@@ -99,8 +100,8 @@ public class TransferViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        fileTransferRepository.removeTransferStatusObserver(statusListener);
-        fileTransferRepository.removeTransferProgressObserver(progressListener);
+        fileTransferUseCase.removeTransferStatusObserver(statusListener);
+        fileTransferUseCase.removeTransferProgressObserver(progressListener);
         super.onCleared();
     }
 }

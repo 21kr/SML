@@ -319,12 +319,14 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                     throw new IOException("No files were provided by sender");
                 }
 
-                List<FileHeader> headers = new ArrayList<>();
+                String[] fileNames = new String[fileCount];
+                long[] fileSizes = new long[fileCount];
                 long totalBytes = 0L;
                 for (int i = 0; i < fileCount; i++) {
                     String name = input.readUTF();
                     long sizeBytes = input.readLong();
-                    headers.add(new FileHeader(name, sizeBytes));
+                    fileNames[i] = name;
+                    fileSizes[i] = sizeBytes;
                     totalBytes += sizeBytes;
                 }
 
@@ -332,10 +334,10 @@ public class DefaultFileTransferRepository implements FileTransferRepository {
                 long start = System.currentTimeMillis();
                 byte[] buffer = new byte[BUFFER_SIZE_BYTES];
 
-                for (FileHeader header : headers) {
+                for (int i = 0; i < fileCount; i++) {
                     throwIfCancelled();
-                    File outputFile = new File(destinationDirectory, sanitizeFileName(header.fileName));
-                    long remaining = header.sizeBytes;
+                    File outputFile = new File(destinationDirectory, sanitizeFileName(fileNames[i]));
+                    long remaining = fileSizes[i];
                     CRC32 crc32 = new CRC32();
                     try (BufferedOutputStream output = new BufferedOutputStream(
                             new FileOutputStream(outputFile), BUFFER_SIZE_BYTES)) {

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.mrp.sml.ui.TransferViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-08T11:02:35" hostname="codespaces-4f54e7" time="0.01">
+  <properties/>
+  <testcase name="sendFile_withoutPath_reportsValidationError" classname="com.mrp.sml.ui.TransferViewModelTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

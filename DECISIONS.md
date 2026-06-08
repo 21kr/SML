@@ -142,8 +142,8 @@ Codex MUST respect all decisions.
 ## Minimum Requirements
 
 * minSdk: 24
-* targetSdk: 35
-* compileSdk: 35
+* targetSdk: 36
+* compileSdk: 36
 
 **Source of truth: BUILD.md**
 

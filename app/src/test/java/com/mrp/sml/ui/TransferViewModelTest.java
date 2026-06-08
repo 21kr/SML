@@ -3,6 +3,7 @@ package com.mrp.sml.ui;
 import static org.junit.Assert.assertTrue;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import com.mrp.sml.domain.usecase.FileTransferUseCase;
 import com.mrp.sml.ui.transfer.TransferViewModel;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class TransferViewModelTest {
     @Test
     public void sendFile_withoutPath_reportsValidationError() {
         TransferViewModel viewModel =
-                new TransferViewModel(new ViewModelTestDoubles.FakeFileTransferRepository());
+                new TransferViewModel(new FileTransferUseCase(new ViewModelTestDoubles.FakeFileTransferRepository()));
 
         viewModel.sendFile("", "192.168.49.1");
 
