@@ -106,7 +106,7 @@
    all existing items and structure may no longer be valid. `LayoutManager`s
    will be forced to fully rebind and relayout all visible views.
 
-/workspaces/SML/app/src/main/res/layout/activity_main.xml:463: Warning: This tag and its children can be replaced by one <TextView/> and a compound drawable [UseCompoundDrawables]
+/workspaces/SML/app/src/main/res/layout/fragment_home.xml:299: Warning: This tag and its children can be replaced by one <TextView/> and a compound drawable [UseCompoundDrawables]
                 <LinearLayout
                  ~~~~~~~~~~~~
 
@@ -124,7 +124,16 @@
 /workspaces/SML/app/src/main/res/layout/activity_history.xml:7: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
     android:background="@color/background">
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/layout/activity_main.xml:6: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
+/workspaces/SML/app/src/main/res/layout/activity_main.xml:7: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
+    android:background="@color/background">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/layout/fragment_history.xml:6: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
+    android:background="@color/background"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/layout/fragment_home.xml:6: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
+    android:background="@color/background"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/layout/fragment_transfer.xml:6: Warning: Possible overdraw: Root element paints background @color/background with a theme that also paints a background (inferred theme is @style/Theme.SML) [Overdraw]
     android:background="@color/background"
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -149,6 +158,9 @@
    performance if you pre-mix the background with your drawable and use that
    resulting image or color as a custom theme background instead.
 
+/workspaces/SML/app/src/main/res/drawable/bg_status_chip.xml:2: Warning: The resource R.drawable.bg_status_chip appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+^
 /workspaces/SML/app/src/main/res/values/colors.xml:3: Warning: The resource R.color.seed appears to be unused [UnusedResources]
     <color name="seed">#FF2563EB</color>
            ~~~~~~~~~~~
@@ -212,9 +224,33 @@
 /workspaces/SML/app/src/main/res/drawable/ic_send.xml:2: Warning: The resource R.drawable.ic_send appears to be unused [UnusedResources]
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
 ^
-/workspaces/SML/app/src/main/res/values/strings.xml:12: Warning: The resource R.string.tap_device_hint appears to be unused [UnusedResources]
-    <string name="tap_device_hint">Tap a discovered device to auto-fill and connect.</string>
+/workspaces/SML/app/src/main/res/values/strings.xml:11: Warning: The resource R.string.connection_section_title appears to be unused [UnusedResources]
+    <string name="connection_section_title">Connection</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:19: Warning: The resource R.string.tap_device_hint appears to be unused [UnusedResources]
+    <string name="tap_device_hint">Tap a device to connect</string>
             ~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:22: Warning: The resource R.string.transfer_section_title appears to be unused [UnusedResources]
+    <string name="transfer_section_title">Transfer</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:34: Warning: The resource R.string.output_directory_hint appears to be unused [UnusedResources]
+    <string name="output_directory_hint">Output directory path</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:42: Warning: The resource R.string.empty_devices appears to be unused [UnusedResources]
+    <string name="empty_devices">No devices found yet</string>
+            ~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:46: Warning: The resource R.string.history_initial appears to be unused [UnusedResources]
+    <string name="history_initial">No transfers yet</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:49: Warning: The resource R.string.open_history_screen appears to be unused [UnusedResources]
+    <string name="open_history_screen">View All History</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:53: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
+    <string name="permissions_granted">All permissions granted.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/strings.xml:54: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
+    <string name="permissions_denied">Permissions denied. Please grant in Settings.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
 
    Explanation for issues of type "UnusedResources":
    Unused resources make applications larger and slow down builds.
@@ -249,4 +285,4 @@
    application iconwill not show if your monochrome attribute is not also
    specified in android:roundIcon.
 
-0 errors, 43 warnings
+0 errors, 55 warnings

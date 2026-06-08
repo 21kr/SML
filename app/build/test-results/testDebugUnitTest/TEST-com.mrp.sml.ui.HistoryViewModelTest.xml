@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.mrp.sml.ui.HistoryViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-08T11:49:50" hostname="codespaces-4f54e7" time="0.004">
+<testsuite name="com.mrp.sml.ui.HistoryViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-08T12:03:22" hostname="codespaces-4f54e7" time="0.007">
   <properties/>
-  <testcase name="whenHistoryChanges_summaryIncludesLatestFileName" classname="com.mrp.sml.ui.HistoryViewModelTest" time="0.004"/>
+  <testcase name="whenHistoryChanges_summaryIncludesLatestFileName" classname="com.mrp.sml.ui.HistoryViewModelTest" time="0.007"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

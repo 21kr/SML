@@ -1280,6 +1280,7 @@ color background_floating_material_light
 color background_material_dark
 color background_material_light
 color black
+color bottom_nav_color
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -2981,6 +2982,7 @@ drawable ic_disconnect
 drawable ic_discover
 drawable ic_file_transfer
 drawable ic_history
+drawable ic_home
 drawable ic_keyboard_black_24dp
 drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
@@ -2991,10 +2993,13 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_pick_file
 drawable ic_receive
+drawable ic_receive_big
 drawable ic_resume
 drawable ic_search_black_24
 drawable ic_send
+drawable ic_send_big
 drawable ic_send_file
+drawable ic_transfer
 drawable indeterminate_static
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
@@ -3158,6 +3163,7 @@ id beginOnFirstDraw
 id beginning
 id blocking
 id bottom
+id bottomNavigation
 id bounce
 id buttonPanel
 id cancelTransferButton
@@ -3258,6 +3264,7 @@ id fixed
 id flip
 id floating
 id forever
+id fragmentContainer
 id fragment_container_view_tag
 id fullscreen_header
 id ghost_view
@@ -3273,7 +3280,6 @@ id hideable
 id historyIconText
 id historyRecyclerView
 id historySubtitleText
-id historySummaryText
 id historyTitleText
 id home
 id homeAsUp
@@ -3362,6 +3368,9 @@ id mtrl_picker_text_input_range_start
 id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
 id multiply
+id nav_history
+id nav_home
+id nav_transfer
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
 id navigation_bar_item_icon_view
@@ -3378,7 +3387,6 @@ id notification_main_column
 id notification_main_column_container
 id off
 id on
-id openHistoryButton
 id open_search_bar_text_view
 id open_search_view_background
 id open_search_view_clear_button
@@ -3394,7 +3402,6 @@ id open_search_view_status_bar_spacer
 id open_search_view_toolbar
 id open_search_view_toolbar_container
 id outline
-id outputDirectoryInput
 id outward
 id packed
 id parallax
@@ -3419,7 +3426,7 @@ id progress_circular
 id progress_horizontal
 id radio
 id ratio
-id receiveButton
+id receiveCard
 id receiverAddressText
 id rectangles
 id report_drawn
@@ -3455,6 +3462,7 @@ id select_dialog_listview
 id selected
 id selection_type
 id sendButton
+id sendCard
 id sessionTokenInput
 id shortcut
 id showCustom
@@ -3526,9 +3534,9 @@ id toggle
 id top
 id topPanel
 id touch_outside
-id transferGuideText
 id transferProgressIndicator
 id transferProgressText
+id transferRecyclerView
 id transferStatusText
 id transitionToEnd
 id transitionToStart
@@ -3690,6 +3698,9 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout fragment_history
+layout fragment_home
+layout fragment_transfer
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_discovered_device
@@ -3755,6 +3766,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+menu bottom_nav_menu
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
@@ -3815,6 +3827,7 @@ string device_id_hint
 string disconnect_device
 string discover_devices
 string discovered_devices_initial
+string empty_devices
 string error_a11y_label
 string error_icon_content_description
 string exposed_dropdown_menu_content_description
@@ -3930,6 +3943,7 @@ string mtrl_switch_track_decoration_path
 string mtrl_switch_track_path
 string mtrl_timepicker_cancel
 string mtrl_timepicker_confirm
+string nearby_devices
 string open_history_screen
 string open_settings
 string output_directory_hint
@@ -3946,6 +3960,7 @@ string permissions_required
 string pick_file
 string prepare_receiver
 string progress_initial
+string quick_transfer
 string ready_status
 string receive_files
 string receiver_address_label
@@ -3962,10 +3977,13 @@ string session_token_hint
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string status_bar_notification_info_overflow
+string tab_history
+string tab_home
+string tab_transfer
 string tap_device_hint
 string transfer_idle
-string transfer_quick_guide
 string transfer_section_title
+string transfer_subtitle
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

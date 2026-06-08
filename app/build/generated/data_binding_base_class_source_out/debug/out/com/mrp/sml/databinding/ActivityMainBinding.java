@@ -4,16 +4,13 @@ package com.mrp.sml.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mrp.sml.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -21,128 +18,24 @@ import java.lang.String;
 
 public final class ActivityMainBinding implements ViewBinding {
   @NonNull
-  private final ScrollView rootView;
+  private final LinearLayout rootView;
 
   @NonNull
-  public final Button cancelTransferButton;
+  public final BottomNavigationView bottomNavigation;
 
   @NonNull
-  public final Button connectButton;
+  public final FrameLayout fragmentContainer;
 
-  @NonNull
-  public final TextView connectionStateText;
-
-  @NonNull
-  public final TextInputEditText destinationAddressInput;
-
-  @NonNull
-  public final TextInputEditText deviceIdInput;
-
-  @NonNull
-  public final Button disconnectButton;
-
-  @NonNull
-  public final Button discoverButton;
-
-  @NonNull
-  public final RecyclerView discoveredDevicesList;
-
-  @NonNull
-  public final TextView discoveredDevicesText;
-
-  @NonNull
-  public final TextInputEditText filePathInput;
-
-  @NonNull
-  public final TextView historySummaryText;
-
-  @NonNull
-  public final Button openHistoryButton;
-
-  @NonNull
-  public final TextInputEditText outputDirectoryInput;
-
-  @NonNull
-  public final TextView permissionStatusText;
-
-  @NonNull
-  public final Button pickFileButton;
-
-  @NonNull
-  public final Button prepareReceiverButton;
-
-  @NonNull
-  public final Button receiveButton;
-
-  @NonNull
-  public final TextView receiverAddressText;
-
-  @NonNull
-  public final Button resumeTransferButton;
-
-  @NonNull
-  public final Button sendButton;
-
-  @NonNull
-  public final TextInputEditText sessionTokenInput;
-
-  @NonNull
-  public final TextView transferGuideText;
-
-  @NonNull
-  public final LinearProgressIndicator transferProgressIndicator;
-
-  @NonNull
-  public final TextView transferProgressText;
-
-  @NonNull
-  public final TextView transferStatusText;
-
-  private ActivityMainBinding(@NonNull ScrollView rootView, @NonNull Button cancelTransferButton,
-      @NonNull Button connectButton, @NonNull TextView connectionStateText,
-      @NonNull TextInputEditText destinationAddressInput, @NonNull TextInputEditText deviceIdInput,
-      @NonNull Button disconnectButton, @NonNull Button discoverButton,
-      @NonNull RecyclerView discoveredDevicesList, @NonNull TextView discoveredDevicesText,
-      @NonNull TextInputEditText filePathInput, @NonNull TextView historySummaryText,
-      @NonNull Button openHistoryButton, @NonNull TextInputEditText outputDirectoryInput,
-      @NonNull TextView permissionStatusText, @NonNull Button pickFileButton,
-      @NonNull Button prepareReceiverButton, @NonNull Button receiveButton,
-      @NonNull TextView receiverAddressText, @NonNull Button resumeTransferButton,
-      @NonNull Button sendButton, @NonNull TextInputEditText sessionTokenInput,
-      @NonNull TextView transferGuideText,
-      @NonNull LinearProgressIndicator transferProgressIndicator,
-      @NonNull TextView transferProgressText, @NonNull TextView transferStatusText) {
+  private ActivityMainBinding(@NonNull LinearLayout rootView,
+      @NonNull BottomNavigationView bottomNavigation, @NonNull FrameLayout fragmentContainer) {
     this.rootView = rootView;
-    this.cancelTransferButton = cancelTransferButton;
-    this.connectButton = connectButton;
-    this.connectionStateText = connectionStateText;
-    this.destinationAddressInput = destinationAddressInput;
-    this.deviceIdInput = deviceIdInput;
-    this.disconnectButton = disconnectButton;
-    this.discoverButton = discoverButton;
-    this.discoveredDevicesList = discoveredDevicesList;
-    this.discoveredDevicesText = discoveredDevicesText;
-    this.filePathInput = filePathInput;
-    this.historySummaryText = historySummaryText;
-    this.openHistoryButton = openHistoryButton;
-    this.outputDirectoryInput = outputDirectoryInput;
-    this.permissionStatusText = permissionStatusText;
-    this.pickFileButton = pickFileButton;
-    this.prepareReceiverButton = prepareReceiverButton;
-    this.receiveButton = receiveButton;
-    this.receiverAddressText = receiverAddressText;
-    this.resumeTransferButton = resumeTransferButton;
-    this.sendButton = sendButton;
-    this.sessionTokenInput = sessionTokenInput;
-    this.transferGuideText = transferGuideText;
-    this.transferProgressIndicator = transferProgressIndicator;
-    this.transferProgressText = transferProgressText;
-    this.transferStatusText = transferStatusText;
+    this.bottomNavigation = bottomNavigation;
+    this.fragmentContainer = fragmentContainer;
   }
 
   @Override
   @NonNull
-  public ScrollView getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -167,163 +60,19 @@ public final class ActivityMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.cancelTransferButton;
-      Button cancelTransferButton = ViewBindings.findChildViewById(rootView, id);
-      if (cancelTransferButton == null) {
+      id = R.id.bottomNavigation;
+      BottomNavigationView bottomNavigation = ViewBindings.findChildViewById(rootView, id);
+      if (bottomNavigation == null) {
         break missingId;
       }
 
-      id = R.id.connectButton;
-      Button connectButton = ViewBindings.findChildViewById(rootView, id);
-      if (connectButton == null) {
+      id = R.id.fragmentContainer;
+      FrameLayout fragmentContainer = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentContainer == null) {
         break missingId;
       }
 
-      id = R.id.connectionStateText;
-      TextView connectionStateText = ViewBindings.findChildViewById(rootView, id);
-      if (connectionStateText == null) {
-        break missingId;
-      }
-
-      id = R.id.destinationAddressInput;
-      TextInputEditText destinationAddressInput = ViewBindings.findChildViewById(rootView, id);
-      if (destinationAddressInput == null) {
-        break missingId;
-      }
-
-      id = R.id.deviceIdInput;
-      TextInputEditText deviceIdInput = ViewBindings.findChildViewById(rootView, id);
-      if (deviceIdInput == null) {
-        break missingId;
-      }
-
-      id = R.id.disconnectButton;
-      Button disconnectButton = ViewBindings.findChildViewById(rootView, id);
-      if (disconnectButton == null) {
-        break missingId;
-      }
-
-      id = R.id.discoverButton;
-      Button discoverButton = ViewBindings.findChildViewById(rootView, id);
-      if (discoverButton == null) {
-        break missingId;
-      }
-
-      id = R.id.discoveredDevicesList;
-      RecyclerView discoveredDevicesList = ViewBindings.findChildViewById(rootView, id);
-      if (discoveredDevicesList == null) {
-        break missingId;
-      }
-
-      id = R.id.discoveredDevicesText;
-      TextView discoveredDevicesText = ViewBindings.findChildViewById(rootView, id);
-      if (discoveredDevicesText == null) {
-        break missingId;
-      }
-
-      id = R.id.filePathInput;
-      TextInputEditText filePathInput = ViewBindings.findChildViewById(rootView, id);
-      if (filePathInput == null) {
-        break missingId;
-      }
-
-      id = R.id.historySummaryText;
-      TextView historySummaryText = ViewBindings.findChildViewById(rootView, id);
-      if (historySummaryText == null) {
-        break missingId;
-      }
-
-      id = R.id.openHistoryButton;
-      Button openHistoryButton = ViewBindings.findChildViewById(rootView, id);
-      if (openHistoryButton == null) {
-        break missingId;
-      }
-
-      id = R.id.outputDirectoryInput;
-      TextInputEditText outputDirectoryInput = ViewBindings.findChildViewById(rootView, id);
-      if (outputDirectoryInput == null) {
-        break missingId;
-      }
-
-      id = R.id.permissionStatusText;
-      TextView permissionStatusText = ViewBindings.findChildViewById(rootView, id);
-      if (permissionStatusText == null) {
-        break missingId;
-      }
-
-      id = R.id.pickFileButton;
-      Button pickFileButton = ViewBindings.findChildViewById(rootView, id);
-      if (pickFileButton == null) {
-        break missingId;
-      }
-
-      id = R.id.prepareReceiverButton;
-      Button prepareReceiverButton = ViewBindings.findChildViewById(rootView, id);
-      if (prepareReceiverButton == null) {
-        break missingId;
-      }
-
-      id = R.id.receiveButton;
-      Button receiveButton = ViewBindings.findChildViewById(rootView, id);
-      if (receiveButton == null) {
-        break missingId;
-      }
-
-      id = R.id.receiverAddressText;
-      TextView receiverAddressText = ViewBindings.findChildViewById(rootView, id);
-      if (receiverAddressText == null) {
-        break missingId;
-      }
-
-      id = R.id.resumeTransferButton;
-      Button resumeTransferButton = ViewBindings.findChildViewById(rootView, id);
-      if (resumeTransferButton == null) {
-        break missingId;
-      }
-
-      id = R.id.sendButton;
-      Button sendButton = ViewBindings.findChildViewById(rootView, id);
-      if (sendButton == null) {
-        break missingId;
-      }
-
-      id = R.id.sessionTokenInput;
-      TextInputEditText sessionTokenInput = ViewBindings.findChildViewById(rootView, id);
-      if (sessionTokenInput == null) {
-        break missingId;
-      }
-
-      id = R.id.transferGuideText;
-      TextView transferGuideText = ViewBindings.findChildViewById(rootView, id);
-      if (transferGuideText == null) {
-        break missingId;
-      }
-
-      id = R.id.transferProgressIndicator;
-      LinearProgressIndicator transferProgressIndicator = ViewBindings.findChildViewById(rootView, id);
-      if (transferProgressIndicator == null) {
-        break missingId;
-      }
-
-      id = R.id.transferProgressText;
-      TextView transferProgressText = ViewBindings.findChildViewById(rootView, id);
-      if (transferProgressText == null) {
-        break missingId;
-      }
-
-      id = R.id.transferStatusText;
-      TextView transferStatusText = ViewBindings.findChildViewById(rootView, id);
-      if (transferStatusText == null) {
-        break missingId;
-      }
-
-      return new ActivityMainBinding((ScrollView) rootView, cancelTransferButton, connectButton,
-          connectionStateText, destinationAddressInput, deviceIdInput, disconnectButton,
-          discoverButton, discoveredDevicesList, discoveredDevicesText, filePathInput,
-          historySummaryText, openHistoryButton, outputDirectoryInput, permissionStatusText,
-          pickFileButton, prepareReceiverButton, receiveButton, receiverAddressText,
-          resumeTransferButton, sendButton, sessionTokenInput, transferGuideText,
-          transferProgressIndicator, transferProgressText, transferStatusText);
+      return new ActivityMainBinding((LinearLayout) rootView, bottomNavigation, fragmentContainer);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

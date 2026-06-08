@@ -49,9 +49,6 @@
 
         </activity>
 
-        <activity
-            android:name=".ui.history.HistoryActivity"
-            android:exported="false" />
 
     </application>
 

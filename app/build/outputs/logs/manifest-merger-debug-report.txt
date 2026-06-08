@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-58:12
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-55:12
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-55:12
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-55:12
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:1:1-55:12
 MERGED from [androidx.databinding:viewbinding:8.4.2] /home/codespace/.gradle/caches/transforms-4/e7be0a5d42dd8f62d4061790321b5080/transformed/jetified-viewbinding-8.4.2/AndroidManifest.xml:2:1-7:12
 MERGED from [:data] /workspaces/SML/data/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:core] /workspaces/SML/core/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
@@ -115,8 +115,8 @@ ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:28:5-30:58
 	android:name
 		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:29:9-62
 application
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:5-56:19
-INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:5-56:19
+ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:5-53:19
+INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml:32:5-53:19
 MERGED from [com.google.android.material:material:1.12.0] /home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /home/codespace/.gradle/caches/transforms-4/b4895b3b0a5d296b520670dd734e4409/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /home/codespace/.gradle/caches/transforms-4/b33a20b43bbac5e9ef05e6046ecdfdac/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
@@ -169,12 +169,6 @@ category#android.intent.category.LAUNCHER
 ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:47:17-77
 	android:name
 		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:47:27-74
-activity#com.mrp.sml.ui.history.HistoryActivity
-ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:52:9-54:40
-	android:exported
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:54:13-37
-	android:name
-		ADDED from /workspaces/SML/app/src/main/AndroidManifest.xml:53:13-55
 uses-sdk
 INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspaces/SML/app/src/main/AndroidManifest.xml

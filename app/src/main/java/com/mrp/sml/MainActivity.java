@@ -7,36 +7,29 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.graphics.drawable.GradientDrawable;
-import android.widget.Toast;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.ColorInt;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.mrp.sml.databinding.ActivityMainBinding;
-import com.mrp.sml.ui.connection.ConnectionDeviceAdapter;
 import com.mrp.sml.ui.connection.ConnectionViewModel;
-import com.mrp.sml.ui.history.HistoryActivity;
+import com.mrp.sml.ui.history.HistoryFragment;
 import com.mrp.sml.ui.history.HistoryViewModel;
+import com.mrp.sml.ui.home.HomeFragment;
+import com.mrp.sml.ui.transfer.TransferFragment;
 import com.mrp.sml.ui.transfer.TransferViewModel;
-import dagger.hilt.android.AndroidEntryPoint;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
+
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
@@ -44,14 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int RUNTIME_PERMISSION_REQUEST_CODE = 301;
 
     private ActivityMainBinding binding;
-    private ConnectionDeviceAdapter connectionDeviceAdapter;
 
     private ConnectionViewModel connectionViewModel;
     private TransferViewModel transferViewModel;
     private HistoryViewModel historyViewModel;
-
-    private final ActivityResultLauncher<String[]> filePickerLauncher =
-            registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::handlePickedFile);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
         transferViewModel = new ViewModelProvider(this).get(TransferViewModel.class);
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
-        setupConnectionList();
-        setupObservers();
-        setupListeners();
+        setupBottomNavigation(savedInstanceState);
         ensureRuntimePermissions();
     }
 
@@ -83,128 +70,34 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void setupConnectionList() {
-        connectionDeviceAdapter = new ConnectionDeviceAdapter(device -> {
-            binding.deviceIdInput.setText(device.getId());
-            connectionViewModel.connectToDevice(device);
+    private void setupBottomNavigation(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new HomeFragment())
+                    .commit();
+        }
+
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            Fragment fragment = null;
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_home) {
+                fragment = new HomeFragment();
+            } else if (itemId == R.id.nav_transfer) {
+                fragment = new TransferFragment();
+            } else if (itemId == R.id.nav_history) {
+                fragment = new HistoryFragment();
+            }
+
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.fragmentContainer, fragment)
+                        .commit();
+                return true;
+            }
+            return false;
         });
-        binding.discoveredDevicesList.setLayoutManager(new LinearLayoutManager(this));
-        binding.discoveredDevicesList.setAdapter(connectionDeviceAdapter);
-    }
-
-    private void setupObservers() {
-        connectionViewModel.getConnectionStateText().observe(this,
-                text -> {
-                    binding.connectionStateText.setText(text);
-                    updateConnectionStateBackground(text);
-                });
-        connectionViewModel.getDiscoveredDevicesText().observe(this,
-                text -> binding.discoveredDevicesText.setText(text));
-        connectionViewModel.getDiscoveredDevices().observe(this,
-                devices -> connectionDeviceAdapter.submitList(devices));
-
-        transferViewModel.getTransferStatusText().observe(this,
-                text -> {
-                    binding.transferStatusText.setText(text);
-                    updateTransferProgressIndicator(text);
-                });
-        transferViewModel.getTransferProgressText().observe(this,
-                text -> binding.transferProgressText.setText(text));
-
-        historyViewModel.getHistorySummaryText().observe(this,
-                text -> binding.historySummaryText.setText(text));
-    }
-
-    private void updateConnectionStateBackground(String stateText) {
-        @ColorInt int bgColor;
-        if (stateText.contains("CONNECTED")) {
-            bgColor = ContextCompat.getColor(this, R.color.state_connected);
-        } else if (stateText.contains("DISCOVERING")) {
-            bgColor = ContextCompat.getColor(this, R.color.state_discovering);
-        } else if (stateText.contains("FAILED")) {
-            bgColor = ContextCompat.getColor(this, R.color.state_failed);
-        } else {
-            bgColor = ContextCompat.getColor(this, R.color.state_disconnected);
-        }
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setCornerRadius(8f);
-        drawable.setColor(bgColor);
-        binding.connectionStateText.setBackground(drawable);
-        binding.connectionStateText.setTextColor(ContextCompat.getColor(this, R.color.white));
-    }
-
-    private void updateTransferProgressIndicator(String statusText) {
-        boolean active = statusText.contains("SENDING")
-                || statusText.contains("RECEIVING")
-                || statusText.contains("RETRYING");
-        binding.transferProgressIndicator.setVisibility(active ? android.view.View.VISIBLE : android.view.View.GONE);
-        boolean indeterminate = statusText.contains("RETRYING") || statusText.contains("IDLE");
-        binding.transferProgressIndicator.setIndeterminate(indeterminate);
-    }
-
-    private void setupListeners() {
-        binding.discoverButton.setOnClickListener(view -> connectionViewModel.discoverDevices());
-        binding.connectButton.setOnClickListener(view ->
-                connectionViewModel.connectToDevice(binding.deviceIdInput.getText().toString()));
-        binding.disconnectButton.setOnClickListener(view -> connectionViewModel.disconnect());
-
-        binding.pickFileButton.setOnClickListener(view -> filePickerLauncher.launch(new String[]{"*/*"}));
-        binding.openHistoryButton.setOnClickListener(view ->
-                startActivity(new Intent(this, HistoryActivity.class)));
-        binding.prepareReceiverButton.setOnClickListener(view -> prepareReceiverMode());
-
-        binding.sendButton.setOnClickListener(view ->
-                transferViewModel.sendFile(
-                        binding.filePathInput.getText().toString(),
-                        binding.destinationAddressInput.getText().toString(),
-                        binding.sessionTokenInput.getText().toString()));
-        binding.receiveButton.setOnClickListener(view ->
-                transferViewModel.receiveFiles(
-                        binding.outputDirectoryInput.getText().toString(),
-                        binding.sessionTokenInput.getText().toString()));
-        binding.cancelTransferButton.setOnClickListener(view -> transferViewModel.cancelTransfer());
-        binding.resumeTransferButton.setOnClickListener(view -> transferViewModel.resumeTransfer());
-    }
-
-    private void handlePickedFile(Uri uri) {
-        if (uri == null) {
-            return;
-        }
-        try {
-            getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } catch (SecurityException ignored) {
-            // Ignore if persistable permission is not available.
-        }
-
-        String cachedPath = copyUriToCache(uri);
-        if (cachedPath == null) {
-            Toast.makeText(this, R.string.file_pick_failed, Toast.LENGTH_LONG).show();
-            return;
-        }
-        binding.filePathInput.setText(cachedPath);
-        Toast.makeText(this, R.string.file_pick_success, Toast.LENGTH_SHORT).show();
-    }
-
-    private String copyUriToCache(Uri uri) {
-        String fileName = "picked_" + System.currentTimeMillis();
-        File targetFile = new File(getCacheDir(), fileName);
-
-        try (InputStream input = getContentResolver().openInputStream(uri);
-             FileOutputStream output = new FileOutputStream(targetFile)) {
-            if (input == null) {
-                return null;
-            }
-            byte[] buffer = new byte[32 * 1024];
-            int read;
-            while ((read = input.read(buffer)) > 0) {
-                output.write(buffer, 0, read);
-            }
-            output.flush();
-            return targetFile.getAbsolutePath();
-        } catch (IOException ioException) {
-            return null;
-        }
     }
 
     private boolean hasRequiredPermissions() {
@@ -215,17 +108,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return ContextCompat.checkSelfPermission(this, Manifest.permission.NEARBY_WIFI_DEVICES)
-                    == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
-                    == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO)
-                    == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO)
                     == PackageManager.PERMISSION_GRANTED;
         }
 
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
+        return true;
     }
 
     private void ensureRuntimePermissions() {
@@ -242,13 +128,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (pendingPermissions.isEmpty()) {
-            binding.permissionStatusText.setVisibility(android.view.View.GONE);
-            binding.permissionStatusText.setText(getString(R.string.permissions_granted));
             return;
         }
 
-        binding.permissionStatusText.setText(getString(R.string.permissions_required));
-        binding.permissionStatusText.setVisibility(android.view.View.VISIBLE);
         ActivityCompat.requestPermissions(
                 this,
                 pendingPermissions.toArray(new String[0]),
@@ -282,13 +164,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (allGranted) {
-            binding.permissionStatusText.setVisibility(android.view.View.GONE);
-            binding.permissionStatusText.setText(getString(R.string.permissions_granted));
-            Toast.makeText(this, R.string.permissions_granted, Toast.LENGTH_SHORT).show();
             connectionViewModel.discoverDevices();
         } else {
-            binding.permissionStatusText.setVisibility(android.view.View.VISIBLE);
-            binding.permissionStatusText.setText(getString(R.string.permissions_denied));
             showPermissionRecoveryDialog();
         }
     }
@@ -307,51 +184,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", getPackageName(), null));
         startActivity(intent);
-    }
-
-    private void prepareReceiverMode() {
-        String localAddress = resolveLocalIpv4Address();
-        if (localAddress == null) {
-            binding.receiverAddressText.setText(getString(R.string.receiver_address_unavailable));
-            Toast.makeText(this, R.string.receiver_address_unavailable, Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        binding.receiverAddressText.setText(getString(R.string.receiver_address_label, localAddress));
-        binding.destinationAddressInput.setText(localAddress);
-        if (binding.outputDirectoryInput.getText() == null
-                || binding.outputDirectoryInput.getText().toString().trim().isEmpty()) {
-            binding.outputDirectoryInput.setText(getFilesDir().getAbsolutePath());
-        }
-        transferViewModel.receiveFiles(
-                binding.outputDirectoryInput.getText().toString(),
-                binding.sessionTokenInput.getText().toString()
-        );
-        Toast.makeText(this, R.string.receiver_ready_toast, Toast.LENGTH_SHORT).show();
-    }
-
-    @Nullable
-    private String resolveLocalIpv4Address() {
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces != null && interfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = interfaces.nextElement();
-                if (!networkInterface.isUp() || networkInterface.isLoopback()) {
-                    continue;
-                }
-                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress address = addresses.nextElement();
-                    if (address instanceof Inet4Address
-                            && !address.isLoopbackAddress()
-                            && !address.isLinkLocalAddress()) {
-                        return address.getHostAddress();
-                    }
-                }
-            }
-        } catch (IOException ignored) {
-            return null;
-        }
-        return null;
     }
 }

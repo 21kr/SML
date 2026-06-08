@@ -62,9 +62,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.mrp.sml.ui.history.HistoryActivity"
-            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

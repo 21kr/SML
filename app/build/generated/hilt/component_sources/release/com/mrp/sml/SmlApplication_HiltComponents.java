@@ -4,8 +4,11 @@ import com.mrp.sml.core.di.CoreModule;
 import com.mrp.sml.data.di.DataModule;
 import com.mrp.sml.ui.connection.ConnectionViewModel_HiltModules;
 import com.mrp.sml.ui.history.HistoryActivity_GeneratedInjector;
+import com.mrp.sml.ui.history.HistoryFragment_GeneratedInjector;
 import com.mrp.sml.ui.history.HistoryListViewModel_HiltModules;
 import com.mrp.sml.ui.history.HistoryViewModel_HiltModules;
+import com.mrp.sml.ui.home.HomeFragment_GeneratedInjector;
+import com.mrp.sml.ui.transfer.TransferFragment_GeneratedInjector;
 import com.mrp.sml.ui.transfer.TransferViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
@@ -230,7 +233,10 @@ public final class SmlApplication_HiltComponents {
       modules = ViewWithFragmentCBuilderModule.class
   )
   @FragmentScoped
-  public abstract static class FragmentC implements FragmentComponent,
+  public abstract static class FragmentC implements HistoryFragment_GeneratedInjector,
+      HomeFragment_GeneratedInjector,
+      TransferFragment_GeneratedInjector,
+      FragmentComponent,
       DefaultViewModelFactories.FragmentEntryPoint,
       ViewComponentManager.ViewWithFragmentComponentBuilderEntryPoint,
       GeneratedComponent {

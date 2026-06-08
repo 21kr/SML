@@ -6,13 +6,13 @@
         severity="warning"
         message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
         <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
-            line="463"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_home.xml"
+            line="299"
             column="18"
-            startOffset="21591"
-            endLine="463"
+            startOffset="13088"
+            endLine="299"
             endColumn="30"
-            endOffset="21603"/>
+            endOffset="13100"/>
     </incident>
 
     <incident
@@ -299,12 +299,54 @@
         message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="7"
+            column="5"
+            startOffset="288"
+            endLine="7"
+            endColumn="43"
+            endOffset="326"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_history.xml"
+            line="6"
+            column="5"
+            startOffset="253"
+            endLine="6"
+            endColumn="43"
+            endOffset="291"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_home.xml"
             line="6"
             column="5"
             startOffset="251"
             endLine="6"
             endColumn="43"
             endOffset="289"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/Theme.SML`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_transfer.xml"
+            line="6"
+            column="5"
+            startOffset="253"
+            endLine="6"
+            endColumn="43"
+            endOffset="291"/>
     </incident>
 
 </incidents>
