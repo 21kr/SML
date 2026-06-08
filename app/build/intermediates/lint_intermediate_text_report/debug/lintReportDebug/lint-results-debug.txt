@@ -146,6 +146,9 @@
    performance if you pre-mix the background with your drawable and use that
    resulting image or color as a custom theme background instead.
 
+/workspaces/SML/app/src/main/res/drawable/bg_connected_device.xml:2: Warning: The resource R.drawable.bg_connected_device appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+^
 /workspaces/SML/app/src/main/res/drawable/bg_status_chip.xml:2: Warning: The resource R.drawable.bg_status_chip appears to be unused [UnusedResources]
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
 ^
@@ -173,6 +176,18 @@
 /workspaces/SML/app/src/main/res/values/colors.xml:33: Warning: The resource R.color.black appears to be unused [UnusedResources]
     <color name="black">#FF000000</color>
            ~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:36: Warning: The resource R.color.state_connected appears to be unused [UnusedResources]
+    <color name="state_connected">#FF059669</color>
+           ~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:37: Warning: The resource R.color.state_discovering appears to be unused [UnusedResources]
+    <color name="state_discovering">#FFD97706</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:38: Warning: The resource R.color.state_failed appears to be unused [UnusedResources]
+    <color name="state_failed">#FFDC2626</color>
+           ~~~~~~~~~~~~~~~~~~~
+/workspaces/SML/app/src/main/res/values/colors.xml:39: Warning: The resource R.color.state_disconnected appears to be unused [UnusedResources]
+    <color name="state_disconnected">#FF9CA3AF</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~
 /workspaces/SML/app/src/main/res/values/colors.xml:40: Warning: The resource R.color.state_connecting appears to be unused [UnusedResources]
     <color name="state_connecting">#FF2563EB</color>
            ~~~~~~~~~~~~~~~~~~~~~~~
@@ -209,6 +224,9 @@
 /workspaces/SML/app/src/main/res/drawable/ic_device_phone.xml:2: Warning: The resource R.drawable.ic_device_phone appears to be unused [UnusedResources]
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
 ^
+/workspaces/SML/app/src/main/res/drawable/ic_disconnect.xml:2: Warning: The resource R.drawable.ic_disconnect appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
 /workspaces/SML/app/src/main/res/drawable/ic_file_transfer.xml:2: Warning: The resource R.drawable.ic_file_transfer appears to be unused [UnusedResources]
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
 ^
@@ -224,37 +242,13 @@
 /workspaces/SML/app/src/main/res/drawable/ic_send_file.xml:2: Warning: The resource R.drawable.ic_send_file appears to be unused [UnusedResources]
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
 ^
-/workspaces/SML/app/src/main/res/values/strings.xml:11: Warning: The resource R.string.connection_section_title appears to be unused [UnusedResources]
-    <string name="connection_section_title">Connection</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:19: Warning: The resource R.string.connect_first_toast appears to be unused [UnusedResources]
-    <string name="connect_first_toast">Connect to a device first</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:20: Warning: The resource R.string.searching_devices_toast appears to be unused [UnusedResources]
-    <string name="searching_devices_toast">Searching for nearby devices…</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:21: Warning: The resource R.string.sending_file_toast appears to be unused [UnusedResources]
-    <string name="sending_file_toast">Sending file…</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:32: Warning: The resource R.string.file_pick_success appears to be unused [UnusedResources]
-    <string name="file_pick_success">File selected successfully.</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:34: Warning: The resource R.string.empty_devices appears to be unused [UnusedResources]
-    <string name="empty_devices">No devices found yet</string>
-            ~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:40: Warning: The resource R.string.receiver_address_label appears to be unused [UnusedResources]
-    <string name="receiver_address_label">Share this IP: %1$s</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:41: Warning: The resource R.string.receiver_ready_toast appears to be unused [UnusedResources]
-    <string name="receiver_ready_toast">Receiver ready. Share the shown IP with sender.</string>
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:44: Warning: The resource R.string.history_section_title appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:24: Warning: The resource R.string.history_section_title appears to be unused [UnusedResources]
     <string name="history_section_title">History</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:50: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:30: Warning: The resource R.string.permissions_granted appears to be unused [UnusedResources]
     <string name="permissions_granted">All permissions granted.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~~
-/workspaces/SML/app/src/main/res/values/strings.xml:51: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
+/workspaces/SML/app/src/main/res/values/strings.xml:31: Warning: The resource R.string.permissions_denied appears to be unused [UnusedResources]
     <string name="permissions_denied">Permissions denied. Please grant in Settings.</string>
             ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -324,4 +318,4 @@
    There are quickfixes to automatically extract this hardcoded string into a
    resource lookup.
 
-0 errors, 67 warnings
+0 errors, 65 warnings

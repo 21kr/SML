@@ -24,7 +24,11 @@
         "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/layout/fragment_transfer.xml"
     },
     {
-        "merged": "com.mrp.sml.app-mergeReleaseResources-36:/layout/fragment_pairing.xml",
-        "source": "com.mrp.sml.app-main-38:/layout/fragment_pairing.xml"
+        "merged": "com.mrp.sml.app-mergeReleaseResources-36:/layout/fragment_home.xml",
+        "source": "com.mrp.sml.app-main-38:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeReleaseResources-36:/layout/fragment_pairing.xml",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/layout/fragment_pairing.xml"
     }
 ]

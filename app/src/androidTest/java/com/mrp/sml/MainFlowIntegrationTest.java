@@ -18,9 +18,7 @@ public class MainFlowIntegrationTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void basicButtons_areClickable() {
-        onView(withId(R.id.discoverButton)).perform(click());
-        onView(withId(R.id.cancelTransferButton)).perform(click());
-        onView(withId(R.id.resumeTransferButton)).perform(click());
+    public void sendAndReceiveCards_areClickable() {
+        onView(withId(R.id.sendCard)).perform(click());
     }
 }

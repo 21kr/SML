@@ -4,16 +4,13 @@ package com.mrp.sml.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.mrp.sml.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -24,65 +21,20 @@ public final class FragmentHomeBinding implements ViewBinding {
   private final ScrollView rootView;
 
   @NonNull
-  public final Button connectButton;
-
-  @NonNull
-  public final TextView connectionStateText;
-
-  @NonNull
-  public final TextInputEditText deviceIdInput;
-
-  @NonNull
-  public final Button disconnectButton;
-
-  @NonNull
-  public final Button discoverButton;
-
-  @NonNull
-  public final RecyclerView discoveredDevicesList;
-
-  @NonNull
-  public final TextView discoveredDevicesText;
-
-  @NonNull
   public final TextView permissionStatusText;
 
   @NonNull
   public final MaterialCardView receiveCard;
 
   @NonNull
-  public final TextView receiverAddressText;
-
-  @NonNull
-  public final MaterialCardView receiverStatusCard;
-
-  @NonNull
   public final MaterialCardView sendCard;
 
-  @NonNull
-  public final Button stopReceiverButton;
-
-  private FragmentHomeBinding(@NonNull ScrollView rootView, @NonNull Button connectButton,
-      @NonNull TextView connectionStateText, @NonNull TextInputEditText deviceIdInput,
-      @NonNull Button disconnectButton, @NonNull Button discoverButton,
-      @NonNull RecyclerView discoveredDevicesList, @NonNull TextView discoveredDevicesText,
-      @NonNull TextView permissionStatusText, @NonNull MaterialCardView receiveCard,
-      @NonNull TextView receiverAddressText, @NonNull MaterialCardView receiverStatusCard,
-      @NonNull MaterialCardView sendCard, @NonNull Button stopReceiverButton) {
+  private FragmentHomeBinding(@NonNull ScrollView rootView, @NonNull TextView permissionStatusText,
+      @NonNull MaterialCardView receiveCard, @NonNull MaterialCardView sendCard) {
     this.rootView = rootView;
-    this.connectButton = connectButton;
-    this.connectionStateText = connectionStateText;
-    this.deviceIdInput = deviceIdInput;
-    this.disconnectButton = disconnectButton;
-    this.discoverButton = discoverButton;
-    this.discoveredDevicesList = discoveredDevicesList;
-    this.discoveredDevicesText = discoveredDevicesText;
     this.permissionStatusText = permissionStatusText;
     this.receiveCard = receiveCard;
-    this.receiverAddressText = receiverAddressText;
-    this.receiverStatusCard = receiverStatusCard;
     this.sendCard = sendCard;
-    this.stopReceiverButton = stopReceiverButton;
   }
 
   @Override
@@ -112,48 +64,6 @@ public final class FragmentHomeBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.connectButton;
-      Button connectButton = ViewBindings.findChildViewById(rootView, id);
-      if (connectButton == null) {
-        break missingId;
-      }
-
-      id = R.id.connectionStateText;
-      TextView connectionStateText = ViewBindings.findChildViewById(rootView, id);
-      if (connectionStateText == null) {
-        break missingId;
-      }
-
-      id = R.id.deviceIdInput;
-      TextInputEditText deviceIdInput = ViewBindings.findChildViewById(rootView, id);
-      if (deviceIdInput == null) {
-        break missingId;
-      }
-
-      id = R.id.disconnectButton;
-      Button disconnectButton = ViewBindings.findChildViewById(rootView, id);
-      if (disconnectButton == null) {
-        break missingId;
-      }
-
-      id = R.id.discoverButton;
-      Button discoverButton = ViewBindings.findChildViewById(rootView, id);
-      if (discoverButton == null) {
-        break missingId;
-      }
-
-      id = R.id.discoveredDevicesList;
-      RecyclerView discoveredDevicesList = ViewBindings.findChildViewById(rootView, id);
-      if (discoveredDevicesList == null) {
-        break missingId;
-      }
-
-      id = R.id.discoveredDevicesText;
-      TextView discoveredDevicesText = ViewBindings.findChildViewById(rootView, id);
-      if (discoveredDevicesText == null) {
-        break missingId;
-      }
-
       id = R.id.permissionStatusText;
       TextView permissionStatusText = ViewBindings.findChildViewById(rootView, id);
       if (permissionStatusText == null) {
@@ -166,34 +76,14 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.receiverAddressText;
-      TextView receiverAddressText = ViewBindings.findChildViewById(rootView, id);
-      if (receiverAddressText == null) {
-        break missingId;
-      }
-
-      id = R.id.receiverStatusCard;
-      MaterialCardView receiverStatusCard = ViewBindings.findChildViewById(rootView, id);
-      if (receiverStatusCard == null) {
-        break missingId;
-      }
-
       id = R.id.sendCard;
       MaterialCardView sendCard = ViewBindings.findChildViewById(rootView, id);
       if (sendCard == null) {
         break missingId;
       }
 
-      id = R.id.stopReceiverButton;
-      Button stopReceiverButton = ViewBindings.findChildViewById(rootView, id);
-      if (stopReceiverButton == null) {
-        break missingId;
-      }
-
-      return new FragmentHomeBinding((ScrollView) rootView, connectButton, connectionStateText,
-          deviceIdInput, disconnectButton, discoverButton, discoveredDevicesList,
-          discoveredDevicesText, permissionStatusText, receiveCard, receiverAddressText,
-          receiverStatusCard, sendCard, stopReceiverButton);
+      return new FragmentHomeBinding((ScrollView) rootView, permissionStatusText, receiveCard,
+          sendCard);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

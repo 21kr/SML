@@ -177,9 +177,9 @@ document.getElementById(id).style.display = 'none';
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Lint Report: 67 warnings</span>
+      <span class="mdl-layout-title">Lint Report: 65 warnings</span>
       <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Mon Jun 08 13:42:43 UTC 2026 by AGP (8.4.2)</nav>
+      <nav class="mdl-navigation mdl-layout--large-screen-only">Check performed at Mon Jun 08 15:03:00 UTC 2026 by AGP (8.4.2)</nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
@@ -192,7 +192,7 @@ document.getElementById(id).style.display = 'none';
       <a class="mdl-navigation__link" href="#GradleDependency"><i class="material-icons warning-icon">warning</i>Obsolete Gradle Dependency (9)</a>
       <a class="mdl-navigation__link" href="#NotifyDataSetChanged"><i class="material-icons warning-icon">warning</i>Invalidating All RecyclerView Data (2)</a>
       <a class="mdl-navigation__link" href="#Overdraw"><i class="material-icons warning-icon">warning</i>Overdraw: Painting regions more than once (5)</a>
-      <a class="mdl-navigation__link" href="#UnusedResources"><i class="material-icons warning-icon">warning</i>Unused resources (37)</a>
+      <a class="mdl-navigation__link" href="#UnusedResources"><i class="material-icons warning-icon">warning</i>Unused resources (35)</a>
       <a class="mdl-navigation__link" href="#MonochromeLauncherIcon"><i class="material-icons warning-icon">warning</i>Monochrome icon is not defined (2)</a>
       <a class="mdl-navigation__link" href="#HardcodedText"><i class="material-icons warning-icon">warning</i>Hardcoded text (6)</a>
     </nav>
@@ -230,7 +230,7 @@ document.getElementById(id).style.display = 'none';
 <td class="countColumn">5</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#Overdraw">Overdraw</a>: Overdraw: Painting regions more than once</td></tr>
 <tr>
-<td class="countColumn">37</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<td class="countColumn">35</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#UnusedResources">UnusedResources</a>: Unused resources</td></tr>
 <tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Usability:Icons">Usability:Icons</a>
 </td></tr>
@@ -698,6 +698,13 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
+<span class="location"><a href="../../src/main/res/drawable/bg_connected_device.xml">../../src/main/res/drawable/bg_connected_device.xml</a>:2</span>: <span class="message">The resource <code>R.drawable.bg_connected_device</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="caretline"><span class="lineno"> 2 </span><span class="warning"><span class="tag">&lt;shape</span><span class="attribute"> </span><span class="prefix">xmlns:</span><span class="attribute">android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span> <span class="prefix">android:</span><span class="attribute">shape</span>=<span class="value">"rectangle"</span>></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 3 </span>    <span class="tag">&lt;solid</span><span class="attribute"> </span><span class="prefix">android:</span><span class="attribute">color</span>=<span class="value">"@color/state_connected"</span> />
+<span class="lineno"> 4 </span>    <span class="tag">&lt;corners</span><span class="attribute"> </span><span class="prefix">android:</span><span class="attribute">radius</span>=<span class="value">"20dp"</span> />
+<span class="lineno"> 5 </span><span class="tag">&lt;/shape></span></pre>
+
 <span class="location"><a href="../../src/main/res/drawable/bg_status_chip.xml">../../src/main/res/drawable/bg_status_chip.xml</a>:2</span>: <span class="message">The resource <code>R.drawable.bg_status_chip</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno"> 1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
 <span class="caretline"><span class="lineno"> 2 </span><span class="warning"><span class="tag">&lt;shape</span><span class="attribute"> </span><span class="prefix">xmlns:</span><span class="attribute">android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span> <span class="prefix">android:</span><span class="attribute">shape</span>=<span class="value">"rectangle"</span>></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -731,6 +738,8 @@ Dismiss</button>            </div>
 <span class="lineno">  8 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_container"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
 <span class="lineno">  9 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary_container"</span>>#FF001D36<span class="tag">&lt;/color></span></pre>
 
+<button class="mdl-button mdl-js-button mdl-button--primary" id="UnusedResourcesDivLink" onclick="reveal('UnusedResourcesDiv');" />+ 30 More Occurrences...</button>
+<div id="UnusedResourcesDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:11</span>: <span class="message">The resource <code>R.color.secondary_dark</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">  8 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"primary_container"</span>>#FFDBE8FF<span class="tag">&lt;/color></span>
 <span class="lineno">  9 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary_container"</span>>#FF001D36<span class="tag">&lt;/color></span>
@@ -740,8 +749,6 @@ Dismiss</button>            </div>
 <span class="lineno"> 13 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_secondary"</span>>#FFFFFFFF<span class="tag">&lt;/color></span>
 <span class="lineno"> 14 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary_container"</span>>#FFE8F5E9<span class="tag">&lt;/color></span></pre>
 
-<button class="mdl-button mdl-js-button mdl-button--primary" id="UnusedResourcesDivLink" onclick="reveal('UnusedResourcesDiv');" />+ 32 More Occurrences...</button>
-<div id="UnusedResourcesDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:12</span>: <span class="message">The resource <code>R.color.secondary_light</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">  9 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"on_primary_container"</span>>#FF001D36<span class="tag">&lt;/color></span>
 <span class="lineno"> 10 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"secondary"</span>>#FF06D6A0<span class="tag">&lt;/color></span>
@@ -777,6 +784,42 @@ Dismiss</button>            </div>
 <span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"ic_launcher_background"</span>>#FFFFFF<span class="tag">&lt;/color></span>
 <span class="lineno"> 35 </span>
 <span class="lineno"> 36 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connected"</span>>#FF059669<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:36</span>: <span class="message">The resource <code>R.color.state_connected</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 33 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"black"</span>>#FF000000<span class="tag">&lt;/color></span>
+<span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"ic_launcher_background"</span>>#FFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno"> 35 </span>
+<span class="caretline"><span class="lineno"> 36 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"state_connected"</span></span>>#FF059669<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 37 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_discovering"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="lineno"> 38 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="lineno"> 39 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9CA3AF<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:37</span>: <span class="message">The resource <code>R.color.state_discovering</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 34 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"ic_launcher_background"</span>>#FFFFFF<span class="tag">&lt;/color></span>
+<span class="lineno"> 35 </span>
+<span class="lineno"> 36 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connected"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 37 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"state_discovering"</span></span>>#FFD97706<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 38 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="lineno"> 39 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9CA3AF<span class="tag">&lt;/color></span>
+<span class="lineno"> 40 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connecting"</span>>#FF2563EB<span class="tag">&lt;/color></span></pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:38</span>: <span class="message">The resource <code>R.color.state_failed</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 35 </span>
+<span class="lineno"> 36 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connected"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 37 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_discovering"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 38 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"state_failed"</span></span>>#FFDC2626<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 39 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_disconnected"</span>>#FF9CA3AF<span class="tag">&lt;/color></span>
+<span class="lineno"> 40 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connecting"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+</pre>
+
+<span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:39</span>: <span class="message">The resource <code>R.color.state_disconnected</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 36 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connected"</span>>#FF059669<span class="tag">&lt;/color></span>
+<span class="lineno"> 37 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_discovering"</span>>#FFD97706<span class="tag">&lt;/color></span>
+<span class="lineno"> 38 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_failed"</span>>#FFDC2626<span class="tag">&lt;/color></span>
+<span class="caretline"><span class="lineno"> 39 </span>    <span class="tag">&lt;color</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"state_disconnected"</span></span>>#FF9CA3AF<span class="tag">&lt;/color></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 40 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_connecting"</span>>#FF2563EB<span class="tag">&lt;/color></span>
+<span class="lineno"> 41 </span>
+<span class="lineno"> 42 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"status_sent"</span>>#FF2563EB<span class="tag">&lt;/color></span></pre>
 
 <span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:40</span>: <span class="message">The resource <code>R.color.state_connecting</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno"> 37 </span>    <span class="tag">&lt;color</span><span class="attribute"> name</span>=<span class="value">"state_discovering"</span>>#FFD97706<span class="tag">&lt;/color></span>
@@ -884,6 +927,13 @@ Dismiss</button>            </div>
 <span class="lineno">  4 </span>    <span class="prefix">android:</span><span class="attribute">height</span>=<span class="value">"24dp"</span>
 <span class="lineno">  5 </span>    <span class="prefix">android:</span><span class="attribute">viewportWidth</span>=<span class="value">"24"</span></pre>
 
+<span class="location"><a href="../../src/main/res/drawable/ic_disconnect.xml">../../src/main/res/drawable/ic_disconnect.xml</a>:2</span>: <span class="message">The resource <code>R.drawable.ic_disconnect</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">  1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="caretline"><span class="lineno">  2 </span><span class="warning"><span class="tag">&lt;vector</span><span class="attribute"> </span><span class="prefix">xmlns:</span><span class="attribute">android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  3 </span>    <span class="prefix">android:</span><span class="attribute">width</span>=<span class="value">"20dp"</span>
+<span class="lineno">  4 </span>    <span class="prefix">android:</span><span class="attribute">height</span>=<span class="value">"20dp"</span>
+<span class="lineno">  5 </span>    <span class="prefix">android:</span><span class="attribute">viewportWidth</span>=<span class="value">"24"</span></pre>
+
 <span class="location"><a href="../../src/main/res/drawable/ic_file_transfer.xml">../../src/main/res/drawable/ic_file_transfer.xml</a>:2</span>: <span class="message">The resource <code>R.drawable.ic_file_transfer</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">  1 </span><span class="prologue">&lt;?xml version="1.0" encoding="utf-8"?></span>
 <span class="caretline"><span class="lineno">  2 </span><span class="warning"><span class="tag">&lt;vector</span><span class="attribute"> </span><span class="prefix">xmlns:</span><span class="attribute">android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -919,104 +969,32 @@ Dismiss</button>            </div>
 <span class="lineno">  4 </span>    <span class="prefix">android:</span><span class="attribute">height</span>=<span class="value">"20dp"</span>
 <span class="lineno">  5 </span>    <span class="prefix">android:</span><span class="attribute">viewportWidth</span>=<span class="value">"24"</span></pre>
 
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:11</span>: <span class="message">The resource <code>R.string.connection_section_title</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno">  8 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"tab_history"</span>>History<span class="tag">&lt;/string></span>
-<span class="lineno">  9 </span>
-<span class="lineno"> 10 </span>    <span class="comment">&lt;!-- Connection --></span>
-<span class="caretline"><span class="lineno"> 11 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"connection_section_title"</span></span>>Connection<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 12 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"nearby_devices"</span>>Nearby Devices<span class="tag">&lt;/string></span>
-<span class="lineno"> 13 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connection_idle"</span>>IDLE<span class="tag">&lt;/string></span>
-<span class="lineno"> 14 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"discovered_devices_initial"</span>>Discovered devices: 0<span class="tag">&lt;/string></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:19</span>: <span class="message">The resource <code>R.string.connect_first_toast</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 16 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"discover_devices"</span>>Discover<span class="tag">&lt;/string></span>
-<span class="lineno"> 17 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connect_device"</span>>Connect<span class="tag">&lt;/string></span>
-<span class="lineno"> 18 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"disconnect_device"</span>>Disconnect<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 19 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"connect_first_toast"</span></span>>Connect to a device first<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 20 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"searching_devices_toast"</span>>Searching for nearby devices…<span class="tag">&lt;/string></span>
-<span class="lineno"> 21 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"sending_file_toast"</span>>Sending file…<span class="tag">&lt;/string></span>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:24</span>: <span class="message">The resource <code>R.string.history_section_title</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 21 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"file_pick_failed"</span>>Unable to read selected file.<span class="tag">&lt;/string></span>
+<span class="lineno"> 22 </span>
+<span class="lineno"> 23 </span>    <span class="comment">&lt;!-- History --></span>
+<span class="caretline"><span class="lineno"> 24 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"history_section_title"</span></span>>History<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 25 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"history_subtitle"</span>>Your transfer records<span class="tag">&lt;/string></span>
+<span class="lineno"> 26 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"history_icon_default"</span>>F<span class="tag">&lt;/string></span>
 </pre>
 
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:20</span>: <span class="message">The resource <code>R.string.searching_devices_toast</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 17 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connect_device"</span>>Connect<span class="tag">&lt;/string></span>
-<span class="lineno"> 18 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"disconnect_device"</span>>Disconnect<span class="tag">&lt;/string></span>
-<span class="lineno"> 19 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connect_first_toast"</span>>Connect to a device first<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 20 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"searching_devices_toast"</span></span>>Searching for nearby devices…<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 21 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"sending_file_toast"</span>>Sending file…<span class="tag">&lt;/string></span>
-<span class="lineno"> 22 </span>
-<span class="lineno"> 23 </span>    <span class="comment">&lt;!-- Transfer --></span></pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:30</span>: <span class="message">The resource <code>R.string.permissions_granted</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 27 </span>
+<span class="lineno"> 28 </span>  <span class="comment">&lt;!-- Permissions --></span>
+<span class="lineno"> 29 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_required"</span>>Permissions required for device discovery and transfers.<span class="tag">&lt;/string></span>
+<span class="caretline"><span class="lineno"> 30 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"permissions_granted"</span></span>>All permissions granted.<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 31 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_denied"</span>>Permissions denied. Please grant in Settings.<span class="tag">&lt;/string></span>
+<span class="lineno"> 32 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_title"</span>>Permissions needed<span class="tag">&lt;/string></span>
+<span class="lineno"> 33 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_message"</span>>SML needs permissions for device discovery and file transfers. You can retry or open Settings.<span class="tag">&lt;/string></span></pre>
 
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:21</span>: <span class="message">The resource <code>R.string.sending_file_toast</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 18 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"disconnect_device"</span>>Disconnect<span class="tag">&lt;/string></span>
-<span class="lineno"> 19 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"connect_first_toast"</span>>Connect to a device first<span class="tag">&lt;/string></span>
-<span class="lineno"> 20 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"searching_devices_toast"</span>>Searching for nearby devices…<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 21 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"sending_file_toast"</span></span>>Sending file…<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 22 </span>
-<span class="lineno"> 23 </span>    <span class="comment">&lt;!-- Transfer --></span>
-<span class="lineno"> 24 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"transfer_subtitle"</span>>Monitor your file transfers<span class="tag">&lt;/string></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:32</span>: <span class="message">The resource <code>R.string.file_pick_success</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 29 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receive_files"</span>>Receive Files<span class="tag">&lt;/string></span>
-<span class="lineno"> 30 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"cancel_transfer"</span>>Cancel<span class="tag">&lt;/string></span>
-<span class="lineno"> 31 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"resume_transfer"</span>>Resume<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 32 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"file_pick_success"</span></span>>File selected successfully.<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 33 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"file_pick_failed"</span>>Unable to read selected file.<span class="tag">&lt;/string></span>
-<span class="lineno"> 34 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"empty_devices"</span>>No devices found yet<span class="tag">&lt;/string></span>
-<span class="lineno"> 35 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receiver_waiting_title"</span>>Waiting for sender…<span class="tag">&lt;/string></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:34</span>: <span class="message">The resource <code>R.string.empty_devices</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 31 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"resume_transfer"</span>>Resume<span class="tag">&lt;/string></span>
-<span class="lineno"> 32 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"file_pick_success"</span>>File selected successfully.<span class="tag">&lt;/string></span>
-<span class="lineno"> 33 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"file_pick_failed"</span>>Unable to read selected file.<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 34 </span>    <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"empty_devices"</span></span>>No devices found yet<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 35 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receiver_waiting_title"</span>>Waiting for sender…<span class="tag">&lt;/string></span>
-<span class="lineno"> 36 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receiver_stopped_toast"</span>>Receiver mode stopped<span class="tag">&lt;/string></span>
-<span class="lineno"> 37 </span>    <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"stop_receiving"</span>>Stop Receiving<span class="tag">&lt;/string></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:40</span>: <span class="message">The resource <code>R.string.receiver_address_label</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 37 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"stop_receiving"</span>>Stop Receiving<span class="tag">&lt;/string></span>
-<span class="lineno"> 38 </span>
-<span class="lineno"> 39 </span>  <span class="comment">&lt;!-- Receiver --></span>
-<span class="caretline"><span class="lineno"> 40 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"receiver_address_label"</span></span>>Share this IP: %1$s<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 41 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receiver_ready_toast"</span>>Receiver ready. Share the shown IP with sender.<span class="tag">&lt;/string></span>
-<span class="lineno"> 42 </span>
-<span class="lineno"> 43 </span>  <span class="comment">&lt;!-- History --></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:41</span>: <span class="message">The resource <code>R.string.receiver_ready_toast</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 38 </span>
-<span class="lineno"> 39 </span>  <span class="comment">&lt;!-- Receiver --></span>
-<span class="lineno"> 40 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receiver_address_label"</span>>Share this IP: %1$s<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 41 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"receiver_ready_toast"</span></span>>Receiver ready. Share the shown IP with sender.<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 42 </span>
-<span class="lineno"> 43 </span>  <span class="comment">&lt;!-- History --></span>
-<span class="lineno"> 44 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"history_section_title"</span>>History<span class="tag">&lt;/string></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:44</span>: <span class="message">The resource <code>R.string.history_section_title</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 41 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"receiver_ready_toast"</span>>Receiver ready. Share the shown IP with sender.<span class="tag">&lt;/string></span>
-<span class="lineno"> 42 </span>
-<span class="lineno"> 43 </span>  <span class="comment">&lt;!-- History --></span>
-<span class="caretline"><span class="lineno"> 44 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"history_section_title"</span></span>>History<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 45 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"history_subtitle"</span>>Your transfer records<span class="tag">&lt;/string></span>
-<span class="lineno"> 46 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"history_icon_default"</span>>F<span class="tag">&lt;/string></span>
-</pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:50</span>: <span class="message">The resource <code>R.string.permissions_granted</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 47 </span>
-<span class="lineno"> 48 </span>  <span class="comment">&lt;!-- Permissions --></span>
-<span class="lineno"> 49 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_required"</span>>Permissions required for device discovery and transfers.<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 50 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"permissions_granted"</span></span>>All permissions granted.<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 51 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_denied"</span>>Permissions denied. Please grant in Settings.<span class="tag">&lt;/string></span>
-<span class="lineno"> 52 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_title"</span>>Permissions needed<span class="tag">&lt;/string></span>
-<span class="lineno"> 53 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_message"</span>>SML needs permissions for device discovery and file transfers. You can retry or open Settings.<span class="tag">&lt;/string></span></pre>
-
-<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:51</span>: <span class="message">The resource <code>R.string.permissions_denied</code> appears to be unused</span><br /><pre class="errorlines">
-<span class="lineno"> 48 </span>  <span class="comment">&lt;!-- Permissions --></span>
-<span class="lineno"> 49 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_required"</span>>Permissions required for device discovery and transfers.<span class="tag">&lt;/string></span>
-<span class="lineno"> 50 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_granted"</span>>All permissions granted.<span class="tag">&lt;/string></span>
-<span class="caretline"><span class="lineno"> 51 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"permissions_denied"</span></span>>Permissions denied. Please grant in Settings.<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno"> 52 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_title"</span>>Permissions needed<span class="tag">&lt;/string></span>
-<span class="lineno"> 53 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_message"</span>>SML needs permissions for device discovery and file transfers. You can retry or open Settings.<span class="tag">&lt;/string></span>
-<span class="lineno"> 54 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"open_settings"</span>>Open Settings<span class="tag">&lt;/string></span></pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:31</span>: <span class="message">The resource <code>R.string.permissions_denied</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno"> 28 </span>  <span class="comment">&lt;!-- Permissions --></span>
+<span class="lineno"> 29 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_required"</span>>Permissions required for device discovery and transfers.<span class="tag">&lt;/string></span>
+<span class="lineno"> 30 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_granted"</span>>All permissions granted.<span class="tag">&lt;/string></span>
+<span class="caretline"><span class="lineno"> 31 </span>  <span class="tag">&lt;string</span><span class="attribute"> </span><span class="warning"><span class="attribute">name</span>=<span class="value">"permissions_denied"</span></span>>Permissions denied. Please grant in Settings.<span class="tag">&lt;/string></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 32 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_title"</span>>Permissions needed<span class="tag">&lt;/string></span>
+<span class="lineno"> 33 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"permissions_dialog_message"</span>>SML needs permissions for device discovery and file transfers. You can retry or open Settings.<span class="tag">&lt;/string></span>
+<span class="lineno"> 34 </span>  <span class="tag">&lt;string</span><span class="attribute"> name</span>=<span class="value">"open_settings"</span>>Open Settings<span class="tag">&lt;/string></span></pre>
 
 </div>
 </div>

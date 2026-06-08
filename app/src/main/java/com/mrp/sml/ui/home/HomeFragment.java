@@ -1,34 +1,23 @@
 package com.mrp.sml.ui.home;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.graphics.drawable.GradientDrawable;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mrp.sml.R;
 import com.mrp.sml.databinding.FragmentHomeBinding;
-import com.mrp.sml.ui.connection.ConnectionDeviceAdapter;
-import com.mrp.sml.ui.connection.ConnectionViewModel;
 import com.mrp.sml.ui.pairing.PairingFragment;
-import com.mrp.sml.ui.transfer.TransferViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +27,6 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -47,9 +35,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private ConnectionDeviceAdapter connectionDeviceAdapter;
-    private ConnectionViewModel connectionViewModel;
-    private TransferViewModel transferViewModel;
 
     private final ActivityResultLauncher<String[]> filePickerLauncher =
             registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::handlePickedFile);
@@ -66,33 +51,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        connectionViewModel = new ViewModelProvider(requireActivity()).get(ConnectionViewModel.class);
-        transferViewModel = new ViewModelProvider(requireActivity()).get(TransferViewModel.class);
-
-        setupConnectionList();
-        setupObservers();
         setupListeners();
-    }
-
-    private void setupConnectionList() {
-        connectionDeviceAdapter = new ConnectionDeviceAdapter(device -> {
-            binding.deviceIdInput.setText(device.getId());
-            connectionViewModel.connectToDevice(device);
-        });
-        binding.discoveredDevicesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.discoveredDevicesList.setAdapter(connectionDeviceAdapter);
-    }
-
-    private void setupObservers() {
-        connectionViewModel.getConnectionStateText().observe(getViewLifecycleOwner(),
-                text -> {
-                    binding.connectionStateText.setText(text);
-                    updateConnectionStateBackground(text);
-                });
-        connectionViewModel.getDiscoveredDevicesText().observe(getViewLifecycleOwner(),
-                text -> binding.discoveredDevicesText.setText(text));
-        connectionViewModel.getDiscoveredDevices().observe(getViewLifecycleOwner(),
-                devices -> connectionDeviceAdapter.submitList(devices));
     }
 
     private void setupListeners() {
@@ -103,39 +62,6 @@ public class HomeFragment extends Fragment {
         binding.receiveCard.setOnClickListener(v -> {
             navigateToPairingReceive();
         });
-
-        binding.discoverButton.setOnClickListener(v -> connectionViewModel.discoverDevices());
-        binding.connectButton.setOnClickListener(v ->
-                connectionViewModel.connectToDevice(binding.deviceIdInput.getText().toString()));
-        binding.disconnectButton.setOnClickListener(v -> connectionViewModel.disconnect());
-
-        binding.stopReceiverButton.setOnClickListener(v -> stopReceiverMode());
-    }
-
-    private void stopReceiverMode() {
-        transferViewModel.cancelTransfer();
-        binding.receiverStatusCard.setVisibility(View.GONE);
-        binding.receiverAddressText.setText(getString(R.string.receiver_address_unavailable));
-        Toast.makeText(getContext(), R.string.receiver_stopped_toast, Toast.LENGTH_SHORT).show();
-    }
-
-    private void updateConnectionStateBackground(String stateText) {
-        @ColorInt int bgColor;
-        if (stateText.contains("CONNECTED")) {
-            bgColor = ContextCompat.getColor(requireContext(), R.color.state_connected);
-        } else if (stateText.contains("DISCOVERING")) {
-            bgColor = ContextCompat.getColor(requireContext(), R.color.state_discovering);
-        } else if (stateText.contains("FAILED")) {
-            bgColor = ContextCompat.getColor(requireContext(), R.color.state_failed);
-        } else {
-            bgColor = ContextCompat.getColor(requireContext(), R.color.state_disconnected);
-        }
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setCornerRadius(20f);
-        drawable.setColor(bgColor);
-        binding.connectionStateText.setBackground(drawable);
-        binding.connectionStateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
     }
 
     private void handlePickedFile(Uri uri) {

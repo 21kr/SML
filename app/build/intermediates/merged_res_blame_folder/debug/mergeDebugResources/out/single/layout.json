@@ -12,8 +12,12 @@
         "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-39:/layout/activity_main.xml"
     },
     {
-        "merged": "com.mrp.sml.app-mergeDebugResources-36:/layout/fragment_pairing.xml",
-        "source": "com.mrp.sml.app-main-39:/layout/fragment_pairing.xml"
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeDebugResources-36:/layout/fragment_pairing.xml",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-39:/layout/fragment_pairing.xml"
+    },
+    {
+        "merged": "com.mrp.sml.app-mergeDebugResources-36:/layout/fragment_home.xml",
+        "source": "com.mrp.sml.app-main-39:/layout/fragment_home.xml"
     },
     {
         "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-mergeDebugResources-36:/layout/item_history_record.xml",

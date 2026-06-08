@@ -60,6 +60,10 @@
         "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/drawable/bg_status_chip.xml"
     },
     {
+        "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-37:/layout_fragment_pairing.xml.flat",
+        "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/layout/fragment_pairing.xml"
+    },
+    {
         "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-37:/drawable_ic_home.xml.flat",
         "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/drawable/ic_home.xml"
     },
@@ -78,10 +82,6 @@
     {
         "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-37:/mipmap-xhdpi_ic_launcher.png.flat",
         "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/mipmap-xhdpi/ic_launcher.png"
-    },
-    {
-        "merged": "com.mrp.sml.app-release-37:/layout_fragment_pairing.xml.flat",
-        "source": "com.mrp.sml.app-main-38:/layout/fragment_pairing.xml"
     },
     {
         "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-37:/drawable_ic_history.xml.flat",
@@ -162,6 +162,10 @@
     {
         "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-37:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
         "source": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-main-38:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.mrp.sml.app-release-37:/layout_fragment_home.xml.flat",
+        "source": "com.mrp.sml.app-main-38:/layout/fragment_home.xml"
     },
     {
         "merged": "/home/codespace/.gradle/daemon/8.7/com.mrp.sml.app-release-37:/drawable_ic_device_phone.xml.flat",
