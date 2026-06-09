@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.PermissionChecker
@@ -17,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mrp.sml.core.constants.NetworkConstants
 import com.mrp.sml.ui.screens.discovery.DiscoveryScreen
 import com.mrp.sml.ui.screens.history.HistoryScreen
 import com.mrp.sml.ui.screens.home.HomeScreen
@@ -153,7 +155,8 @@ fun NavGraph(
                 onDeviceClick = { device -> viewModel.connectToDevice(device.id) },
                 onDiscoverClick = { viewModel.startDiscovery() },
                 onDeviceConnected = { sessionId ->
-                    navController.navigate(Screen.Transfer.createRoute(sessionId)) {
+                    viewModel.stopDiscovery()
+                    navController.navigate(Screen.Transfer.createRoute(sessionId, mode, filePaths)) {
                         popUpTo(Screen.Home.route)
                     }
                 },
@@ -171,12 +174,26 @@ fun NavGraph(
         composable(
             route = Screen.Transfer.route,
             arguments = listOf(
-                navArgument("sessionId") { type = NavType.StringType }
+                navArgument("sessionId") { type = NavType.StringType },
+                navArgument("mode") { type = NavType.StringType; defaultValue = "send" },
+                navArgument("filePaths") { type = NavType.StringType; defaultValue = "" }
             )
         ) { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getString("sessionId") ?: ""
+            val mode = backStackEntry.arguments?.getString("mode") ?: "send"
+            val filePaths = backStackEntry.arguments?.getString("filePaths")?.split(",")
+                ?.filter { it.isNotEmpty() } ?: emptyList()
             val viewModel: TransferViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(sessionId) {
+                if (mode == "send" && filePaths.isNotEmpty()) {
+                    viewModel.sendFiles(filePaths, NetworkConstants.DEFAULT_GROUP_OWNER_IP, sessionId)
+                } else if (mode == "receive") {
+                    val outputDir = context.filesDir.absolutePath + "/received"
+                    viewModel.receiveFiles(outputDir, sessionId)
+                }
+            }
 
             TransferScreen(
                 uiState = uiState,

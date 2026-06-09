@@ -16,8 +16,13 @@ sealed class Screen(val route: String) {
             return "discovery?mode=$mode$encoded"
         }
     }
-    data object Transfer : Screen("transfer/{sessionId}") {
-        fun createRoute(sessionId: String) = "transfer/$sessionId"
+    data object Transfer : Screen("transfer/{sessionId}?mode={mode}&filePaths={filePaths}") {
+        fun createRoute(sessionId: String, mode: String = "send", filePaths: List<String> = emptyList()): String {
+            val base = "transfer/$sessionId?mode=$mode"
+            return if (filePaths.isNotEmpty()) {
+                "$base&filePaths=${URLEncoder.encode(filePaths.joinToString(","), "UTF-8")}"
+            } else base
+        }
     }
     data object TransferDetail : Screen("transfer_detail/{transferId}") {
         fun createRoute(transferId: String) = "transfer_detail/$transferId"

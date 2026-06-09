@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable;
 import androidx.core.content.PermissionChecker;
 import androidx.navigation.NavHostController;
 import androidx.navigation.NavType;
+import com.mrp.sml.core.constants.NetworkConstants;
 import com.mrp.sml.ui.viewmodel.DiscoveryViewModel;
 import com.mrp.sml.ui.viewmodel.HistoryViewModel;
 import com.mrp.sml.ui.viewmodel.HomeViewModel;

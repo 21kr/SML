@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 enum class PairingMode {
     WIFI_DIRECT,
-    HOTSPOT_FALLBACK,
-    MANUAL_IP
+    BLUETOOTH,
+    HOTSPOT_FALLBACK
 }
 
 enum class PairingRole {

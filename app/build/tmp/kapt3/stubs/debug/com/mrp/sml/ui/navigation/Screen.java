@@ -263,7 +263,7 @@ public abstract class Screen {
         }
     }
     
-    @kotlin.Metadata(mv = {1, 9, 0}, k = 1, xi = 48, d1 = {"\u0000(\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\b\n\u0002\b\u0002\b\u00c7\n\u0018\u00002\u00020\u0001B\u0007\b\u0002\u00a2\u0006\u0002\u0010\u0002J\u000e\u0010\u0003\u001a\u00020\u00042\u0006\u0010\u0005\u001a\u00020\u0004J\u0013\u0010\u0006\u001a\u00020\u00072\b\u0010\b\u001a\u0004\u0018\u00010\tH\u00d6\u0003J\t\u0010\n\u001a\u00020\u000bH\u00d6\u0001J\t\u0010\f\u001a\u00020\u0004H\u00d6\u0001\u00a8\u0006\r"}, d2 = {"Lcom/mrp/sml/ui/navigation/Screen$Transfer;", "Lcom/mrp/sml/ui/navigation/Screen;", "()V", "createRoute", "", "sessionId", "equals", "", "other", "", "hashCode", "", "toString", "app_debug"})
+    @kotlin.Metadata(mv = {1, 9, 0}, k = 1, xi = 48, d1 = {"\u0000.\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0002\b\u0003\n\u0002\u0010 \n\u0000\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\b\n\u0002\b\u0002\b\u00c7\n\u0018\u00002\u00020\u0001B\u0007\b\u0002\u00a2\u0006\u0002\u0010\u0002J(\u0010\u0003\u001a\u00020\u00042\u0006\u0010\u0005\u001a\u00020\u00042\b\b\u0002\u0010\u0006\u001a\u00020\u00042\u000e\b\u0002\u0010\u0007\u001a\b\u0012\u0004\u0012\u00020\u00040\bJ\u0013\u0010\t\u001a\u00020\n2\b\u0010\u000b\u001a\u0004\u0018\u00010\fH\u00d6\u0003J\t\u0010\r\u001a\u00020\u000eH\u00d6\u0001J\t\u0010\u000f\u001a\u00020\u0004H\u00d6\u0001\u00a8\u0006\u0010"}, d2 = {"Lcom/mrp/sml/ui/navigation/Screen$Transfer;", "Lcom/mrp/sml/ui/navigation/Screen;", "()V", "createRoute", "", "sessionId", "mode", "filePaths", "", "equals", "", "other", "", "hashCode", "", "toString", "app_debug"})
     public static final class Transfer extends com.mrp.sml.ui.navigation.Screen {
         @org.jetbrains.annotations.NotNull()
         public static final com.mrp.sml.ui.navigation.Screen.Transfer INSTANCE = null;
@@ -290,7 +290,9 @@ public abstract class Screen {
         
         @org.jetbrains.annotations.NotNull()
         public final java.lang.String createRoute(@org.jetbrains.annotations.NotNull()
-        java.lang.String sessionId) {
+        java.lang.String sessionId, @org.jetbrains.annotations.NotNull()
+        java.lang.String mode, @org.jetbrains.annotations.NotNull()
+        java.util.List<java.lang.String> filePaths) {
             return null;
         }
     }

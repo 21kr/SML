@@ -19,7 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Keyboard
+import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Wifi
@@ -118,7 +118,7 @@ private fun ChooseMethodState(
         Spacer(modifier = Modifier.height(8.dp))
         MethodCard(icon = Icons.Default.Search, title = "Find Nearby Sender", description = "Use WiFi Direct discovery", onClick = onDiscover)
         Spacer(modifier = Modifier.height(8.dp))
-        MethodCard(icon = Icons.Default.Keyboard, title = "Manual IP", description = "Fallback option", onClick = onManualIp)
+        MethodCard(icon = Icons.Default.Keyboard, title = "Bluetooth", description = "Fast nearby pairing", onClick = onManualIp)
         Spacer(modifier = Modifier.height(24.dp))
         Card(
             modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp),

@@ -34,6 +34,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -126,8 +130,15 @@ fun DiscoveryScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            val isWaiting = uiState.connectionState == ConnectionState.CONNECTED || uiState.connectionState == ConnectionState.PAIRED
-            if (isWaiting && uiState.mode.name == "SENDER") {
+            val isConnected = uiState.connectionState == ConnectionState.CONNECTED || uiState.connectionState == ConnectionState.PAIRED
+            val hasTriggered = remember { mutableStateOf(false) }
+            LaunchedEffect(isConnected, hasTriggered.value) {
+                if (isConnected && !hasTriggered.value) {
+                    hasTriggered.value = true
+                    onDeviceConnected(java.util.UUID.randomUUID().toString())
+                }
+            }
+            if (isConnected && uiState.mode.name == "SENDER") {
                 WaitingForAcceptState(
                     deviceName = uiState.discoveredDevices.firstOrNull()?.name ?: "",
                     fileSummary = uiState.selectedFileSummary,
@@ -208,9 +219,9 @@ private fun PairingModeSelector(
             label = { Text("Hotspot") }
         )
         FilterChip(
-            selected = currentMode == PairingMode.MANUAL_IP,
-            onClick = { onModeChange(PairingMode.MANUAL_IP) },
-            label = { Text("Manual IP") }
+            selected = currentMode == PairingMode.BLUETOOTH,
+            onClick = { onModeChange(PairingMode.BLUETOOTH) },
+            label = { Text("Bluetooth") }
         )
     }
 }
