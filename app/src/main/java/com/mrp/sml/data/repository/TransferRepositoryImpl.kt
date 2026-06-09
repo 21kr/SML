@@ -3,14 +3,18 @@ package com.mrp.sml.data.repository
 import com.mrp.sml.data.local.db.dao.TransferDao
 import com.mrp.sml.data.local.db.entities.TransferEntity
 import com.mrp.sml.data.mapper.TransferMapper
+import com.mrp.sml.data.local.db.entities.TransferProgressEntity
+import com.mrp.sml.data.local.db.dao.TransferProgressDao
 import com.mrp.sml.data.remote.sockets.FileReceiver
 import com.mrp.sml.data.remote.sockets.FileSender
+import com.mrp.sml.data.remote.sockets.SocketTransferManager
 import com.mrp.sml.domain.model.TransferModel
 import com.mrp.sml.domain.repository.TransferRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
@@ -20,14 +24,13 @@ import javax.inject.Singleton
 @Singleton
 class TransferRepositoryImpl @Inject constructor(
     private val transferDao: TransferDao,
+    private val transferProgressDao: TransferProgressDao,
     private val fileSender: FileSender,
-    private val fileReceiver: FileReceiver
+    private val fileReceiver: FileReceiver,
+    private val socketTransferManager: SocketTransferManager
 ) : TransferRepository {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val appContext: android.content.Context by lazy {
-        com.mrp.sml.SMLApplication.instance
-    }
 
     override fun observeTransfers(): Flow<List<TransferModel>> {
         return transferDao.getTransferHistory().map { entities ->
@@ -36,7 +39,7 @@ class TransferRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTransferById(id: String): TransferModel? {
-        return transferDao.getTransferById(id.toLongOrNull() ?: 0L)?.let {
+        return transferDao.getTransferById(id)?.let {
             TransferMapper.entityToDomain(it)
         }
     }
@@ -47,9 +50,8 @@ class TransferRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateTransferStatus(id: String, status: TransferModel.TransferStatus, error: String?) {
-        val idLong = id.toLongOrNull() ?: return
         transferDao.updateStatus(
-            id = idLong,
+            id = id,
             status = status.name,
             error = error,
             completedAt = if (status == TransferModel.TransferStatus.COMPLETED || status == TransferModel.TransferStatus.FAILED) System.currentTimeMillis() else null
@@ -57,13 +59,11 @@ class TransferRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateTransferProgress(id: String, progress: Float, speed: Double) {
-        val idLong = id.toLongOrNull() ?: return
-        transferDao.updateProgress(idLong, progress)
+        transferDao.updateProgress(id, progress)
     }
 
     override suspend fun deleteTransfer(id: String) {
-        val idLong = id.toLongOrNull() ?: return
-        transferDao.delete(idLong)
+        transferDao.delete(id)
     }
 
     override suspend fun clearHistory() {
@@ -76,19 +76,20 @@ class TransferRepositoryImpl @Inject constructor(
             if (files.isEmpty()) return@launch
 
             val entity = TransferEntity(
+                id = sessionToken,
                 fileName = files.first().name,
                 fileSizeBytes = files.sumOf { it.length() },
                 direction = "SENT",
                 status = TransferModel.TransferStatus.TRANSFERRING.name,
                 sessionToken = sessionToken
             )
-            val id = transferDao.insert(entity)
+            transferDao.insert(entity)
 
             val result = fileSender.sendFiles(files, sessionToken)
             result.onSuccess {
-                transferDao.updateStatus(id, TransferModel.TransferStatus.COMPLETED.name)
+                transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.COMPLETED.name)
             }.onFailure { e ->
-                transferDao.updateStatus(id, TransferModel.TransferStatus.FAILED.name, e.message)
+                transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.FAILED.name, e.message)
             }
         }
     }
@@ -99,22 +100,22 @@ class TransferRepositoryImpl @Inject constructor(
             if (!dir.exists()) dir.mkdirs()
 
             val entity = TransferEntity(
+                id = sessionToken,
                 fileName = "receiving...",
                 fileSizeBytes = 0L,
                 direction = "RECEIVED",
                 status = TransferModel.TransferStatus.TRANSFERRING.name,
                 sessionToken = sessionToken
             )
-            val id = transferDao.insert(entity)
+            transferDao.insert(entity)
 
             val result = fileReceiver.receiveFiles(dir, sessionToken = sessionToken)
             result.onSuccess { files ->
-                val firstFile = files.firstOrNull()
-                if (firstFile != null) {
-                    transferDao.updateStatus(id, TransferModel.TransferStatus.COMPLETED.name)
+                if (files.isNotEmpty()) {
+                    transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.COMPLETED.name)
                 }
             }.onFailure { e ->
-                transferDao.updateStatus(id, TransferModel.TransferStatus.FAILED.name, e.message)
+                transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.FAILED.name, e.message)
             }
         }
     }
@@ -122,36 +123,24 @@ class TransferRepositoryImpl @Inject constructor(
     override fun cancelTransfer() {
         fileSender.cancel()
         fileReceiver.cancel()
+        socketTransferManager.cancel()
     }
 
     override fun pauseTransfer() {
-        fileSender.cancel()
-        fileReceiver.cancel()
+        socketTransferManager.pause()
     }
 
     override fun resumeTransfer() {
         scope.launch {
-            val last = transferDao.getTransferHistory().let { flow ->
-                var entity: TransferEntity? = null
-                flow.collect { list ->
-                    entity = list.firstOrNull { it.status == TransferModel.TransferStatus.PAUSED.name }
-                    return@collect
-                }
-                entity
-            }
-
-            last?.let {
-                if (it.direction == "SENT") {
-                } else {
-                }
-            }
+            val sessionToken = transferProgressDao.getLastPausedTransferId() ?: return@launch
+            socketTransferManager.resume()
+            transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.TRANSFERRING.name)
         }
     }
 
     override fun retryTransfer(sessionId: String) {
         scope.launch {
-            val transfer = transferDao.getTransferById(sessionId.toLongOrNull() ?: return@launch)
-                ?: return@launch
+            val transfer = transferDao.getTransferById(sessionId) ?: return@launch
             transferDao.updateStatus(
                 id = transfer.id,
                 status = TransferModel.TransferStatus.PENDING.name

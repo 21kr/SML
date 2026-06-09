@@ -10,8 +10,8 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["session_token"], unique = false)]
 )
 data class TransferEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
+    val id: String = java.util.UUID.randomUUID().toString(),
 
     @ColumnInfo(name = "file_name")
     val fileName: String,

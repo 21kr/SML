@@ -36,13 +36,17 @@ public final class TransferDao_Impl implements TransferDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `transfer_history` (`id`,`file_name`,`file_size_bytes`,`mime_type`,`direction`,`status`,`progress`,`session_token`,`timestamp_epoch_millis`,`completed_at_millis`,`error_message`,`peer_device_name`,`total_files`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `transfer_history` (`id`,`file_name`,`file_size_bytes`,`mime_type`,`direction`,`status`,`progress`,`session_token`,`timestamp_epoch_millis`,`completed_at_millis`,`error_message`,`peer_device_name`,`total_files`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
       protected void bind(@NonNull final SQLiteStatement statement,
           @NonNull final TransferEntity entity) {
-        statement.bindLong(1, entity.getId());
+        if (entity.getId() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getId());
+        }
         if (entity.getFileName() == null) {
           statement.bindNull(2);
         } else {
@@ -93,10 +97,11 @@ public final class TransferDao_Impl implements TransferDao {
 
   @Override
   public Object insert(final TransferEntity transfer,
-      final Continuation<? super Long> $completion) {
+      final Continuation<? super Unit> $completion) {
     if (transfer == null) throw new NullPointerException();
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
-      return __insertAdapterOfTransferEntity.insertAndReturnId(_connection, transfer);
+      __insertAdapterOfTransferEntity.insert(_connection, transfer);
+      return Unit.INSTANCE;
     }, $completion);
   }
 
@@ -122,8 +127,12 @@ public final class TransferDao_Impl implements TransferDao {
         final List<TransferEntity> _result = new ArrayList<TransferEntity>();
         while (_stmt.step()) {
           final TransferEntity _item;
-          final long _tmpId;
-          _tmpId = _stmt.getLong(_columnIndexOfId);
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
           final String _tmpFileName;
           if (_stmt.isNull(_columnIndexOfFileName)) {
             _tmpFileName = null;
@@ -191,14 +200,18 @@ public final class TransferDao_Impl implements TransferDao {
   }
 
   @Override
-  public Object getTransferById(final long id,
+  public Object getTransferById(final String id,
       final Continuation<? super TransferEntity> $completion) {
     final String _sql = "SELECT * FROM transfer_history WHERE id = ?";
     return DBUtil.performSuspending(__db, true, false, (_connection) -> {
       final SQLiteStatement _stmt = _connection.prepare(_sql);
       try {
         int _argIndex = 1;
-        _stmt.bindLong(_argIndex, id);
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
         final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
         final int _columnIndexOfFileName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "file_name");
         final int _columnIndexOfFileSizeBytes = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "file_size_bytes");
@@ -214,8 +227,12 @@ public final class TransferDao_Impl implements TransferDao {
         final int _columnIndexOfTotalFiles = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "total_files");
         final TransferEntity _result;
         if (_stmt.step()) {
-          final long _tmpId;
-          _tmpId = _stmt.getLong(_columnIndexOfId);
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
           final String _tmpFileName;
           if (_stmt.isNull(_columnIndexOfFileName)) {
             _tmpFileName = null;
@@ -311,8 +328,12 @@ public final class TransferDao_Impl implements TransferDao {
         final int _columnIndexOfTotalFiles = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "total_files");
         final TransferEntity _result;
         if (_stmt.step()) {
-          final long _tmpId;
-          _tmpId = _stmt.getLong(_columnIndexOfId);
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
           final String _tmpFileName;
           if (_stmt.isNull(_columnIndexOfFileName)) {
             _tmpFileName = null;
@@ -381,7 +402,7 @@ public final class TransferDao_Impl implements TransferDao {
   }
 
   @Override
-  public Object updateStatus(final long id, final String status, final String error,
+  public Object updateStatus(final String id, final String status, final String error,
       final Long completedAt, final Continuation<? super Unit> $completion) {
     final String _sql = "UPDATE transfer_history SET status = ?, error_message = ?, completed_at_millis = ? WHERE id = ?";
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
@@ -406,7 +427,11 @@ public final class TransferDao_Impl implements TransferDao {
           _stmt.bindLong(_argIndex, completedAt);
         }
         _argIndex = 4;
-        _stmt.bindLong(_argIndex, id);
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
         _stmt.step();
         return Unit.INSTANCE;
       } finally {
@@ -416,7 +441,7 @@ public final class TransferDao_Impl implements TransferDao {
   }
 
   @Override
-  public Object updateProgress(final long id, final float progress,
+  public Object updateProgress(final String id, final float progress,
       final Continuation<? super Unit> $completion) {
     final String _sql = "UPDATE transfer_history SET progress = ? WHERE id = ?";
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
@@ -425,7 +450,11 @@ public final class TransferDao_Impl implements TransferDao {
         int _argIndex = 1;
         _stmt.bindDouble(_argIndex, progress);
         _argIndex = 2;
-        _stmt.bindLong(_argIndex, id);
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
         _stmt.step();
         return Unit.INSTANCE;
       } finally {
@@ -435,13 +464,17 @@ public final class TransferDao_Impl implements TransferDao {
   }
 
   @Override
-  public Object delete(final long id, final Continuation<? super Unit> $completion) {
+  public Object delete(final String id, final Continuation<? super Unit> $completion) {
     final String _sql = "DELETE FROM transfer_history WHERE id = ?";
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
       final SQLiteStatement _stmt = _connection.prepare(_sql);
       try {
         int _argIndex = 1;
-        _stmt.bindLong(_argIndex, id);
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
         _stmt.step();
         return Unit.INSTANCE;
       } finally {

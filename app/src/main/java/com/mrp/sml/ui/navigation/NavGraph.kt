@@ -20,6 +20,7 @@ import com.mrp.sml.ui.screens.discovery.DiscoveryScreen
 import com.mrp.sml.ui.screens.history.HistoryScreen
 import com.mrp.sml.ui.screens.home.HomeScreen
 import com.mrp.sml.ui.screens.permissions.PermissionScreen
+import com.mrp.sml.ui.screens.qr.QrDisplayScreen
 import com.mrp.sml.ui.screens.receive.ReceiveScreen
 import com.mrp.sml.ui.screens.send.SendScreen
 import com.mrp.sml.ui.screens.settings.SettingsScreen
@@ -156,11 +157,9 @@ fun NavGraph(
                     }
                 },
                 onShowQrCode = {
-                    if (uiState.qrPayload == null) {
-                        viewModel.generateQrCode("sml://share?mode=$mode")
-                    } else {
-                        viewModel.clearQrCode()
-                    }
+                    val payload = "sml://share?mode=$mode"
+                    viewModel.generateQrCode(payload)
+                    navController.navigate(Screen.QrDisplay.createRoute(payload))
                 },
                 onPairingModeChange = { viewModel.setConnectionMethod(it) },
                 onCancel = { viewModel.stopDiscovery(); navController.popBackStack() },
@@ -225,6 +224,17 @@ fun NavGraph(
             )
         }
 
+        composable(Screen.QrDisplay.route) { backStackEntry ->
+            val payload = java.net.URLDecoder.decode(
+                backStackEntry.arguments?.getString("payload") ?: "",
+                "UTF-8"
+            )
+            QrDisplayScreen(
+                qrPayload = payload,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
         composable(Screen.Settings.route) {
             val viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -239,7 +249,12 @@ fun NavGraph(
                     }
                     context.startActivity(intent)
                 },
-                onOpenSaveLocation = { },
+                onOpenSaveLocation = {
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    }
+                    context.startActivity(intent)
+                },
                 onBack = { navController.popBackStack() }
             )
         }

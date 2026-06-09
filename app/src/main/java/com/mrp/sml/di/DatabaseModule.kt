@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.mrp.sml.data.local.db.AppDatabase
 import com.mrp.sml.data.local.db.dao.DeviceDao
 import com.mrp.sml.data.local.db.dao.TransferDao
+import com.mrp.sml.data.local.db.dao.TransferProgressDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,5 +34,10 @@ object DatabaseModule {
     @Provides
     fun provideDeviceDao(database: AppDatabase): DeviceDao {
         return database.deviceDao()
+    }
+
+    @Provides
+    fun provideTransferProgressDao(database: AppDatabase): TransferProgressDao {
+        return database.transferProgressDao()
     }
 }

@@ -63,9 +63,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFileSender(): FileSender = FileSender()
+    fun provideFileSender(transferManager: SocketTransferManager): FileSender = FileSender(transferManager)
 
     @Provides
     @Singleton
-    fun provideFileReceiver(): FileReceiver = FileReceiver()
+    fun provideFileReceiver(transferManager: SocketTransferManager): FileReceiver = FileReceiver(transferManager)
 }

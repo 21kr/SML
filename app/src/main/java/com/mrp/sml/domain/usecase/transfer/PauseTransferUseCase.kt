@@ -7,6 +7,6 @@ class PauseTransferUseCase @Inject constructor(
     private val transferRepository: TransferRepository
 ) {
     operator fun invoke() {
-        transferRepository.cancelTransfer()
+        transferRepository.pauseTransfer()
     }
 }

@@ -2,9 +2,10 @@ package com.mrp.sml.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewModelScope
 import com.mrp.sml.core.models.ConnectionState
 import com.mrp.sml.core.models.Device
-import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager
+import com.mrp.sml.domain.repository.ConnectionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +39,7 @@ data class PairingUiState(
 
 @HiltViewModel
 class DiscoveryViewModel @Inject constructor(
-    private val discoveryManager: DeviceDiscoveryManager
+    private val connectionRepository: ConnectionRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PairingUiState())
@@ -46,14 +47,17 @@ class DiscoveryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            discoveryManager.connectionState.collect { state ->
+            connectionRepository.observeConnectionState().collect { state ->
                 _uiState.update { it.copy(connectionState = state) }
             }
         }
         viewModelScope.launch {
-            discoveryManager.discoveredDevices.collect { devices ->
+            connectionRepository.observeDiscoveredDevices().collect { device ->
                 _uiState.update { state ->
-                    state.copy(discoveredDevices = devices)
+                    val current = state.discoveredDevices.toMutableList()
+                    val existing = current.indexOfFirst { it.id == device.id }
+                    if (existing >= 0) current[existing] = device else current.add(device)
+                    state.copy(discoveredDevices = current)
                 }
             }
         }
@@ -70,13 +74,13 @@ class DiscoveryViewModel @Inject constructor(
     fun startDiscovery() {
         viewModelScope.launch {
             _uiState.update { it.copy(isDiscovering = true, errorMessage = null) }
-            discoveryManager.startDiscovery()
+            connectionRepository.startDiscovery()
         }
     }
 
     fun stopDiscovery() {
         viewModelScope.launch {
-            discoveryManager.stopDiscovery()
+            connectionRepository.stopDiscovery()
             _uiState.update { it.copy(isDiscovering = false) }
         }
     }
@@ -84,7 +88,7 @@ class DiscoveryViewModel @Inject constructor(
     fun connectToDevice(deviceId: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(errorMessage = null) }
-            discoveryManager.connectToDevice(deviceId)
+            connectionRepository.connectToDevice(deviceId)
         }
     }
 
@@ -103,7 +107,7 @@ class DiscoveryViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         viewModelScope.launch {
-            discoveryManager.stopDiscovery()
+            connectionRepository.disconnect()
         }
     }
 }

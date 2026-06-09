@@ -17,15 +17,23 @@ import javax.crypto.spec.SecretKeySpec
 import javax.inject.Inject
 import javax.inject.Singleton
 
+enum class TransferState {
+    IDLE, TRANSFERRING, PAUSED, CANCELLED, COMPLETED
+}
+
 @Singleton
 class SocketTransferManager @Inject constructor() {
 
     private val _progress = MutableStateFlow(TransferProgress())
     val progress: StateFlow<TransferProgress> = _progress.asStateFlow()
 
+    private val _state = MutableStateFlow(TransferState.IDLE)
+    val state: StateFlow<TransferState> = _state.asStateFlow()
+
     private val secureRandom = SecureRandom()
     private var sessionKey: ByteArray? = null
     private var cancelled = false
+    private var paused = false
 
     fun setSessionToken(token: String) {
         sessionKey = MessageDigest.getInstance("SHA-256").digest(token.toByteArray())
@@ -33,24 +41,41 @@ class SocketTransferManager @Inject constructor() {
 
     fun cancel() {
         cancelled = true
+        paused = false
+        _state.value = TransferState.CANCELLED
+    }
+
+    fun pause() {
+        paused = true
+        _state.value = TransferState.PAUSED
+    }
+
+    fun resume() {
+        paused = false
+        _state.value = TransferState.TRANSFERRING
     }
 
     fun reset() {
         cancelled = false
+        paused = false
         sessionKey = null
+        _state.value = TransferState.IDLE
+        _progress.value = TransferProgress()
     }
 
     suspend fun sendFile(
         file: File,
         output: java.io.DataOutputStream,
         fileIndex: Int,
-        totalFiles: Int
+        totalFiles: Int,
+        startChunk: Int = 0,
+        startTransferred: Long = 0L
     ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val fileSize = file.length()
             val sha256 = computeSha256(file)
             val totalChunks = ((fileSize + TransferConstants.CHUNK_SIZE - 1) / TransferConstants.CHUNK_SIZE).toInt()
-            var transferred = 0L
+            var transferred = startTransferred
             val startTime = System.currentTimeMillis()
 
             output.writeByte(TYPE_FILE_START.toInt())
@@ -62,10 +87,16 @@ class SocketTransferManager @Inject constructor() {
 
             file.inputStream().use { fileInput ->
                 val buffer = ByteArray(TransferConstants.CHUNK_SIZE)
-                for (chunkIndex in 0 until totalChunks) {
+                for (chunkIndex in startChunk until totalChunks) {
                     if (cancelled) throw Exception("Transfer cancelled")
+                    while (paused) {
+                        if (cancelled) throw Exception("Transfer cancelled")
+                        kotlinx.coroutines.delay(500)
+                    }
 
-                    val bytesToRead = minOf(TransferConstants.CHUNK_SIZE, (fileSize - transferred).toInt())
+                    fileInput.skip((chunkIndex - startChunk).toLong() * TransferConstants.CHUNK_SIZE)
+                    val remaining = fileSize - (chunkIndex.toLong() * TransferConstants.CHUNK_SIZE)
+                    val bytesToRead = minOf(TransferConstants.CHUNK_SIZE.toLong(), remaining).toInt()
                     var totalRead = 0
                     while (totalRead < bytesToRead) {
                         val read = fileInput.read(buffer, totalRead, bytesToRead - totalRead)
@@ -108,15 +139,22 @@ class SocketTransferManager @Inject constructor() {
 
             Result.success(Unit)
         } catch (e: Exception) {
-            Timber.e(e, "Send file failed: ${file.name}")
-            Result.failure(e)
+            if (paused) {
+                Result.failure(PauseException())
+            } else if (!cancelled) {
+                Timber.e(e, "Send file failed: ${file.name}")
+                Result.failure(e)
+            } else {
+                Result.failure(Exception("Transfer cancelled"))
+            }
         }
     }
 
     suspend fun receiveFile(
         input: java.io.DataInputStream,
         outputDir: File,
-        fileIndex: Int
+        fileIndex: Int,
+        startChunk: Int = 0
     ): Result<File> = withContext(Dispatchers.IO) {
         try {
             val type = input.readByte()
@@ -133,14 +171,18 @@ class SocketTransferManager @Inject constructor() {
             outputFile.outputStream().use { fileOutput ->
                 for (chunkIndex in 0 until totalChunks) {
                     if (cancelled) throw Exception("Transfer cancelled")
+                    while (paused) {
+                        if (cancelled) throw Exception("Transfer cancelled")
+                        kotlinx.coroutines.delay(500)
+                    }
 
                     val chunkType = input.readByte()
                     if (chunkType != TYPE_CHUNK) throw Exception("Expected CHUNK, got $chunkType")
 
-                    input.readInt() // file index
-                    input.readInt() // chunk index
+                    input.readInt()
+                    input.readInt()
                     val chunkSize = input.readInt()
-                    input.readBoolean() // isLast
+                    input.readBoolean()
 
                     val nonce = ByteArray(TransferConstants.AES_GCM_NONCE_LENGTH).also { input.readFully(it) }
                     val encrypted = ByteArray(chunkSize).also { input.readFully(it) }
@@ -158,8 +200,14 @@ class SocketTransferManager @Inject constructor() {
 
             Result.success(outputFile)
         } catch (e: Exception) {
-            Timber.e(e, "Receive file failed")
-            Result.failure(e)
+            if (paused) {
+                Result.failure(PauseException())
+            } else if (!cancelled) {
+                Timber.e(e, "Receive file failed")
+                Result.failure(e)
+            } else {
+                Result.failure(Exception("Transfer cancelled"))
+            }
         }
     }
 
@@ -203,3 +251,5 @@ class SocketTransferManager @Inject constructor() {
         const val TYPE_FILE_DONE: Byte = 7
     }
 }
+
+class PauseException : Exception("Transfer paused")

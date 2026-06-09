@@ -59,35 +59,51 @@ fun PermissionScreen(
 ) {
     val context = LocalContext.current
 
-    val nearbyGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        PermissionChecker.checkSelfPermission(context, Manifest.permission.NEARBY_WIFI_DEVICES) == PermissionChecker.PERMISSION_GRANTED
-    } else {
-        PermissionChecker.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED
+    var nearbyGranted by remember {
+        mutableStateOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                PermissionChecker.checkSelfPermission(context, Manifest.permission.NEARBY_WIFI_DEVICES) == PermissionChecker.PERMISSION_GRANTED
+            } else {
+                PermissionChecker.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED
+            }
+        )
     }
-
-    val locationGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        true
-    } else {
-        PermissionChecker.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED
+    var locationGranted by remember {
+        mutableStateOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                true
+            } else {
+                PermissionChecker.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED
+            }
+        )
     }
-
-    val notificationGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        PermissionChecker.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PermissionChecker.PERMISSION_GRANTED
-    } else {
-        true
+    var notificationGranted by remember {
+        mutableStateOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                PermissionChecker.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PermissionChecker.PERMISSION_GRANTED
+            } else {
+                true
+            }
+        )
     }
 
     val allGranted = nearbyGranted && locationGranted && notificationGranted
 
     val nearbyLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { }
+    ) { granted ->
+        nearbyGranted = granted
+    }
     val locationLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { }
+    ) { granted ->
+        locationGranted = granted
+    }
     val notificationLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { }
+    ) { granted ->
+        notificationGranted = granted
+    }
 
     Column(
         modifier = Modifier

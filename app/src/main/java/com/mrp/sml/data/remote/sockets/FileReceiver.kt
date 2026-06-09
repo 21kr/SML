@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -20,7 +21,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FileReceiver @Inject constructor() {
+class FileReceiver @Inject constructor(
+    private val transferManager: SocketTransferManager
+) {
 
     private var socket: Socket? = null
     private var cancelled = false
@@ -53,17 +56,19 @@ class FileReceiver @Inject constructor() {
             val metaBytes = ByteArray(metaLength).also { input.readFully(it) }
             val metaJson = String(metaBytes)
 
-            output.writeByte(2) // TYPE_ACCEPT
+            output.writeByte(2)
             output.flush()
 
-            val transferManager = SocketTransferManager()
             transferManager.setSessionToken(sessionToken)
             val receivedFiles = mutableListOf<File>()
             var totalTransferred = 0L
             val startTime = System.currentTimeMillis()
 
-            // Parse metadata to get total size
-            val totalBytes = parseTotalSize(metaJson)
+            val totalBytes = try {
+                Json.decodeFromString<FileMetadataJson>(metaJson).files.sumOf { it.size }
+            } catch (e: Exception) {
+                0L
+            }
 
             var fileIndex = 0
             var shouldStop = false
@@ -87,17 +92,16 @@ class FileReceiver @Inject constructor() {
                     fileIndex++
                 }
                 result.onFailure {
-                    if (!cancelled) Timber.e(it, "File receive failed")
+                    if (it !is PauseException && !cancelled) Timber.e(it, "File receive failed")
                     shouldStop = true
                 }
 
                 if (shouldStop) break
 
-                // Try to read ALL_DONE marker
                 try {
                     input.mark(1)
                     val next = input.readByte()
-                    if (next == 8.toByte()) { // TYPE_ALL_DONE
+                    if (next == 8.toByte()) {
                         Timber.i("All files received")
                         break
                     }
@@ -108,21 +112,14 @@ class FileReceiver @Inject constructor() {
             }
 
             Result.success(receivedFiles)
+        } catch (e: PauseException) {
+            Result.failure(e)
         } catch (e: Exception) {
             if (!cancelled) Timber.e(e, "FileReceiver failed")
             Result.failure(e)
         } finally {
             try { socket?.close() } catch (_: Exception) {}
             socket = null
-        }
-    }
-
-    private fun parseTotalSize(json: String): Long {
-        return try {
-            val regex = "\"size\":(\\d+)".toRegex()
-            regex.findAll(json).sumOf { it.groupValues[1].toLong() }
-        } catch (e: Exception) {
-            0L
         }
     }
 }

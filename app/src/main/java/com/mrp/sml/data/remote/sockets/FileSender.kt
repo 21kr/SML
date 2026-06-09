@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -17,8 +20,16 @@ import java.net.ServerSocket
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Serializable
+data class FileEntryJson(val name: String, val size: Long, val sha256: String)
+
+@Serializable
+data class FileMetadataJson(val files: List<FileEntryJson>)
+
 @Singleton
-class FileSender @Inject constructor() {
+class FileSender @Inject constructor(
+    private val transferManager: SocketTransferManager
+) {
 
     private var serverSocket: ServerSocket? = null
     private var cancelled = false
@@ -46,23 +57,24 @@ class FileSender @Inject constructor() {
             val input = DataInputStream(BufferedInputStream(socket.getInputStream()))
 
             val totalBytes = files.sumOf { it.length() }
-            val metadata = buildMetadata(files)
-            val metadataBytes = metadata.toJson().toByteArray()
+            val metadata = FileMetadataJson(
+                files = files.map { FileEntryJson(it.name, it.length(), transferManager.computeSha256(it)) }
+            )
+            val metadataBytes = Json.encodeToString(metadata).toByteArray()
 
-            output.writeByte(1) // TYPE_METADATA
+            output.writeByte(1)
             output.writeInt(metadataBytes.size)
             output.write(metadataBytes)
             output.flush()
 
             val response = input.readByte()
-            if (response == 3.toByte()) { // TYPE_REJECT
+            if (response == 3.toByte()) {
                 throw Exception("Receiver rejected the transfer")
             }
-            if (response != 2.toByte()) { // TYPE_ACCEPT
+            if (response != 2.toByte()) {
                 throw Exception("Unexpected response from receiver")
             }
 
-            val transferManager = SocketTransferManager()
             transferManager.setSessionToken(sessionToken)
 
             var totalTransferred = 0L
@@ -85,10 +97,12 @@ class FileSender @Inject constructor() {
                 )
             }
 
-            output.writeByte(8) // TYPE_ALL_DONE
+            output.writeByte(8)
             output.flush()
 
             Result.success(files)
+        } catch (e: PauseException) {
+            Result.failure(e)
         } catch (e: Exception) {
             if (!cancelled) Timber.e(e, "FileSender failed")
             Result.failure(e)
@@ -97,27 +111,4 @@ class FileSender @Inject constructor() {
             serverSocket = null
         }
     }
-
-    private fun buildMetadata(files: List<File>): FileMetadataJson {
-        return FileMetadataJson(
-            files = files.map { FileEntryJson(it.name, it.length(), "") }
-        )
-    }
-
-    private data class FileMetadataJson(
-        val files: List<FileEntryJson>
-    ) {
-        fun toJson(): String {
-            val entries = files.joinToString(",") { f ->
-                """{"name":"${f.name}","size":${f.size},"sha256":"${f.sha256}"}"""
-            }
-            return """{"files":[$entries]}"""
-        }
-    }
-
-    private data class FileEntryJson(
-        val name: String,
-        val size: Long,
-        val sha256: String
-    )
 }

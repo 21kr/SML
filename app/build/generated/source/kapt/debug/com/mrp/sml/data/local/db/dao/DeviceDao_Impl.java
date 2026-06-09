@@ -64,11 +64,11 @@ public final class DeviceDao_Impl implements DeviceDao {
   }
 
   @Override
-  public Object insert(final DeviceEntity device, final Continuation<? super Long> arg1) {
+  public Object insert(final DeviceEntity device, final Continuation<? super Long> $completion) {
     if (device == null) throw new NullPointerException();
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
       return __insertAdapterOfDeviceEntity.insertAndReturnId(_connection, device);
-    }, arg1);
+    }, $completion);
   }
 
   @Override
@@ -119,7 +119,7 @@ public final class DeviceDao_Impl implements DeviceDao {
 
   @Override
   public Object getDeviceById(final String deviceId,
-      final Continuation<? super DeviceEntity> arg1) {
+      final Continuation<? super DeviceEntity> $completion) {
     final String _sql = "SELECT * FROM paired_devices WHERE device_id = ? LIMIT 1";
     return DBUtil.performSuspending(__db, true, false, (_connection) -> {
       final SQLiteStatement _stmt = _connection.prepare(_sql);
@@ -167,11 +167,11 @@ public final class DeviceDao_Impl implements DeviceDao {
       } finally {
         _stmt.close();
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object delete(final String deviceId, final Continuation<? super Unit> arg1) {
+  public Object delete(final String deviceId, final Continuation<? super Unit> $completion) {
     final String _sql = "DELETE FROM paired_devices WHERE device_id = ?";
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
       final SQLiteStatement _stmt = _connection.prepare(_sql);
@@ -187,11 +187,11 @@ public final class DeviceDao_Impl implements DeviceDao {
       } finally {
         _stmt.close();
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object clearAll(final Continuation<? super Unit> arg0) {
+  public Object clearAll(final Continuation<? super Unit> $completion) {
     final String _sql = "DELETE FROM paired_devices";
     return DBUtil.performSuspending(__db, false, true, (_connection) -> {
       final SQLiteStatement _stmt = _connection.prepare(_sql);
@@ -201,7 +201,7 @@ public final class DeviceDao_Impl implements DeviceDao {
       } finally {
         _stmt.close();
       }
-    }, arg0);
+    }, $completion);
   }
 
   @NonNull

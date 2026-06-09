@@ -32,7 +32,7 @@ object TransferMapper {
 
     fun entityToDomain(entity: TransferEntity): TransferModel {
         return TransferModel(
-            id = entity.id.toString(),
+            id = entity.id,
             fileName = entity.fileName,
             fileSize = entity.fileSizeBytes,
             mimeType = entity.mimeType,
@@ -53,6 +53,7 @@ object TransferMapper {
 
     fun domainToEntity(model: TransferModel): TransferEntity {
         return TransferEntity(
+            id = model.id,
             fileName = model.fileName,
             fileSizeBytes = model.fileSize,
             mimeType = model.mimeType,

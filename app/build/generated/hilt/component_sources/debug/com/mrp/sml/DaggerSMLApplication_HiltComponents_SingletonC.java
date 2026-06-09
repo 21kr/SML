@@ -15,21 +15,25 @@ import androidx.work.WorkerParameters;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.mrp.sml.data.local.db.AppDatabase;
 import com.mrp.sml.data.local.db.dao.TransferDao;
+import com.mrp.sml.data.local.db.dao.TransferProgressDao;
 import com.mrp.sml.data.local.preferences.SettingsManager;
 import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
 import com.mrp.sml.data.remote.nearby.NearbyManager;
 import com.mrp.sml.data.remote.sockets.FileReceiver;
 import com.mrp.sml.data.remote.sockets.FileSender;
+import com.mrp.sml.data.remote.sockets.SocketTransferManager;
 import com.mrp.sml.data.remote.wifi.WifiDirectManager;
 import com.mrp.sml.data.repository.ConnectionRepositoryImpl;
 import com.mrp.sml.data.repository.TransferRepositoryImpl;
 import com.mrp.sml.di.AppModule_ProvideContextFactory;
 import com.mrp.sml.di.DatabaseModule_ProvideDatabaseFactory;
 import com.mrp.sml.di.DatabaseModule_ProvideTransferDaoFactory;
+import com.mrp.sml.di.DatabaseModule_ProvideTransferProgressDaoFactory;
 import com.mrp.sml.di.NetworkModule_ProvideDeviceDiscoveryManagerFactory;
 import com.mrp.sml.di.NetworkModule_ProvideFileReceiverFactory;
 import com.mrp.sml.di.NetworkModule_ProvideFileSenderFactory;
 import com.mrp.sml.di.NetworkModule_ProvideNearbyManagerFactory;
+import com.mrp.sml.di.NetworkModule_ProvideSocketTransferManagerFactory;
 import com.mrp.sml.di.NetworkModule_ProvideWifiDirectManagerFactory;
 import com.mrp.sml.services.DiscoveryService;
 import com.mrp.sml.services.DiscoveryService_MembersInjector;
@@ -527,7 +531,7 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
       public T get() {
         switch (id) {
           case 0: // com.mrp.sml.ui.viewmodel.DiscoveryViewModel
-          return (T) new DiscoveryViewModel(singletonCImpl.provideDeviceDiscoveryManagerProvider.get());
+          return (T) new DiscoveryViewModel(singletonCImpl.connectionRepositoryImplProvider.get());
 
           case 1: // com.mrp.sml.ui.viewmodel.HistoryViewModel
           return (T) new HistoryViewModel(singletonCImpl.transferRepositoryImplProvider.get());
@@ -548,7 +552,7 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
           return (T) new TransferDetailViewModel(singletonCImpl.transferRepositoryImplProvider.get());
 
           case 7: // com.mrp.sml.ui.viewmodel.TransferViewModel
-          return (T) new TransferViewModel(singletonCImpl.transferRepositoryImplProvider.get(), singletonCImpl.provideFileSenderProvider.get(), singletonCImpl.provideFileReceiverProvider.get());
+          return (T) new TransferViewModel(singletonCImpl.transferRepositoryImplProvider.get(), singletonCImpl.provideSocketTransferManagerProvider.get());
 
           default: throw new AssertionError(id);
         }
@@ -652,7 +656,11 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
 
     Provider<CleanupWorker_AssistedFactory> cleanupWorker_AssistedFactoryProvider;
 
+    Provider<SocketTransferManager> provideSocketTransferManagerProvider;
+
     Provider<FileSender> provideFileSenderProvider;
+
+    Provider<FileReceiver> provideFileReceiverProvider;
 
     Provider<RetryTransferWorker_AssistedFactory> retryTransferWorker_AssistedFactoryProvider;
 
@@ -662,11 +670,9 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
 
     Provider<DeviceDiscoveryManager> provideDeviceDiscoveryManagerProvider;
 
-    Provider<FileReceiver> provideFileReceiverProvider;
+    Provider<ConnectionRepositoryImpl> connectionRepositoryImplProvider;
 
     Provider<TransferRepositoryImpl> transferRepositoryImplProvider;
-
-    Provider<ConnectionRepositoryImpl> connectionRepositoryImplProvider;
 
     Provider<SettingsManager> settingsManagerProvider;
 
@@ -689,20 +695,25 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
       return WorkerFactoryModule_ProvideFactoryFactory.provideFactory(mapOfStringAndProviderOfWorkerAssistedFactoryOf());
     }
 
+    TransferProgressDao transferProgressDao() {
+      return DatabaseModule_ProvideTransferProgressDaoFactory.provideTransferProgressDao(provideDatabaseProvider.get());
+    }
+
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
       this.provideContextProvider = DoubleCheck.provider(new SwitchingProvider<Context>(singletonCImpl, 2));
       this.provideDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<AppDatabase>(singletonCImpl, 1));
       this.cleanupWorker_AssistedFactoryProvider = SingleCheck.provider(new SwitchingProvider<CleanupWorker_AssistedFactory>(singletonCImpl, 0));
+      this.provideSocketTransferManagerProvider = DoubleCheck.provider(new SwitchingProvider<SocketTransferManager>(singletonCImpl, 5));
       this.provideFileSenderProvider = DoubleCheck.provider(new SwitchingProvider<FileSender>(singletonCImpl, 4));
+      this.provideFileReceiverProvider = DoubleCheck.provider(new SwitchingProvider<FileReceiver>(singletonCImpl, 6));
       this.retryTransferWorker_AssistedFactoryProvider = SingleCheck.provider(new SwitchingProvider<RetryTransferWorker_AssistedFactory>(singletonCImpl, 3));
-      this.provideWifiDirectManagerProvider = DoubleCheck.provider(new SwitchingProvider<WifiDirectManager>(singletonCImpl, 6));
-      this.provideNearbyManagerProvider = DoubleCheck.provider(new SwitchingProvider<NearbyManager>(singletonCImpl, 7));
-      this.provideDeviceDiscoveryManagerProvider = DoubleCheck.provider(new SwitchingProvider<DeviceDiscoveryManager>(singletonCImpl, 5));
-      this.provideFileReceiverProvider = DoubleCheck.provider(new SwitchingProvider<FileReceiver>(singletonCImpl, 9));
-      this.transferRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<TransferRepositoryImpl>(singletonCImpl, 8));
-      this.connectionRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<ConnectionRepositoryImpl>(singletonCImpl, 10));
-      this.settingsManagerProvider = DoubleCheck.provider(new SwitchingProvider<SettingsManager>(singletonCImpl, 11));
+      this.provideWifiDirectManagerProvider = DoubleCheck.provider(new SwitchingProvider<WifiDirectManager>(singletonCImpl, 9));
+      this.provideNearbyManagerProvider = DoubleCheck.provider(new SwitchingProvider<NearbyManager>(singletonCImpl, 10));
+      this.provideDeviceDiscoveryManagerProvider = DoubleCheck.provider(new SwitchingProvider<DeviceDiscoveryManager>(singletonCImpl, 8));
+      this.connectionRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<ConnectionRepositoryImpl>(singletonCImpl, 7));
+      this.transferRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<TransferRepositoryImpl>(singletonCImpl, 11));
+      this.settingsManagerProvider = DoubleCheck.provider(new SwitchingProvider<SettingsManager>(singletonCImpl, 12));
     }
 
     @Override
@@ -763,32 +774,35 @@ public final class DaggerSMLApplication_HiltComponents_SingletonC {
           return (T) new RetryTransferWorker_AssistedFactory() {
             @Override
             public RetryTransferWorker create(Context appContext2, WorkerParameters workerParams2) {
-              return new RetryTransferWorker(appContext2, workerParams2, singletonCImpl.transferDao(), singletonCImpl.provideFileSenderProvider.get());
+              return new RetryTransferWorker(appContext2, workerParams2, singletonCImpl.transferDao(), singletonCImpl.provideFileSenderProvider.get(), singletonCImpl.provideFileReceiverProvider.get(), singletonCImpl.provideSocketTransferManagerProvider.get());
             }
           };
 
           case 4: // com.mrp.sml.data.remote.sockets.FileSender
-          return (T) NetworkModule_ProvideFileSenderFactory.provideFileSender();
+          return (T) NetworkModule_ProvideFileSenderFactory.provideFileSender(singletonCImpl.provideSocketTransferManagerProvider.get());
 
-          case 5: // com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager
-          return (T) NetworkModule_ProvideDeviceDiscoveryManagerFactory.provideDeviceDiscoveryManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.provideWifiDirectManagerProvider.get(), singletonCImpl.provideNearbyManagerProvider.get());
+          case 5: // com.mrp.sml.data.remote.sockets.SocketTransferManager
+          return (T) NetworkModule_ProvideSocketTransferManagerFactory.provideSocketTransferManager();
 
-          case 6: // com.mrp.sml.data.remote.wifi.WifiDirectManager
-          return (T) NetworkModule_ProvideWifiDirectManagerFactory.provideWifiDirectManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+          case 6: // com.mrp.sml.data.remote.sockets.FileReceiver
+          return (T) NetworkModule_ProvideFileReceiverFactory.provideFileReceiver(singletonCImpl.provideSocketTransferManagerProvider.get());
 
-          case 7: // com.mrp.sml.data.remote.nearby.NearbyManager
-          return (T) NetworkModule_ProvideNearbyManagerFactory.provideNearbyManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
-
-          case 8: // com.mrp.sml.data.repository.TransferRepositoryImpl
-          return (T) new TransferRepositoryImpl(singletonCImpl.transferDao(), singletonCImpl.provideFileSenderProvider.get(), singletonCImpl.provideFileReceiverProvider.get());
-
-          case 9: // com.mrp.sml.data.remote.sockets.FileReceiver
-          return (T) NetworkModule_ProvideFileReceiverFactory.provideFileReceiver();
-
-          case 10: // com.mrp.sml.data.repository.ConnectionRepositoryImpl
+          case 7: // com.mrp.sml.data.repository.ConnectionRepositoryImpl
           return (T) new ConnectionRepositoryImpl(singletonCImpl.provideDeviceDiscoveryManagerProvider.get(), singletonCImpl.provideWifiDirectManagerProvider.get());
 
-          case 11: // com.mrp.sml.data.local.preferences.SettingsManager
+          case 8: // com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager
+          return (T) NetworkModule_ProvideDeviceDiscoveryManagerFactory.provideDeviceDiscoveryManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.provideWifiDirectManagerProvider.get(), singletonCImpl.provideNearbyManagerProvider.get());
+
+          case 9: // com.mrp.sml.data.remote.wifi.WifiDirectManager
+          return (T) NetworkModule_ProvideWifiDirectManagerFactory.provideWifiDirectManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 10: // com.mrp.sml.data.remote.nearby.NearbyManager
+          return (T) NetworkModule_ProvideNearbyManagerFactory.provideNearbyManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 11: // com.mrp.sml.data.repository.TransferRepositoryImpl
+          return (T) new TransferRepositoryImpl(singletonCImpl.transferDao(), singletonCImpl.transferProgressDao(), singletonCImpl.provideFileSenderProvider.get(), singletonCImpl.provideFileReceiverProvider.get(), singletonCImpl.provideSocketTransferManagerProvider.get());
+
+          case 12: // com.mrp.sml.data.local.preferences.SettingsManager
           return (T) new SettingsManager(singletonCImpl.provideContextProvider.get());
 
           default: throw new AssertionError(id);

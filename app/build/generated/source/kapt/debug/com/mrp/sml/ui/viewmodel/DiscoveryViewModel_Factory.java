@@ -1,6 +1,6 @@
 package com.mrp.sml.ui.viewmodel;
 
-import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
+import com.mrp.sml.domain.repository.ConnectionRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Provider;
@@ -25,23 +25,23 @@ import javax.annotation.processing.Generated;
     "nullness:initialization.field.uninitialized"
 })
 public final class DiscoveryViewModel_Factory implements Factory<DiscoveryViewModel> {
-  private final Provider<DeviceDiscoveryManager> discoveryManagerProvider;
+  private final Provider<ConnectionRepository> connectionRepositoryProvider;
 
-  private DiscoveryViewModel_Factory(Provider<DeviceDiscoveryManager> discoveryManagerProvider) {
-    this.discoveryManagerProvider = discoveryManagerProvider;
+  private DiscoveryViewModel_Factory(Provider<ConnectionRepository> connectionRepositoryProvider) {
+    this.connectionRepositoryProvider = connectionRepositoryProvider;
   }
 
   @Override
   public DiscoveryViewModel get() {
-    return newInstance(discoveryManagerProvider.get());
+    return newInstance(connectionRepositoryProvider.get());
   }
 
   public static DiscoveryViewModel_Factory create(
-      Provider<DeviceDiscoveryManager> discoveryManagerProvider) {
-    return new DiscoveryViewModel_Factory(discoveryManagerProvider);
+      Provider<ConnectionRepository> connectionRepositoryProvider) {
+    return new DiscoveryViewModel_Factory(connectionRepositoryProvider);
   }
 
-  public static DiscoveryViewModel newInstance(DeviceDiscoveryManager discoveryManager) {
-    return new DiscoveryViewModel(discoveryManager);
+  public static DiscoveryViewModel newInstance(ConnectionRepository connectionRepository) {
+    return new DiscoveryViewModel(connectionRepository);
   }
 }

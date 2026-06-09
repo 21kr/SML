@@ -24,4 +24,7 @@ sealed class Screen(val route: String) {
     }
     data object History : Screen("history")
     data object Settings : Screen("settings")
+    data object QrDisplay : Screen("qr_display/{payload}") {
+        fun createRoute(payload: String) = "qr_display/${java.net.URLEncoder.encode(payload, "UTF-8")}"
+    }
 }

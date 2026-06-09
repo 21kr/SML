@@ -3,7 +3,7 @@ package com.mrp.sml.ui.viewmodel;
 import androidx.lifecycle.ViewModel;
 import com.mrp.sml.core.models.ConnectionState;
 import com.mrp.sml.core.models.Device;
-import com.mrp.sml.data.remote.discovery.DeviceDiscoveryManager;
+import com.mrp.sml.domain.repository.ConnectionRepository;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import kotlinx.coroutines.flow.StateFlow;
 import javax.inject.Inject;

@@ -76,18 +76,24 @@ class WifiDirectManager @Inject constructor(
         }
 
         _connectionState.value = ConnectionState.DISCOVERING
-        mgr.discoverPeers(ch, object : WifiP2pManager.ActionListener {
-            override fun onSuccess() {
-                Timber.i("Peer discovery started")
-                cont.resume(Result.success(Unit))
-            }
+        try {
+            mgr.discoverPeers(ch, object : WifiP2pManager.ActionListener {
+                override fun onSuccess() {
+                    Timber.i("Peer discovery started")
+                    cont.resume(Result.success(Unit))
+                }
 
-            override fun onFailure(reason: Int) {
-                Timber.w("Peer discovery failed: $reason")
-                _connectionState.value = ConnectionState.FAILED
-                cont.resume(Result.failure(Exception("Discovery failed with code: $reason")))
-            }
-        })
+                override fun onFailure(reason: Int) {
+                    Timber.w("Peer discovery failed: $reason")
+                    _connectionState.value = ConnectionState.FAILED
+                    cont.resume(Result.failure(Exception("Discovery failed with code: $reason")))
+                }
+            })
+        } catch (e: SecurityException) {
+            Timber.e(e, "Peer discovery permission denied")
+            _connectionState.value = ConnectionState.FAILED
+            cont.resume(Result.failure(e))
+        }
     }
 
     suspend fun connectToDevice(deviceAddress: String): Result<Unit> = suspendCancellableCoroutine { cont ->
@@ -111,18 +117,24 @@ class WifiDirectManager @Inject constructor(
             }
         }
         config.groupOwnerIntent = 15
-        mgr.connect(ch, config, object : WifiP2pManager.ActionListener {
-            override fun onSuccess() {
-                Timber.i("Connection request sent to $deviceAddress")
-                cont.resume(Result.success(Unit))
-            }
+        try {
+            mgr.connect(ch, config, object : WifiP2pManager.ActionListener {
+                override fun onSuccess() {
+                    Timber.i("Connection request sent to $deviceAddress")
+                    cont.resume(Result.success(Unit))
+                }
 
-            override fun onFailure(reason: Int) {
-                Timber.w("Connection failed: $reason")
-                _connectionState.value = ConnectionState.FAILED
-                cont.resume(Result.failure(Exception("Connection failed with code: $reason")))
-            }
-        })
+                override fun onFailure(reason: Int) {
+                    Timber.w("Connection failed: $reason")
+                    _connectionState.value = ConnectionState.FAILED
+                    cont.resume(Result.failure(Exception("Connection failed with code: $reason")))
+                }
+            })
+        } catch (e: SecurityException) {
+            Timber.e(e, "Connection permission denied")
+            _connectionState.value = ConnectionState.FAILED
+            cont.resume(Result.failure(e))
+        }
     }
 
     suspend fun requestPeers(): Result<List<Device>> = suspendCancellableCoroutine { cont ->
@@ -135,12 +147,17 @@ class WifiDirectManager @Inject constructor(
             return@suspendCancellableCoroutine
         }
 
-        mgr.requestPeers(ch, object : WifiP2pManager.PeerListListener {
-            override fun onPeersAvailable(peerList: WifiP2pDeviceList) {
-                val devices = peerList.deviceList.map { it.toDevice() }
-                cont.resume(Result.success(devices))
-            }
-        })
+        try {
+            mgr.requestPeers(ch, object : WifiP2pManager.PeerListListener {
+                override fun onPeersAvailable(peerList: WifiP2pDeviceList) {
+                    val devices = peerList.deviceList.map { it.toDevice() }
+                    cont.resume(Result.success(devices))
+                }
+            })
+        } catch (e: SecurityException) {
+            Timber.e(e, "Request peers permission denied")
+            cont.resume(Result.success(emptyList()))
+        }
     }
 
     suspend fun disconnect(): Result<Unit> = suspendCancellableCoroutine { cont ->
@@ -152,17 +169,23 @@ class WifiDirectManager @Inject constructor(
             cont.resume(Result.success(Unit))
             return@suspendCancellableCoroutine
         }
-        mgr.removeGroup(ch, object : WifiP2pManager.ActionListener {
-            override fun onSuccess() {
-                _connectionState.value = ConnectionState.DISCONNECTED
-                cont.resume(Result.success(Unit))
-            }
+        try {
+            mgr.removeGroup(ch, object : WifiP2pManager.ActionListener {
+                override fun onSuccess() {
+                    _connectionState.value = ConnectionState.DISCONNECTED
+                    cont.resume(Result.success(Unit))
+                }
 
-            override fun onFailure(reason: Int) {
-                _connectionState.value = ConnectionState.DISCONNECTED
-                cont.resume(Result.success(Unit))
-            }
-        })
+                override fun onFailure(reason: Int) {
+                    _connectionState.value = ConnectionState.DISCONNECTED
+                    cont.resume(Result.success(Unit))
+                }
+            })
+        } catch (e: SecurityException) {
+            Timber.e(e, "Remove group permission denied")
+            _connectionState.value = ConnectionState.DISCONNECTED
+            cont.resume(Result.success(Unit))
+        }
     }
 
     private fun WifiP2pDevice.toDevice(): Device {
@@ -188,12 +211,16 @@ class WifiDirectManager @Inject constructor(
 
                 WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
                     Timber.i("WiFi P2P peers changed")
-                    channel?.let { ch ->
-                        manager?.requestPeers(ch) { peers ->
-                            peers.deviceList.forEach { device ->
-                                _discoveredDevices.tryEmit(device.toDevice())
+                    try {
+                        channel?.let { ch ->
+                            manager?.requestPeers(ch) { peers ->
+                                peers.deviceList.forEach { device ->
+                                    _discoveredDevices.tryEmit(device.toDevice())
+                                }
                             }
                         }
+                    } catch (e: SecurityException) {
+                        Timber.e(e, "Request peers permission denied in receiver")
                     }
                 }
 

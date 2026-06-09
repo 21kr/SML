@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrp.sml.core.models.TransferProgress
 import com.mrp.sml.core.models.TransferStatus
-import com.mrp.sml.data.remote.sockets.FileReceiver
-import com.mrp.sml.data.remote.sockets.FileSender
+import com.mrp.sml.data.remote.sockets.SocketTransferManager
 import com.mrp.sml.domain.model.TransferModel
 import com.mrp.sml.domain.repository.TransferRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,8 +37,7 @@ data class TransferUiState(
 @HiltViewModel
 class TransferViewModel @Inject constructor(
     private val transferRepository: TransferRepository,
-    private val fileSender: FileSender,
-    private val fileReceiver: FileReceiver
+    private val socketTransferManager: SocketTransferManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TransferUiState())
@@ -52,6 +50,32 @@ class TransferViewModel @Inject constructor(
         viewModelScope.launch {
             transferRepository.observeTransfers().collect { transfers ->
                 _transferHistory.value = transfers
+            }
+        }
+        viewModelScope.launch {
+            socketTransferManager.progress.collect { progress ->
+                updateFromProgress(progress)
+            }
+        }
+        viewModelScope.launch {
+            socketTransferManager.state.collect { state ->
+                _uiState.update {
+                    when (state) {
+                        com.mrp.sml.data.remote.sockets.TransferState.PAUSED -> it.copy(
+                            status = TransferStatus.PAUSED, canPause = false, canResume = true
+                        )
+                        com.mrp.sml.data.remote.sockets.TransferState.CANCELLED -> it.copy(
+                            status = TransferStatus.CANCELLED, canPause = false, canResume = false
+                        )
+                        com.mrp.sml.data.remote.sockets.TransferState.TRANSFERRING -> it.copy(
+                            status = TransferStatus.TRANSFERRING, canPause = true, canResume = false
+                        )
+                        com.mrp.sml.data.remote.sockets.TransferState.COMPLETED -> it.copy(
+                            status = TransferStatus.COMPLETED, canPause = false, canResume = false
+                        )
+                        else -> it
+                    }
+                }
             }
         }
     }
@@ -73,12 +97,6 @@ class TransferViewModel @Inject constructor(
         viewModelScope.launch {
             transferRepository.sendFiles(filePaths, destinationAddress, sessionToken)
         }
-
-        viewModelScope.launch {
-            fileSender.progress.collect { progress ->
-                updateFromProgress(progress)
-            }
-        }
     }
 
     fun receiveFiles(outputDirectoryPath: String, sessionToken: String) {
@@ -94,12 +112,6 @@ class TransferViewModel @Inject constructor(
 
         viewModelScope.launch {
             transferRepository.receiveFiles(outputDirectoryPath, sessionToken)
-        }
-
-        viewModelScope.launch {
-            fileReceiver.progress.collect { progress ->
-                updateFromProgress(progress)
-            }
         }
     }
 
@@ -119,18 +131,11 @@ class TransferViewModel @Inject constructor(
     }
 
     fun pauseTransfer() {
-        viewModelScope.launch {
-            transferRepository.pauseTransfer()
-            _uiState.update { it.copy(status = TransferStatus.PAUSED, canPause = false, canResume = true) }
-        }
+        transferRepository.pauseTransfer()
     }
 
     fun resumeTransfer() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(status = TransferStatus.RESUMING, canPause = false, canResume = false) }
-            transferRepository.resumeTransfer()
-            _uiState.update { it.copy(status = TransferStatus.TRANSFERRING, canPause = true, canResume = false) }
-        }
+        transferRepository.resumeTransfer()
     }
 
     fun cancelTransfer() {

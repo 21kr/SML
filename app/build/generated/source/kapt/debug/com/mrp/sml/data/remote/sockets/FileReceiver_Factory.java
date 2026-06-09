@@ -2,6 +2,7 @@ package com.mrp.sml.data.remote.sockets;
 
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
+import dagger.internal.Provider;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
@@ -23,20 +24,23 @@ import javax.annotation.processing.Generated;
     "nullness:initialization.field.uninitialized"
 })
 public final class FileReceiver_Factory implements Factory<FileReceiver> {
+  private final Provider<SocketTransferManager> transferManagerProvider;
+
+  private FileReceiver_Factory(Provider<SocketTransferManager> transferManagerProvider) {
+    this.transferManagerProvider = transferManagerProvider;
+  }
+
   @Override
   public FileReceiver get() {
-    return newInstance();
+    return newInstance(transferManagerProvider.get());
   }
 
-  public static FileReceiver_Factory create() {
-    return InstanceHolder.INSTANCE;
+  public static FileReceiver_Factory create(
+      Provider<SocketTransferManager> transferManagerProvider) {
+    return new FileReceiver_Factory(transferManagerProvider);
   }
 
-  public static FileReceiver newInstance() {
-    return new FileReceiver();
-  }
-
-  private static final class InstanceHolder {
-    static final FileReceiver_Factory INSTANCE = new FileReceiver_Factory();
+  public static FileReceiver newInstance(SocketTransferManager transferManager) {
+    return new FileReceiver(transferManager);
   }
 }
