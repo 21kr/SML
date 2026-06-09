@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mrp.sml.ui.screens.discovery.DiscoveryScreen
 import com.mrp.sml.ui.screens.history.HistoryScreen
 import com.mrp.sml.ui.screens.home.HomeScreen
@@ -80,7 +81,7 @@ fun NavGraph(
         }
 
         composable(Screen.Home.route) {
-            val viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: HomeViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             HomeScreen(
@@ -93,7 +94,7 @@ fun NavGraph(
         }
 
         composable(Screen.Send.route) {
-            val viewModel: SendViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: SendViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             SendScreen(
@@ -109,7 +110,7 @@ fun NavGraph(
         }
 
         composable(Screen.Receive.route) {
-            val viewModel: ReceiveViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: ReceiveViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             ReceiveScreen(
@@ -136,7 +137,7 @@ fun NavGraph(
             val mode = backStackEntry.arguments?.getString("mode") ?: "send"
             val filePaths = backStackEntry.arguments?.getString("filePaths")?.split(",")
                 ?.filter { it.isNotEmpty() } ?: emptyList()
-            val viewModel: DiscoveryViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: DiscoveryViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             viewModel.setMode(
@@ -174,7 +175,7 @@ fun NavGraph(
             )
         ) { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getString("sessionId") ?: ""
-            val viewModel: TransferViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: TransferViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             TransferScreen(
@@ -196,7 +197,7 @@ fun NavGraph(
             )
         ) { backStackEntry ->
             val transferId = backStackEntry.arguments?.getString("transferId") ?: ""
-            val viewModel: TransferDetailViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: TransferDetailViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             viewModel.loadTransfer(transferId)
@@ -209,7 +210,7 @@ fun NavGraph(
         }
 
         composable(Screen.History.route) {
-            val viewModel: HistoryViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: HistoryViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             HistoryScreen(
@@ -236,7 +237,7 @@ fun NavGraph(
         }
 
         composable(Screen.Settings.route) {
-            val viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val viewModel: SettingsViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             SettingsScreen(
