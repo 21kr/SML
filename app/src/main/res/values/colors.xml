@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="seed">#FF2563EB</color>
+    <color name="primary">#FF2563EB</color>
+    <color name="primary_dark">#FF1D4ED8</color>
+    <color name="primary_light">#FFDBE8FF</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="primary_container">#FFDBE8FF</color>
+    <color name="on_primary_container">#FF001D36</color>
+    <color name="secondary">#FF06D6A0</color>
+    <color name="secondary_dark">#FF05B88A</color>
+    <color name="secondary_light">#FFC8FCE8</color>
+    <color name="on_secondary">#FFFFFFFF</color>
+    <color name="secondary_container">#FFE8F5E9</color>
+    <color name="on_secondary_container">#FF1D1B20</color>
+    <color name="tertiary">#FFFB8C00</color>
+    <color name="tertiary_container">#FFFFF3E0</color>
+    <color name="error">#FFD93025</color>
+    <color name="on_error">#FFFFFFFF</color>
+    <color name="error_container">#FFFCE8E6</color>
+    <color name="on_error_container">#FF410E0B</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="on_surface">#FF1F2937</color>
+    <color name="surface_variant">#FFF3F4F6</color>
+    <color name="on_surface_variant">#FF6B7280</color>
+    <color name="outline">#FFE5E7EB</color>
+    <color name="outline_variant">#FFD1D5DB</color>
+    <color name="background">#FFF8F9FA</color>
+    <color name="surface_container">#FFFFFFFF</color>
+    <color name="surface_container_low">#FFF8F9FA</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="state_connected">#FF059669</color>
+    <color name="state_discovering">#FFD97706</color>
+    <color name="state_failed">#FFDC2626</color>
+    <color name="state_disconnected">#FF9CA3AF</color>
+    <color name="state_connecting">#FF2563EB</color>
+
+    <color name="status_sent">#FF2563EB</color>
+    <color name="status_received">#FF059669</color>
+    <color name="status_completed">#FF059669</color>
+    <color name="status_failed">#FFDC2626</color>
+    <color name="status_in_progress">#FFD97706</color>
+
+    <color name="avatar_bg_1">#FFDBE8FF</color>
+    <color name="avatar_bg_2">#FFC8FCE8</color>
+    <color name="avatar_bg_3">#FFFFF3E0</color>
+    <color name="avatar_bg_4">#FFFCE8E6</color>
+
+    <color name="gradient_start">#FF2563EB</color>
+    <color name="gradient_end">#FF7C3AED</color>
+
+    <color name="card_shadow">#1A000000</color>
+    <color name="divider">#FFE5E7EB</color>
+</resources>
