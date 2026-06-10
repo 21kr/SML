@@ -1,12 +1,15 @@
 package com.mrp.sml.ui.viewmodel;
 
+import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import com.mrp.sml.core.models.TransferProgress;
 import com.mrp.sml.core.models.TransferStatus;
 import com.mrp.sml.data.remote.sockets.SocketTransferManager;
 import com.mrp.sml.domain.model.TransferModel;
 import com.mrp.sml.domain.repository.TransferRepository;
+import com.mrp.sml.services.TransferForegroundService;
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import kotlinx.coroutines.flow.StateFlow;
 import javax.inject.Inject;
 

@@ -5,11 +5,32 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.content.PermissionChecker
+import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -23,7 +44,10 @@ import com.mrp.sml.ui.screens.discovery.DiscoveryScreen
 import com.mrp.sml.ui.screens.history.HistoryScreen
 import com.mrp.sml.ui.screens.home.HomeScreen
 import com.mrp.sml.ui.screens.permissions.PermissionScreen
+import com.mrp.sml.core.utils.QrCodeUtils
+import com.mrp.sml.data.remote.hotspot.HotspotManagerEntryPoint
 import com.mrp.sml.ui.screens.qr.QrDisplayScreen
+import com.mrp.sml.ui.screens.qr.QrScannerScreen
 import com.mrp.sml.ui.screens.receive.ReceiveScreen
 import com.mrp.sml.ui.screens.send.SendScreen
 import com.mrp.sml.ui.screens.settings.SettingsScreen
@@ -118,15 +142,90 @@ fun NavGraph(
             ReceiveScreen(
                 uiState = uiState,
                 onStartListening = { viewModel.startListening() },
+                onStartHotspot = { viewModel.startHotspotAndListen() },
                 onStopListening = { viewModel.stopListening() },
                 onDeviceClick = { device -> viewModel.connectToDevice(device.id) },
                 onDeviceConnected = { sessionId ->
                     navController.navigate(Screen.Transfer.createRoute(sessionId))
                 },
-                onScanQr = { navController.navigate(Screen.Discovery.createRoute("receive")) },
-                onConnectManualIp = { navController.navigate(Screen.Discovery.createRoute("receive")) },
                 onBack = { navController.popBackStack() }
             )
+        }
+
+        composable(
+            route = Screen.QrScanner.route,
+            arguments = listOf(
+                navArgument("filePaths") { type = NavType.StringType; defaultValue = "" }
+            )
+        ) { backStackEntry ->
+            val filePaths = backStackEntry.arguments?.getString("filePaths")?.split(",")
+                ?.filter { it.isNotEmpty() } ?: emptyList()
+            val scope = rememberCoroutineScope()
+            var connectingToHotspot by remember { mutableStateOf(false) }
+            val hotspotManager = remember {
+                EntryPointAccessors.fromApplication(
+                    context.applicationContext,
+                    HotspotManagerEntryPoint::class.java
+                ).hotspotManager()
+            }
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                QrScannerScreen(
+                    onQrScanned = { payload ->
+                        val parsed = QrCodeUtils.parseQrPayload(payload)
+                        if (parsed != null) {
+                            if (parsed.ssid.isNotBlank()) {
+                                connectingToHotspot = true
+                                scope.launch {
+                                    hotspotManager.observeHotspotConnection(parsed.ssid, parsed.password)
+                                        .first()
+                                    navController.navigate(
+                                        Screen.Transfer.createRoute(parsed.sessionToken, "send", filePaths, parsed.ipAddress)
+                                    ) {
+                                        popUpTo(Screen.Send.route) { inclusive = true }
+                                    }
+                                }
+                            } else {
+                                val isSender = filePaths.isNotEmpty()
+                                val mode = if (isSender) "send" else "receive"
+                                navController.navigate(
+                                    Screen.Transfer.createRoute(parsed.sessionToken, mode, filePaths, parsed.ipAddress)
+                                ) {
+                                    popUpTo(if (isSender) Screen.Send.route else Screen.Receive.route) { inclusive = true }
+                                }
+                            }
+                        }
+                    },
+                    onBack = { navController.popBackStack() }
+                )
+
+                if (connectingToHotspot) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.7f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = "Connecting to hotspot…",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "Please wait while we connect to the network",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+            }
         }
 
         composable(
@@ -165,6 +264,7 @@ fun NavGraph(
                     viewModel.generateQrCode(payload)
                     navController.navigate(Screen.QrDisplay.createRoute(payload))
                 },
+                onScanQr = { navController.navigate(Screen.QrScanner.createRoute(filePaths)) },
                 onPairingModeChange = { viewModel.setConnectionMethod(it) },
                 onCancel = { viewModel.stopDiscovery(); navController.popBackStack() },
                 onBack = { navController.popBackStack() }
@@ -176,22 +276,25 @@ fun NavGraph(
             arguments = listOf(
                 navArgument("sessionId") { type = NavType.StringType },
                 navArgument("mode") { type = NavType.StringType; defaultValue = "send" },
-                navArgument("filePaths") { type = NavType.StringType; defaultValue = "" }
+                navArgument("filePaths") { type = NavType.StringType; defaultValue = "" },
+                navArgument("senderIp") { type = NavType.StringType; defaultValue = "" }
             )
         ) { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getString("sessionId") ?: ""
             val mode = backStackEntry.arguments?.getString("mode") ?: "send"
             val filePaths = backStackEntry.arguments?.getString("filePaths")?.split(",")
                 ?.filter { it.isNotEmpty() } ?: emptyList()
+            val senderIp = backStackEntry.arguments?.getString("senderIp") ?: ""
             val viewModel: TransferViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(sessionId) {
                 if (mode == "send" && filePaths.isNotEmpty()) {
-                    viewModel.sendFiles(filePaths, NetworkConstants.DEFAULT_GROUP_OWNER_IP, sessionId)
+                    val destIp = senderIp.ifBlank { NetworkConstants.DEFAULT_GROUP_OWNER_IP }
+                    viewModel.sendFiles(filePaths, destIp, sessionId)
                 } else if (mode == "receive") {
                     val outputDir = context.filesDir.absolutePath + "/received"
-                    viewModel.receiveFiles(outputDir, sessionId)
+                    viewModel.receiveFiles(outputDir, sessionId, senderIp)
                 }
             }
 

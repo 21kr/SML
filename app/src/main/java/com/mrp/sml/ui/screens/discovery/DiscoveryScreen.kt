@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.QrCode
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Wifi
@@ -60,6 +61,7 @@ fun DiscoveryScreen(
     onDiscoverClick: () -> Unit = {},
     onDeviceConnected: (String) -> Unit = {},
     onShowQrCode: () -> Unit = {},
+    onScanQr: () -> Unit = {},
     onPairingModeChange: (PairingMode) -> Unit = {},
     onCancel: () -> Unit = {},
     onBack: () -> Unit = {}
@@ -100,13 +102,53 @@ fun DiscoveryScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            if (uiState.mode.name == "SENDER") {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Button(
+                        onClick = onDiscoverClick,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(16.dp),
+                        enabled = !uiState.isDiscovering
+                    ) {
+                        Icon(
+                            if (uiState.isDiscovering) Icons.Default.Refresh else Icons.Default.Search,
+                            contentDescription = if (uiState.isDiscovering) "Searching" else "Discover devices"
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(if (uiState.isDiscovering) "Searching..." else "Discover Devices")
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = onShowQrCode,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Icon(Icons.Default.QrCode, contentDescription = "Show my QR code")
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text("My QR")
+                    }
+                    OutlinedButton(
+                        onClick = onScanQr,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan QR code")
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text("Scan QR")
+                    }
+                }
+            } else {
                 Button(
                     onClick = onDiscoverClick,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     enabled = !uiState.isDiscovering
                 ) {
@@ -116,15 +158,6 @@ fun DiscoveryScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(if (uiState.isDiscovering) "Searching..." else "Discover Devices")
-                }
-                OutlinedButton(
-                    onClick = onShowQrCode,
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Icon(Icons.Default.QrCode, contentDescription = if (uiState.mode.name == "SENDER") "Show my QR code" else "Scan QR code")
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Text(if (uiState.mode.name == "SENDER") "My QR" else "Scan QR")
                 }
             }
 
@@ -217,11 +250,6 @@ private fun PairingModeSelector(
             selected = currentMode == PairingMode.HOTSPOT_FALLBACK,
             onClick = { onModeChange(PairingMode.HOTSPOT_FALLBACK) },
             label = { Text("Hotspot") }
-        )
-        FilterChip(
-            selected = currentMode == PairingMode.BLUETOOTH,
-            onClick = { onModeChange(PairingMode.BLUETOOTH) },
-            label = { Text("Bluetooth") }
         )
     }
 }

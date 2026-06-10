@@ -21,7 +21,9 @@ interface TransferRepository {
 
     fun sendFiles(filePaths: List<String>, destinationAddress: String, sessionToken: String)
 
-    fun receiveFiles(outputDirectoryPath: String, sessionToken: String)
+    fun receiveFiles(outputDirectoryPath: String, sessionToken: String, senderIp: String = "")
+
+    fun listenForFiles(outputDirectoryPath: String, sessionToken: String)
 
     fun cancelTransfer()
 

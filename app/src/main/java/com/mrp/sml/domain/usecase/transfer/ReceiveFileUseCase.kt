@@ -6,8 +6,8 @@ import javax.inject.Inject
 class ReceiveFileUseCase @Inject constructor(
     private val transferRepository: TransferRepository
 ) {
-    operator fun invoke(outputDirectoryPath: String, sessionToken: String) {
+    operator fun invoke(outputDirectoryPath: String, sessionToken: String, senderIp: String = "") {
         require(outputDirectoryPath.isNotBlank()) { "Output directory is required" }
-        transferRepository.receiveFiles(outputDirectoryPath.trim(), sessionToken.trim())
+        transferRepository.receiveFiles(outputDirectoryPath.trim(), sessionToken.trim(), senderIp.trim())
     }
 }

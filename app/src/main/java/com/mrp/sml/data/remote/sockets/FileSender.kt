@@ -16,7 +16,9 @@ import java.io.BufferedOutputStream
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.File
+import java.net.InetSocketAddress
 import java.net.ServerSocket
+import java.net.Socket
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,17 +43,30 @@ class FileSender @Inject constructor(
 
     suspend fun sendFiles(
         files: List<File>,
-        sessionToken: String
+        sessionToken: String,
+        destinationAddress: String? = null
     ): Result<List<File>> = withContext(Dispatchers.IO) {
         cancelled = false
         try {
-            serverSocket = ServerSocket(TransferConstants.TRANSFER_PORT).apply { reuseAddress = true }
-            Timber.i("FileSender: waiting for receiver on port ${TransferConstants.TRANSFER_PORT}")
-
-            val socket = serverSocket!!.accept().apply {
-                soTimeout = TransferConstants.SOCKET_TIMEOUT_MS
+            val socket: Socket
+            if (destinationAddress != null) {
+                socket = Socket().apply {
+                    connect(InetSocketAddress(destinationAddress, TransferConstants.TRANSFER_PORT), 10000)
+                    soTimeout = TransferConstants.SOCKET_TIMEOUT_MS
+                    tcpNoDelay = true
+                    setSendBufferSize(TransferConstants.BUFFER_SIZE)
+                }
+                Timber.i("FileSender: connected to receiver at $destinationAddress")
+            } else {
+                serverSocket = ServerSocket(TransferConstants.TRANSFER_PORT).apply { reuseAddress = true }
+                Timber.i("FileSender: waiting for receiver on port ${TransferConstants.TRANSFER_PORT}")
+                socket = serverSocket!!.accept().apply {
+                    soTimeout = TransferConstants.SOCKET_TIMEOUT_MS
+                    tcpNoDelay = true
+                    setSendBufferSize(TransferConstants.BUFFER_SIZE)
+                }
+                Timber.i("FileSender: receiver connected from ${socket.inetAddress.hostAddress}")
             }
-            Timber.i("FileSender: receiver connected from ${socket.inetAddress.hostAddress}")
 
             val output = DataOutputStream(BufferedOutputStream(socket.getOutputStream()))
             val input = DataInputStream(BufferedInputStream(socket.getInputStream()))

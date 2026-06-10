@@ -4,7 +4,7 @@ package com.mrp.sml.core.constants;
 public final class TransferConstants {
     public static final int TRANSFER_PORT = 8988;
     public static final int HANDSHAKE_PORT = 8989;
-    public static final int CHUNK_SIZE = 4194304;
+    public static final int CHUNK_SIZE = 16777216;
     public static final int BUFFER_SIZE = 262144;
     public static final int MAX_RETRY_ATTEMPTS = 3;
     public static final long RETRY_DELAY_MS = 350L;

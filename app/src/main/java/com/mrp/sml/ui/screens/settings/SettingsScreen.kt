@@ -163,7 +163,7 @@ fun SettingsScreen(
                     SettingsRow(
                         icon = Icons.Default.SignalWifi4Bar,
                         title = "Network Fallback",
-                        subtitle = "Hotspot, manual IP",
+                        subtitle = "Fallback to hotspot when WiFi Direct fails",
                         onClick = { }
                     )
                 }

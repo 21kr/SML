@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.net.wifi.WifiManager
 import android.os.IBinder
 import android.os.PowerManager
 import androidx.core.app.NotificationCompat
@@ -18,11 +19,13 @@ import timber.log.Timber
 class TransferForegroundService : Service() {
 
     private var wakeLock: PowerManager.WakeLock? = null
+    private var wifiLock: WifiManager.WifiLock? = null
 
     override fun onCreate() {
         super.onCreate()
         NotificationUtils.createTransferChannel(this)
         acquireWakeLock()
+        acquireWifiLock()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -44,6 +47,7 @@ class TransferForegroundService : Service() {
 
     override fun onDestroy() {
         releaseWakeLock()
+        releaseWifiLock()
         super.onDestroy()
     }
 
@@ -95,7 +99,7 @@ class TransferForegroundService : Service() {
             PowerManager.PARTIAL_WAKE_LOCK,
             "SML:TransferWakeLock"
         ).apply {
-            acquire(10 * 60 * 1000L)
+            acquire()
         }
     }
 
@@ -104,6 +108,21 @@ class TransferForegroundService : Service() {
             if (it.isHeld) it.release()
         }
         wakeLock = null
+    }
+
+    private fun acquireWifiLock() {
+        val wifiManager = getSystemService(Context.WIFI_SERVICE) as? WifiManager ?: return
+        wifiLock = wifiManager.createWifiLock(
+            WifiManager.WIFI_MODE_FULL_HIGH_PERF,
+            "SML:TransferWifiLock"
+        ).apply { acquire() }
+    }
+
+    private fun releaseWifiLock() {
+        wifiLock?.let {
+            if (it.isHeld) it.release()
+        }
+        wifiLock = null
     }
 
     companion object {
