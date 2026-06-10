@@ -1,5 +1,6 @@
 package com.mrp.sml.ui.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrp.sml.core.models.TransferProgress
@@ -7,7 +8,9 @@ import com.mrp.sml.core.models.TransferStatus
 import com.mrp.sml.data.remote.sockets.SocketTransferManager
 import com.mrp.sml.domain.model.TransferModel
 import com.mrp.sml.domain.repository.TransferRepository
+import com.mrp.sml.services.TransferForegroundService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,7 +40,8 @@ data class TransferUiState(
 @HiltViewModel
 class TransferViewModel @Inject constructor(
     private val transferRepository: TransferRepository,
-    private val socketTransferManager: SocketTransferManager
+    private val socketTransferManager: SocketTransferManager,
+    @ApplicationContext private val context: android.content.Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TransferUiState())
@@ -55,6 +59,8 @@ class TransferViewModel @Inject constructor(
         viewModelScope.launch {
             socketTransferManager.progress.collect { progress ->
                 updateFromProgress(progress)
+                val fileName = progress.currentFileName.ifBlank { "Transferring..." }
+                TransferForegroundService.updateProgress(context, fileName, progress.progressPercent.toInt())
             }
         }
         viewModelScope.launch {
@@ -81,25 +87,29 @@ class TransferViewModel @Inject constructor(
     }
 
     fun sendFiles(filePaths: List<String>, destinationAddress: String, sessionToken: String) {
+        val fileName = filePaths.firstOrNull()?.substringAfterLast('/') ?: "Unknown"
         _uiState.update {
             it.copy(
                 status = TransferStatus.TRANSFERRING,
                 sessionId = sessionToken,
                 direction = "SENT",
                 peerDevice = destinationAddress,
-                currentFileName = filePaths.firstOrNull()?.substringAfterLast('/') ?: "Unknown",
+                currentFileName = fileName,
                 totalFiles = filePaths.size,
                 canPause = true,
                 canResume = false
             )
         }
 
+        TransferForegroundService.start(context, fileName)
+
         viewModelScope.launch {
             transferRepository.sendFiles(filePaths, destinationAddress, sessionToken)
+            TransferForegroundService.stop(context)
         }
     }
 
-    fun receiveFiles(outputDirectoryPath: String, sessionToken: String) {
+    fun receiveFiles(outputDirectoryPath: String, sessionToken: String, senderIp: String = "") {
         _uiState.update {
             it.copy(
                 status = TransferStatus.TRANSFERRING,
@@ -110,8 +120,30 @@ class TransferViewModel @Inject constructor(
             )
         }
 
+        TransferForegroundService.start(context, "Receiving...")
+
         viewModelScope.launch {
-            transferRepository.receiveFiles(outputDirectoryPath, sessionToken)
+            transferRepository.receiveFiles(outputDirectoryPath, sessionToken, senderIp)
+            TransferForegroundService.stop(context)
+        }
+    }
+
+    fun listenForFiles(outputDirectoryPath: String, sessionToken: String) {
+        _uiState.update {
+            it.copy(
+                status = TransferStatus.TRANSFERRING,
+                sessionId = sessionToken,
+                direction = "RECEIVED",
+                canPause = true,
+                canResume = false
+            )
+        }
+
+        TransferForegroundService.start(context, "Waiting for sender...")
+
+        viewModelScope.launch {
+            transferRepository.listenForFiles(outputDirectoryPath, sessionToken)
+            TransferForegroundService.stop(context)
         }
     }
 
@@ -160,5 +192,6 @@ class TransferViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         transferRepository.cancelTransfer()
+        TransferForegroundService.stop(context)
     }
 }

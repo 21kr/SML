@@ -16,12 +16,13 @@ sealed class Screen(val route: String) {
             return "discovery?mode=$mode$encoded"
         }
     }
-    data object Transfer : Screen("transfer/{sessionId}?mode={mode}&filePaths={filePaths}") {
-        fun createRoute(sessionId: String, mode: String = "send", filePaths: List<String> = emptyList()): String {
+    data object Transfer : Screen("transfer/{sessionId}?mode={mode}&filePaths={filePaths}&senderIp={senderIp}") {
+        fun createRoute(sessionId: String, mode: String = "send", filePaths: List<String> = emptyList(), senderIp: String = ""): String {
             val base = "transfer/$sessionId?mode=$mode"
-            return if (filePaths.isNotEmpty()) {
+            val withFilePaths = if (filePaths.isNotEmpty()) {
                 "$base&filePaths=${URLEncoder.encode(filePaths.joinToString(","), "UTF-8")}"
             } else base
+            return if (senderIp.isNotBlank()) "$withFilePaths&senderIp=$senderIp" else withFilePaths
         }
     }
     data object TransferDetail : Screen("transfer_detail/{transferId}") {
@@ -29,6 +30,14 @@ sealed class Screen(val route: String) {
     }
     data object History : Screen("history")
     data object Settings : Screen("settings")
+    data object QrScanner : Screen("qr_scanner?filePaths={filePaths}") {
+        fun createRoute(filePaths: List<String> = emptyList()): String {
+            val encoded = filePaths.joinToString(",").let {
+                if (it.isNotEmpty()) "?filePaths=${URLEncoder.encode(it, "UTF-8")}" else ""
+            }
+            return "qr_scanner$encoded"
+        }
+    }
     data object QrDisplay : Screen("qr_display/{payload}") {
         fun createRoute(payload: String) = "qr_display/${java.net.URLEncoder.encode(payload, "UTF-8")}"
     }

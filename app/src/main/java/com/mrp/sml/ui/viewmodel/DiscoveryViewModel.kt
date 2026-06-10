@@ -2,9 +2,10 @@ package com.mrp.sml.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewModelScope
 import com.mrp.sml.core.models.ConnectionState
 import com.mrp.sml.core.models.Device
+import com.mrp.sml.core.utils.QrCodeUtils
+import com.mrp.sml.core.utils.WifiUtils
 import com.mrp.sml.domain.repository.ConnectionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,11 +13,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 enum class PairingMode {
     WIFI_DIRECT,
-    BLUETOOTH,
     HOTSPOT_FALLBACK
 }
 
@@ -45,6 +46,8 @@ class DiscoveryViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(PairingUiState())
     val uiState: StateFlow<PairingUiState> = _uiState.asStateFlow()
 
+    private var sessionToken = UUID.randomUUID().toString()
+
     init {
         viewModelScope.launch {
             connectionRepository.observeConnectionState().collect { state ->
@@ -61,10 +64,20 @@ class DiscoveryViewModel @Inject constructor(
                 }
             }
         }
+        viewModelScope.launch {
+            connectionRepository.observeGroupOwnerIp().collect { ip ->
+                if (ip != null && _uiState.value.mode == PairingRole.SENDER) {
+                    generateQrCodeForSender(ip)
+                }
+            }
+        }
     }
 
     fun setMode(mode: PairingRole) {
         _uiState.update { it.copy(mode = mode) }
+        if (mode == PairingRole.SENDER) {
+            sessionToken = UUID.randomUUID().toString()
+        }
     }
 
     fun setSelectedFileSummary(summary: String) {
@@ -96,6 +109,24 @@ class DiscoveryViewModel @Inject constructor(
         _uiState.update { it.copy(connectionMethod = method) }
     }
 
+    fun generateQrCodeForSender(senderIp: String) {
+        val fileCount = _uiState.value.selectedFileSummary
+            .takeIf { it.isNotBlank() }
+            ?.takeWhile { it.isDigit() }
+            ?.toIntOrNull() ?: 0
+        
+        val payload = QrCodeUtils.buildQrPayload(
+            deviceName = WifiUtils.getLocalIpAddress() ?: "SML Device",
+            ipAddress = senderIp,
+            port = 8988,
+            sessionToken = sessionToken,
+            role = "sender",
+            fileCount = fileCount,
+            totalSize = 0L
+        )
+        _uiState.update { it.copy(qrPayload = payload) }
+    }
+
     fun generateQrCode(payload: String) {
         _uiState.update { it.copy(qrPayload = payload) }
     }
@@ -103,6 +134,8 @@ class DiscoveryViewModel @Inject constructor(
     fun clearQrCode() {
         _uiState.update { it.copy(qrPayload = null) }
     }
+
+    fun getSessionToken(): String = sessionToken
 
     override fun onCleared() {
         super.onCleared()

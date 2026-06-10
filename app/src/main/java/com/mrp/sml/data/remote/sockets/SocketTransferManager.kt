@@ -154,6 +154,7 @@ class SocketTransferManager @Inject constructor() {
         input: java.io.DataInputStream,
         outputDir: File,
         fileIndex: Int,
+        totalFiles: Int = 1,
         startChunk: Int = 0
     ): Result<File> = withContext(Dispatchers.IO) {
         try {
@@ -167,6 +168,8 @@ class SocketTransferManager @Inject constructor() {
 
             val outputFile = File(outputDir, sanitizeFileName(fileName))
             val totalChunks = ((fileSize + TransferConstants.CHUNK_SIZE - 1) / TransferConstants.CHUNK_SIZE).toInt()
+            var transferred = 0L
+            val startTime = System.currentTimeMillis()
 
             outputFile.outputStream().use { fileOutput ->
                 for (chunkIndex in 0 until totalChunks) {
@@ -189,6 +192,21 @@ class SocketTransferManager @Inject constructor() {
                     val decrypted = decryptChunk(encrypted, nonce)
 
                     fileOutput.write(decrypted)
+                    transferred += decrypted.size
+
+                    val progressPercent = if (fileSize > 0) (transferred * 100f / fileSize) else 0f
+                    val elapsed = System.currentTimeMillis() - startTime
+                    val speed = if (elapsed > 0) transferred * 1000.0 / elapsed else 0.0
+
+                    _progress.value = TransferProgress(
+                        transferredBytes = transferred,
+                        totalBytes = fileSize,
+                        speedBytesPerSecond = speed,
+                        progressPercent = progressPercent,
+                        currentFileName = fileName,
+                        currentFileIndex = fileIndex,
+                        totalFiles = totalFiles
+                    )
                 }
             }
 

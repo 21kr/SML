@@ -17,7 +17,7 @@ class CleanupWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        Timber.i("CleanupWorker: removing old transfer records")
+        Timber.i("CleanupWorker: removing old transfer records and cache files")
 
         return try {
             val transfers = transferDao.getTransferHistory().let { flow ->
@@ -26,10 +26,16 @@ class CleanupWorker @AssistedInject constructor(
                 list
             }
 
-            val cutoffTime = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000) // 30 days
+            val cutoffTime = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000)
             transfers
                 .filter { it.completedAtMillis != null && it.completedAtMillis!! < cutoffTime }
                 .forEach { transferDao.delete(it.id) }
+
+            applicationContext.cacheDir.listFiles()?.forEach { file ->
+                if (file.isFile && file.name != "." && file.name != "..") {
+                    file.delete()
+                }
+            }
 
             Timber.i("CleanupWorker completed")
             Result.success()

@@ -9,6 +9,8 @@ interface ConnectionRepository {
 
     fun observeDiscoveredDevices(): Flow<com.mrp.sml.core.models.Device>
 
+    fun observeGroupOwnerIp(): Flow<String?>
+
     suspend fun startDiscovery()
 
     suspend fun stopDiscovery()
@@ -20,4 +22,6 @@ interface ConnectionRepository {
     suspend fun getConnectionState(): ConnectionState
 
     suspend fun getLocalIpAddress(): String?
+
+    suspend fun getGroupOwnerIp(): String?
 }

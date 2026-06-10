@@ -3,8 +3,28 @@ package com.mrp.sml.core.utils
 import android.graphics.Bitmap
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 object QrCodeUtils {
+
+    @Serializable
+    data class QrPayload(
+        val deviceName: String,
+        val ipAddress: String,
+        val port: Int = 8988,
+        val sessionToken: String,
+        val role: String,
+        val fileCount: Int = 0,
+        val totalSize: Long = 0L,
+        val version: Int = 1,
+        val ssid: String = "",
+        val password: String = ""
+    )
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     fun generateQrCode(
         data: String,
@@ -30,7 +50,43 @@ object QrCodeUtils {
         }
     }
 
-    fun buildQrPayload(deviceName: String, ipAddress: String, port: Int = 8988): String {
+    fun buildQrPayload(
+        deviceName: String,
+        ipAddress: String,
+        port: Int = 8988,
+        sessionToken: String,
+        role: String,
+        fileCount: Int = 0,
+        totalSize: Long = 0L,
+        ssid: String = "",
+        password: String = ""
+    ): String {
+        val payload = QrPayload(
+            deviceName = deviceName,
+            ipAddress = ipAddress,
+            port = port,
+            sessionToken = sessionToken,
+            role = role,
+            fileCount = fileCount,
+            totalSize = totalSize,
+            ssid = ssid,
+            password = password
+        )
+        return "sml://connect?${json.encodeToString(payload)}"
+    }
+
+    fun parseQrPayload(qrString: String): QrPayload? {
+        return try {
+            val uri = android.net.Uri.parse(qrString)
+            val query = uri.getQueryParameter("data") ?: uri.encodedQuery ?: ""
+            if (query.isEmpty()) return null
+            json.decodeFromString<QrPayload>(query)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun buildLegacyPayload(deviceName: String, ipAddress: String, port: Int = 8988): String {
         return "sml://connect?device=$deviceName&ip=$ipAddress&port=$port"
     }
 }

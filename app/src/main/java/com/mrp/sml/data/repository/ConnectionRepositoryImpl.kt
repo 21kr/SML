@@ -25,6 +25,10 @@ class ConnectionRepositoryImpl @Inject constructor(
         return wifiDirectManager.discoveredDevices
     }
 
+    override fun observeGroupOwnerIp(): Flow<String?> {
+        return wifiDirectManager.groupOwnerIp
+    }
+
     override suspend fun startDiscovery() {
         deviceDiscoveryManager.startDiscovery()
     }
@@ -48,5 +52,9 @@ class ConnectionRepositoryImpl @Inject constructor(
 
     override suspend fun getLocalIpAddress(): String? {
         return WifiUtils.getLocalIpAddress()
+    }
+
+    override suspend fun getGroupOwnerIp(): String? {
+        return wifiDirectManager.groupOwnerIp.value
     }
 }

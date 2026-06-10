@@ -43,6 +43,9 @@ class WifiDirectManager @Inject constructor(
     private val _discoveredDevices = MutableSharedFlow<Device>(replay = 1)
     val discoveredDevices: SharedFlow<Device> = _discoveredDevices.asSharedFlow()
 
+    private val _groupOwnerIp = MutableStateFlow<String?>(null)
+    val groupOwnerIp: StateFlow<String?> = _groupOwnerIp.asStateFlow()
+
     private val receiver = WifiP2PReceiver()
     private var isRegistered = false
 
@@ -226,12 +229,18 @@ class WifiDirectManager @Inject constructor(
 
                 WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION -> {
                     val group = intent.getParcelableExtra<WifiP2pGroup>(WifiP2pManager.EXTRA_WIFI_P2P_GROUP)
-                    if (group != null && group.isGroupOwner) {
-                        _connectionState.value = ConnectionState.PAIRED
-                    } else if (group != null) {
-                        _connectionState.value = ConnectionState.CONNECTED
+                    if (group != null) {
+                        val ownerIp = group.owner.address.hostAddress
+                        _groupOwnerIp.value = ownerIp
+                        Timber.i("WiFi Direct group formed, owner IP: $ownerIp, isGroupOwner: ${group.isGroupOwner}")
+                        if (group.isGroupOwner) {
+                            _connectionState.value = ConnectionState.PAIRED
+                        } else {
+                            _connectionState.value = ConnectionState.CONNECTED
+                        }
                     } else {
                         _connectionState.value = ConnectionState.DISCONNECTED
+                        _groupOwnerIp.value = null
                     }
                 }
             }

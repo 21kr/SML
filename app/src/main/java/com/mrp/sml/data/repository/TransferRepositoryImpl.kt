@@ -1,5 +1,6 @@
 package com.mrp.sml.data.repository
 
+import com.mrp.sml.core.constants.NetworkConstants
 import com.mrp.sml.data.local.db.dao.TransferDao
 import com.mrp.sml.data.local.db.entities.TransferEntity
 import com.mrp.sml.data.mapper.TransferMapper
@@ -85,7 +86,8 @@ class TransferRepositoryImpl @Inject constructor(
             )
             transferDao.insert(entity)
 
-            val result = fileSender.sendFiles(files, sessionToken)
+            val dest = destinationAddress.ifBlank { null }
+            val result = fileSender.sendFiles(files, sessionToken, dest)
             result.onSuccess {
                 transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.COMPLETED.name)
             }.onFailure { e ->
@@ -94,7 +96,7 @@ class TransferRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun receiveFiles(outputDirectoryPath: String, sessionToken: String) {
+    override fun receiveFiles(outputDirectoryPath: String, sessionToken: String, senderIp: String) {
         scope.launch {
             val dir = File(outputDirectoryPath)
             if (!dir.exists()) dir.mkdirs()
@@ -109,7 +111,34 @@ class TransferRepositoryImpl @Inject constructor(
             )
             transferDao.insert(entity)
 
-            val result = fileReceiver.receiveFiles(dir, sessionToken = sessionToken)
+            val senderAddress = senderIp.ifBlank { NetworkConstants.DEFAULT_GROUP_OWNER_IP }
+            val result = fileReceiver.receiveFiles(dir, senderAddress, sessionToken)
+            result.onSuccess { files ->
+                if (files.isNotEmpty()) {
+                    transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.COMPLETED.name)
+                }
+            }.onFailure { e ->
+                transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.FAILED.name, e.message)
+            }
+        }
+    }
+
+    override fun listenForFiles(outputDirectoryPath: String, sessionToken: String) {
+        scope.launch {
+            val dir = File(outputDirectoryPath)
+            if (!dir.exists()) dir.mkdirs()
+
+            val entity = TransferEntity(
+                id = sessionToken,
+                fileName = "receiving...",
+                fileSizeBytes = 0L,
+                direction = "RECEIVED",
+                status = TransferModel.TransferStatus.TRANSFERRING.name,
+                sessionToken = sessionToken
+            )
+            transferDao.insert(entity)
+
+            val result = fileReceiver.listenForFiles(dir, sessionToken)
             result.onSuccess { files ->
                 if (files.isNotEmpty()) {
                     transferDao.updateStatus(sessionToken, TransferModel.TransferStatus.COMPLETED.name)
